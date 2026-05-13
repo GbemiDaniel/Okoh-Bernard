@@ -28,8 +28,8 @@ export function Footer() {
 
       {/* Copyright & Signature (Center) */}
       <div className="flex flex-col items-center gap-2">
-        <div className="text-xs text-slate-500 dark:text-white/40">
-          &copy; {new Date().getFullYear()} Palliative. All rights reserved.
+        <div className="text-xs text-slate-500 dark:text-white/40 text-center leading-relaxed px-2">
+          &copy; {new Date().getFullYear()} <span className="font-medium text-slate-800 dark:text-slate-200">Okoh Bernard Onyedikachi</span>.<br className="block sm:hidden" /> All rights reserved.
         </div>
         <Link 
           href="https://x.com/deecrypthub"

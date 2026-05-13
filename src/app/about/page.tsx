@@ -25,10 +25,10 @@ export default function AboutPage() {
   const Prefix = () => <span className="text-[#10B981] font-bold mr-2">[root@core]~$</span>;
 
   return (
-    <div className="min-h-[100dvh] w-full flex flex-col items-center justify-center pt-24 pb-12 px-4">
+    <div className="w-full flex flex-col items-center justify-center">
 
       {/* Bulletproof CSS Grid — minmax() protects the image column from squishing */}
-      <div className="grid grid-cols-1 md:grid-cols-[minmax(300px,1fr)_2fr] gap-8 md:gap-12 w-full max-w-6xl mx-auto z-10 px-4 min-h-[70vh] items-stretch">
+      <div className="grid grid-cols-1 md:grid-cols-[minmax(300px,1fr)_2fr] gap-8 md:gap-12 w-full max-w-6xl mx-auto z-10 min-h-[70vh] items-stretch">
 
         {/* ── LEFT COLUMN: Vertical Portrait ID Card ── */}
         <motion.div

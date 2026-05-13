@@ -19,8 +19,40 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "// DEECRYPT | Junior Pentester",
-  description: "Junior Pentester & Security Researcher Portfolio",
+  title: {
+    default: "Okoh Bernard | Pentester & Security Researcher",
+    template: "%s | Okoh Bernard"
+  },
+  description: "Portfolio of Okoh Bernard Onyedikachi, a Security Analyst and Pentester specializing in web application security, offensive operations, and vulnerability research.",
+  keywords: ["Okoh Bernard", "Pentester", "Security Researcher", "Cybersecurity Portfolio", "Offensive Security", "Ethical Hacking", "Bernard Onyedikachi"],
+  authors: [{ name: "Okoh Bernard Onyedikachi" }],
+  creator: "Okoh Bernard Onyedikachi",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://okohbernard.com", // Placeholder: User can update this
+    title: "Okoh Bernard | Pentester & Security Researcher",
+    description: "Security Analyst and Pentester specializing in offensive security and vulnerability research.",
+    siteName: "Okoh Bernard Portfolio",
+    images: [
+      {
+        url: "/Palli-img 2.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Okoh Bernard | Pentester & Security Researcher",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Okoh Bernard | Pentester & Security Researcher",
+    description: "Security Analyst and Pentester specializing in offensive security and vulnerability research.",
+    images: ["/Palli-img 2.jpg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({

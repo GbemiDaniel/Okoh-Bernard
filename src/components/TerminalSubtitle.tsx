@@ -5,8 +5,8 @@ import { useState, useEffect } from "react";
 
 export function TerminalSubtitle() {
   const [text, setText] = useState("");
-  const fullText = "> Brostitute CEO | Junior Pentester & Security Researcher";
-  
+  const fullText = "> Security Analyst | Pentester & Security Researcher";
+
   useEffect(() => {
     let currentIndex = 0;
     const interval = setInterval(() => {
@@ -16,12 +16,12 @@ export function TerminalSubtitle() {
         clearInterval(interval);
       }
     }, 50); // Adjust typing speed here
-    
+
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="font-secondary text-sm sm:text-base md:text-lg flex flex-col items-center justify-center text-center mt-6 w-full max-w-lg mx-auto px-4 sm:px-0 min-h-[4rem] md:min-h-[2rem]">
+    <div className="font-secondary text-sm sm:text-base md:text-lg flex flex-col items-center justify-center text-center w-full max-w-lg mx-auto px-4 sm:px-0 min-h-[4rem] md:min-h-[2rem]">
       <div className="text-center w-auto max-w-full break-words whitespace-pre-wrap leading-relaxed inline">
         <span className="text-slate-800 dark:text-slate-300 font-medium inline">
           {text.startsWith(">") ? <span className="text-[#10B981]">{">"}</span> : null}

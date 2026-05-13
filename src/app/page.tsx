@@ -30,14 +30,14 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       {/* ===================== HERO ===================== */}
-      {/* Grid wrapper: place-items-center gives bulletproof centering */}
-      <div className="relative w-full min-h-[100dvh] grid place-items-center overflow-hidden px-4">
+      {/* Flex wrapper: robust vertical centering for mobile viewports */}
+      <div className="relative w-full min-h-[100dvh] flex flex-col items-center justify-center -mt-32 pt-20 pb-12 overflow-hidden px-4">
 
         {/* Performant HTML5 Canvas Background */}
         <CyberParticles />
 
-        {/* Inner Content Block — dead-centered by the grid parent */}
-        <div className="corner-brackets relative flex flex-col items-center justify-center text-center w-full max-w-4xl gap-5 sm:gap-6 z-10 p-6 sm:p-10">
+        {/* Inner Content Block — HUD style framing the entire available viewport */}
+        <div className="corner-brackets relative flex flex-col items-center justify-center text-center w-full max-w-4xl flex-1 gap-5 sm:gap-6 z-10 p-6 sm:p-10">
 
           {/* Hero Avatar */}
           <motion.div
@@ -47,7 +47,7 @@ export default function Home() {
           >
             <Image
               src="/Palli-img 1.jpg"
-              alt="Palliative Profile"
+              alt="Okoh Bernard Onyedikachi Profile"
               fill
               className="object-cover object-top"
               sizes="(max-width: 768px) 96px, 112px"
@@ -58,7 +58,7 @@ export default function Home() {
           {/* Main Heading */}
           <h1 className="font-primary font-bold tracking-tight text-center text-4xl sm:text-5xl md:text-7xl w-full">
             <span className="bg-gradient-to-b from-gray-900 to-gray-500 dark:from-white dark:via-gray-200 dark:to-gray-400 text-transparent bg-clip-text">
-              Palliative Umunwa
+              Okoh Bernard Onyedikachi
             </span>
           </h1>
 
