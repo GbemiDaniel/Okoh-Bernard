@@ -148,7 +148,7 @@ export default function ProjectsPage() {
                 transition={{ duration: 0.25 }}
                 key={project.id}
                 href={project.url}
-                className="group flex flex-col h-full p-5 sm:p-6 bg-white dark:bg-[#0A0A0A] border border-gray-200 dark:border-white/10 rounded-2xl hover:border-[#10B981]/50 transition-all duration-300 shadow-sm hover:shadow-[0_0_30px_rgba(16,185,129,0.05)]"
+                className="group flex flex-col h-full p-5 sm:p-6 bg-white dark:bg-[#0A0A0A] border border-gray-200 dark:border-white/10 rounded-2xl transition-all duration-300 shadow-sm hover:bg-gray-50 dark:hover:bg-[#121212] hover:border-[#10B981]/50 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(16,185,129,0.15)] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#10B981]/40"
               >
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">

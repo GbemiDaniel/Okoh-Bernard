@@ -176,8 +176,8 @@ export function Navbar() {
   return (
     <header className="transition-all duration-500 ease-in-out z-50 fixed top-0 w-full flex justify-center pointer-events-none">
       <nav
-        className={`pointer-events-auto flex items-center justify-between gap-4 md:gap-12 lg:gap-16 transition-all duration-500 ease-in-out relative z-50 ${isScrolled
-          ? "backdrop-blur-md bg-white/90 dark:bg-black/60 border border-gray-200 dark:border-white/10 rounded-full py-3 px-6 md:px-10 lg:px-12 mt-4 w-[95%] max-w-5xl shadow-lg"
+        className={`pointer-events-auto flex items-center justify-between transition-all duration-500 ease-in-out relative z-50 ${isScrolled
+          ? "backdrop-blur-md bg-white/90 dark:bg-black/60 border border-gray-200 dark:border-white/10 rounded-full py-3 px-6 md:px-8 lg:px-10 mt-4 w-[96%] max-w-6xl shadow-lg"
           : "bg-transparent border-transparent py-6 px-8 w-full max-w-7xl"
           }`}
       >
@@ -223,8 +223,8 @@ export function Navbar() {
           <div className="flex items-center justify-end flex-shrink-0">
             
             {/* Desktop Nav */}
-            <div className="hidden lg:flex items-center gap-6">
-              <ul className="flex items-center gap-8">
+            <div className="hidden lg:flex items-center gap-4 xl:gap-6">
+              <ul className="flex items-center gap-5 xl:gap-7">
                 {navItems.map((item) => (
                   <li key={item.label || item.href} className="relative group">
                     {item.subLinks ? (

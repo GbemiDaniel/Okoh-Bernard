@@ -2,65 +2,69 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ShieldCheck, Award, Download, CheckCircle2, X } from "lucide-react";
+import { ShieldCheck, Award, X, CheckCircle2 } from "lucide-react";
+import { FiExternalLink } from "react-icons/fi";
 import Image from "next/image";
 
+// INJECTED REAL USER DATA
 const credentials = {
   pathways: [
     {
-      id: 1,
+      id: "jr-pentester",
       title: "Jr. Penetration Tester",
       issuer: "TryHackMe",
-      date: "2025",
-      type: "Certification",
-      verifyUrl: "https://tryhackme.com/certificate/your-cert-id",
-      image: "/badges/jr-pentester.png",
-      previewImage: "/certificates/previews/jr-pentester-cert.png",
-      description: "An intensive, hands-on pathway covering the entire attack lifecycle. This certification required exploiting numerous vulnerable lab environments, writing custom scripts, and demonstrating proficiency in industry-standard offensive security tooling.",
-      skills: ["Vulnerability Scanning", "Web App Exploitation", "Privilege Escalation", "Burp Suite"]
+      date: "2024",
+      verifyUrl: "https://tryhackme-certificates.s3-eu-west-1.amazonaws.com/THM-1EWKAEDRRQ.pdf",
+      previewImage: "/certificates/jr-pentester.png", // User to provide this screenshot
+      description: "Comprehensive offensive security pathway focusing on web application vulnerabilities, privilege escalation techniques, and network exploitation methodologies.",
+      skills: ["Web App Pentesting", "Privilege Escalation", "Network Security", "Burp Suite"]
     },
     {
-      id: 2,
+      id: "security-engineer",
       title: "Security Engineer",
       issuer: "TryHackMe",
-      date: "2025",
-      type: "Certification",
-      verifyUrl: "https://tryhackme.com/certificate/your-cert-id-2",
-      image: "/badges/security-engineer.png",
-      previewImage: "/certificates/previews/security-engineer-cert.png",
-      description: "A comprehensive pathway focused on defensive security, incident response, and threat hunting. Required configuring SIEM solutions, analyzing logs, and implementing robust security architectures.",
-      skills: ["SIEM", "Incident Response", "Network Security", "Threat Hunting"]
+      date: "2024",
+      verifyUrl: "https://tryhackme-certificates.s3-eu-west-1.amazonaws.com/THM-GKYKNDUGUI.pdf",
+      previewImage: "/certificates/security-engineer.png",
+      description: "Advanced defensive security training focusing on network architecture, system hardening, identity and access management (IAM), and incident response.",
+      skills: ["System Hardening", "IAM", "Network Architecture", "Threat Modeling"]
     },
     {
-      id: 3,
+      id: "ai-security",
+      title: "AI Security",
+      issuer: "TryHackMe",
+      date: "2024",
+      verifyUrl: "https://tryhackme-certificates.s3-eu-west-1.amazonaws.com/THM-ILD2RSGBVA.pdf",
+      previewImage: "/certificates/ai-security.png",
+      description: "Specialized training in artificial intelligence security, covering vulnerabilities in machine learning models including prompt injection and model compromise.",
+      skills: ["Prompt Injection", "Model Compromise", "AI Governance", "ML Security"]
+    },
+    {
+      id: "cyber-101",
       title: "Cyber Security 101",
       issuer: "TryHackMe",
       date: "2024",
-      type: "Certification",
-      verifyUrl: "https://tryhackme.com/certificate/your-cert-id-3",
-      image: "/badges/cyber-101.png",
-      previewImage: "/certificates/previews/cyber-101-cert.png",
-      description: "A foundational pathway covering the core concepts of information security, including networking protocols, cryptography, and basic web vulnerabilities.",
-      skills: ["Networking Basics", "Cryptography", "Linux Fundamentals", "Web Basics"]
+      verifyUrl: "https://tryhackme-certificates.s3-eu-west-1.amazonaws.com/THM-4AYVMHVUCS.pdf",
+      previewImage: "/certificates/cyber-101.png",
+      description: "Core foundational concepts of information security, establishing baseline knowledge in threat landscapes and defense-in-depth strategies.",
+      skills: ["Security Fundamentals", "Threat Landscapes", "Defense-in-Depth"]
     },
     {
-      id: 4,
+      id: "pre-security",
       title: "Pre-Security",
       issuer: "TryHackMe",
       date: "2024",
-      type: "Certification",
-      verifyUrl: "https://tryhackme.com/certificate/your-cert-id-4",
-      image: "/badges/pre-security.png",
-      previewImage: "/certificates/previews/pre-security-cert.png",
-      description: "An introductory pathway designed to build prerequisite knowledge in networking, web technologies, and operating systems before diving into offensive security.",
-      skills: ["OSI Model", "TCP/IP", "Web Infrastructure", "Linux Command Line"]
+      verifyUrl: "https://tryhackme-certificates.s3-eu-west-1.amazonaws.com/THM-9M5XCYAEFN.pdf",
+      previewImage: "/certificates/pre-security.png",
+      description: "Technical prerequisites for cybersecurity, covering networking protocols, Linux command line fundamentals, and Windows OS mechanics.",
+      skills: ["Networking", "Linux Basics", "Windows OS", "TCP/IP"]
     }
   ],
   badges: [
-    { id: 5, title: "Network & System Security", issuer: "TryHackMe", image: "/badges/network-security.png" },
-    { id: 6, title: "Software Security", issuer: "TryHackMe", image: "/badges/software-security.png" },
-    { id: 7, title: "AI Path Completion", issuer: "TryHackMe", image: "/badges/ai-security.png" },
-    { id: 8, title: "Model Compromise", issuer: "TryHackMe", image: "/badges/model-compromise.png" }
+    { id: "badge-1", title: "Network & System Security", issuer: "TryHackMe", url: "https://tryhackme.com/Kachisicho/badges/network-and-system-security" },
+    { id: "badge-2", title: "Software Security", issuer: "TryHackMe", url: "https://tryhackme.com/Kachisicho/badges/software-security" },
+    { id: "badge-3", title: "AI Path Completion", issuer: "TryHackMe", url: "https://tryhackme.com/Kachisicho/badges/ai-path-completion" },
+    { id: "badge-4", title: "Model Compromise", issuer: "TryHackMe", url: "https://tryhackme.com/Kachisicho/badges/model-compromise" }
   ]
 };
 
@@ -68,7 +72,6 @@ export default function CertificationsPage() {
   const [selectedCert, setSelectedCert] = useState<any | null>(null);
   const [mounted, setMounted] = useState(false);
 
-  // Handle SSR & Scroll Locking
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -90,75 +93,85 @@ export default function CertificationsPage() {
   }, [selectedCert]);
 
   return (
-    <div className="pb-24 font-secondary">
+    <main className="flex flex-col w-full max-w-5xl mx-auto px-4 sm:px-6 md:px-8 pt-24 pb-24 relative font-sans">
       
-      {/* Header Section */}
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12 md:mb-16">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 tracking-tight">
-          Credentials & Certifications
-        </h1>
-        <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base max-w-2xl leading-relaxed">
-          A collection of verified learning pathways, specialized skill badges, and official certifications validating technical proficiency in offensive and defensive security.
-        </p>
-      </motion.div>
+      {/* HIDDEN PRELOAD CACHE FOR ZERO-LATENCY MODAL IMAGES */}
+      <div className="hidden">
+        {credentials.pathways.map(cert => (
+          <Image alt="preload" height={600} key={`preload-${cert.id}`} priority src={cert.previewImage} width={800}/>
+        ))}
+      </div>
 
-      {/* Section 1: Major Certifications */}
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mb-16">
-        <h2 className="flex items-center gap-2 text-xl font-bold text-gray-900 dark:text-white mb-6">
-          <ShieldCheck className="w-6 h-6 text-[#10B981]"/>
+      {/* HEADER SECTION */}
+      <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12 border-b border-gray-800 pb-8">
+        <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight">
+          Verified Credentials
+        </h1>
+        <p className="text-gray-400 text-sm sm:text-base max-w-2xl leading-relaxed">
+          Industry validations, technical security clearances, and completed learning pathways hosted on TryHackMe.
+        </p>
+      </motion.section>
+
+      {/* SECTION 1: MAJOR CERTIFICATIONS */}
+      <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mb-16">
+        <h2 className="flex items-center gap-3 text-xl font-bold text-white mb-6 font-mono uppercase tracking-wide text-sm">
+          <ShieldCheck className="w-5 h-5 text-[#10B981]"/>
           Learning Pathways
         </h2>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {credentials.pathways.map((cert) => (
             <button
               key={cert.id}
               onClick={() => setSelectedCert(cert)}
-              className="group relative flex flex-col p-6 bg-white dark:bg-[#0A0A0A] border border-gray-200 dark:border-white/10 rounded-2xl hover:border-[#10B981]/50 transition-all duration-300 shadow-sm hover:shadow-[0_0_30px_rgba(16,185,129,0.05)] overflow-hidden text-left"
+              className="group relative flex flex-col p-6 bg-[#050505] border border-gray-800/60 rounded-xl hover:bg-[#0a0a0a] hover:border-[#10B981]/50 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgb(16,185,129,0.15)] transition-all duration-300 text-left focus:outline-none focus:ring-2 focus:ring-[#10B981]/40"
             >
-              {/* Image Placeholder / Rendering */}
-              <div className="aspect-square w-24 sm:w-32 mx-auto mb-6 relative flex items-center justify-center bg-gray-100 dark:bg-white/5 rounded-full group-hover:scale-105 transition-transform duration-300">
-                <Award className="w-10 h-10 text-gray-400 dark:text-gray-500 absolute" />
-              </div>
-              
-              <div className="flex flex-col flex-grow text-center">
-                <span className="text-xs font-mono text-[#10B981] uppercase tracking-wider mb-2">{cert.issuer}</span>
-                <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-1 group-hover:text-[#10B981] transition-colors">{cert.title}</h3>
-                <span className="text-sm text-gray-500 dark:text-gray-400 mt-auto pt-4 flex items-center justify-center gap-2">
-                  <ShieldCheck className="w-4 h-4"/> View Details
+              <div className="flex justify-between items-start mb-4">
+                <span className="text-[10px] sm:text-xs font-mono font-semibold text-[#10B981] bg-[#10B981]/10 px-2.5 py-1 rounded border border-[#10B981]/20">
+                  {cert.issuer}
                 </span>
               </div>
+              
+              <h3 className="text-lg sm:text-xl font-bold text-gray-100 mb-2 group-hover:text-[#10B981] transition-colors">
+                {cert.title}
+              </h3>
+              
+              <span className="text-gray-500 font-mono text-xs mt-auto pt-4 flex items-center gap-2 border-t border-gray-800/60 w-full">
+                <ShieldCheck className="w-4 h-4"/> Click to preview credential
+              </span>
             </button>
           ))}
         </div>
-      </motion.div>
+      </motion.section>
 
-      {/* Section 2: Specialized Badges */}
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-        <h2 className="flex items-center gap-2 text-xl font-bold text-gray-900 dark:text-white mb-6">
-          <Award className="w-6 h-6 text-[#10B981]"/>
+      {/* SECTION 2: SPECIALIZED BADGES */}
+      <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+        <h2 className="flex items-center gap-3 text-xl font-bold text-white mb-6 font-mono uppercase tracking-wide text-sm">
+          <Award className="w-5 h-5 text-[#10B981]"/>
           Specialized Skill Badges
         </h2>
         
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           {credentials.badges.map((badge) => (
-            <div
+            <a
               key={badge.id}
-              className="group flex flex-col items-center justify-center p-6 bg-transparent border border-gray-200 dark:border-white/5 rounded-xl hover:bg-gray-50 dark:hover:bg-white/[0.02] hover:border-gray-300 dark:hover:border-white/20 transition-all duration-300"
+              href={badge.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex flex-col items-center justify-center p-6 bg-[#050505] border border-gray-800/60 rounded-xl hover:bg-[#0a0a0a] hover:border-[#10B981]/40 transition-all duration-300 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#10B981]/40"
             >
-              <div className="w-16 h-16 sm:w-20 sm:h-20 mb-4 relative flex items-center justify-center bg-gray-100 dark:bg-white/5 rounded-full group-hover:rotate-12 transition-transform duration-300">
-                 <ShieldCheck className="w-6 h-6 text-gray-400 dark:text-gray-500 absolute" />
+              <div className="w-12 h-12 mb-3 relative flex items-center justify-center bg-[#10B981]/10 rounded-full group-hover:scale-110 transition-transform duration-300 border border-[#10B981]/20">
+                 <ShieldCheck className="w-5 h-5 text-[#10B981]"/>
               </div>
-              <h3 className="text-sm font-medium text-center text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
+              <h3 className="text-xs font-medium text-center text-gray-400 group-hover:text-gray-100 transition-colors font-mono">
                 {badge.title}
               </h3>
-            </div>
+            </a>
           ))}
         </div>
-      </motion.div>
+      </motion.section>
 
       {/* MODAL IMPLEMENTATION */}
-      {/* Certification Detail Modal - Portal + Split View */}
       {mounted ? createPortal(
         <AnimatePresence>
           {selectedCert && (
@@ -166,69 +179,61 @@ export default function CertificationsPage() {
               
               {/* Dark Overlay */}
               <motion.div 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
                 onClick={() => setSelectedCert(null)}
                 className="absolute inset-0 bg-black/80 backdrop-blur-sm cursor-pointer"
               />
               
-              {/* Modal Container - Split Layout */}
+              {/* Modal Container */}
               <motion.div 
-                initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                className="relative z-10 w-full max-w-4xl bg-white dark:bg-[#0A0A0A] border border-gray-200 dark:border-white/10 rounded-2xl shadow-2xl flex flex-col md:flex-row overflow-hidden max-h-[85vh]"
+                initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                className="relative z-10 w-full max-w-4xl bg-[#0a0a0a] border border-gray-800 rounded-2xl shadow-2xl flex flex-col md:flex-row overflow-hidden max-h-[90vh]"
                 onClick={(e) => e.stopPropagation()} 
               >
                 
-                {/* Floating Close Button (Absolute to the whole modal) */}
+                {/* Floating Close Button */}
                 <button 
                   onClick={() => setSelectedCert(null)}
-                  className="absolute top-3 right-3 md:top-4 md:right-4 z-50 p-2 rounded-full bg-white/80 dark:bg-black/50 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-black backdrop-blur-md transition-colors shadow-sm"
+                  className="absolute top-3 right-3 md:top-4 md:right-4 z-50 p-2 rounded-full bg-black/50 text-gray-400 hover:text-white hover:bg-[#10B981]/20 border border-gray-700 hover:border-[#10B981] backdrop-blur-md transition-all focus:outline-none focus:ring-2 focus:ring-[#10B981]/40"
                 >
                   <X className="w-5 h-5"/>
                 </button>
 
                 {/* LEFT COLUMN: Visual Preview */}
-                {/* Mobile: 35vh height. Desktop: 50% width, auto height */}
-                <div className="w-full h-[35vh] md:h-auto md:w-1/2 bg-gray-100 dark:bg-[#050505] border-b md:border-b-0 md:border-r border-gray-200 dark:border-white/10 relative flex-shrink-0 flex items-center justify-center p-6 md:p-8">
-                  <div className="flex flex-col items-center gap-3 text-gray-400 dark:text-gray-500 z-10">
+                <div className="w-full h-[35vh] md:h-auto md:w-1/2 bg-[#050505] border-b md:border-b-0 md:border-r border-gray-800 relative flex-shrink-0 flex items-center justify-center p-6">
+                  <div className="flex flex-col items-center gap-3 text-gray-600 z-10">
                     <Award className="w-10 h-10"/>
-                    <span className="font-mono text-xs sm:text-sm truncate max-w-[200px] text-center">
-                      [ {selectedCert.title.replace(/\s+/g, '_')}.png ]
-                    </span>
+                    <span className="font-mono text-xs text-center">[ Awaiting image: {selectedCert.previewImage} ]</span>
                   </div>
                   
-                  {/* UNCOMMENT ONCE IMAGES ARE IN PUBLIC FOLDER */}
-                  {/* <Image alt={`${selectedCert.title} Certificate`} className="object-contain p-4 md:p-8 hover:scale-105 transition-transform duration-500 z-20" fill src={selectedCert.previewImage}/> */}
+                  {/* Image Render (Will overlay the text above once images exist in /public/certificates/) */}
+                  <Image alt={selectedCert.title} className="object-contain p-4 z-20" fill src={selectedCert.previewImage} />
                 </div>
 
                 {/* RIGHT COLUMN: Content & Details */}
-                {/* Takes up remaining height on mobile, 50% width on desktop */}
-                <div className="w-full md:w-1/2 flex flex-col bg-white dark:bg-[#0A0A0A] flex-grow overflow-hidden h-[50vh] md:h-auto">
+                <div className="w-full md:w-1/2 flex flex-col bg-[#0a0a0a] flex-grow overflow-hidden h-[50vh] md:h-auto">
                   
-                  {/* Pinned Header */}
-                  <div className="p-6 pb-4 border-b border-gray-100 dark:border-white/10 flex-shrink-0 z-10 bg-white dark:bg-[#0A0A0A]">
+                  {/* Header */}
+                  <div className="p-6 pb-4 border-b border-gray-800 flex-shrink-0 z-10">
                     <span className="text-[10px] sm:text-xs font-mono text-[#10B981] uppercase tracking-wider block mb-2">
                       {selectedCert.issuer} • {selectedCert.date}
                     </span>
-                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white pr-8 leading-tight">
+                    <h3 className="text-xl sm:text-2xl font-bold text-white pr-8 leading-tight">
                       {selectedCert.title}
                     </h3>
                   </div>
 
-                  {/* Scrollable Description & Skills */}
-                  <div className="p-6 overflow-y-auto flex-grow">
-                    <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-base leading-relaxed mb-8">
+                  {/* Scrollable Description */}
+                  <div className="p-6 overflow-y-auto flex-grow custom-scrollbar">
+                    <p className="text-gray-400 text-sm sm:text-base leading-relaxed mb-8">
                       {selectedCert.description}
                     </p>
 
                     <div>
-                      <h4 className="text-xs font-mono text-gray-400 uppercase tracking-wider mb-4">Validated Skills</h4>
+                      <h4 className="text-xs font-mono text-gray-500 uppercase tracking-wider mb-4">Validated Skills</h4>
                       <div className="flex flex-wrap gap-2.5">
                         {selectedCert.skills?.map((skill: string, idx: number) => (
-                          <span key={idx} className="flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-md bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-700 dark:text-gray-300">
+                          <span key={idx} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded bg-[#050505] border border-gray-800 text-gray-300">
                             <CheckCircle2 className="w-3 h-3 text-[#10B981] flex-shrink-0"/> 
                             {skill}
                           </span>
@@ -237,15 +242,15 @@ export default function CertificationsPage() {
                     </div>
                   </div>
 
-                  {/* Pinned Footer / Action */}
-                  <div className="p-6 pt-4 border-t border-gray-100 dark:border-white/10 flex-shrink-0 z-10 bg-white dark:bg-[#0A0A0A]">
+                  {/* Footer Action */}
+                  <div className="p-6 pt-4 border-t border-gray-800 flex-shrink-0 z-10">
                     <a 
-                      href={selectedCert.verifyUrl || selectedCert.url}
+                      href={selectedCert.verifyUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group flex items-center justify-center gap-2 w-full py-3.5 bg-transparent border-2 border-gray-900 dark:border-white text-gray-900 dark:text-white rounded-xl font-secondary text-sm font-bold hover:bg-gray-900 hover:text-white dark:hover:bg-white dark:hover:text-gray-900 transition-all duration-300"
+                      className="group flex items-center justify-center gap-2 w-full py-3.5 bg-[#10B981]/10 border border-[#10B981]/50 text-[#10B981] rounded-xl font-mono text-sm font-bold hover:bg-[#10B981]/20 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#10B981]/40"
                     >
-                      <ShieldCheck className="w-4 h-4 group-hover:scale-110 transition-transform"/> Verify Credential Online
+                      Verify Official PDF <FiExternalLink className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" size={16}/>
                     </a>
                   </div>
 
@@ -256,6 +261,6 @@ export default function CertificationsPage() {
         </AnimatePresence>,
         document.body
       ) : null}
-    </div>
+    </main>
   );
 }

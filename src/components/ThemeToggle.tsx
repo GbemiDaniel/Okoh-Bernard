@@ -26,8 +26,8 @@ export function ThemeToggle() {
 
   return (
     <button
-      onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="p-2 rounded-full glass-panel flex items-center justify-center transition-all duration-300 hover:scale-110 hover:bg-white/10 active:scale-95 border-white/10"
+      onClick={(e) => e.preventDefault()} // Disabled for now
+      className="p-2 rounded-full glass-panel flex items-center justify-center transition-all duration-300 opacity-50 cursor-not-allowed border-white/10"
       aria-label="Toggle Theme"
     >
       {isDark ? (

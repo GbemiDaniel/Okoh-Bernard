@@ -28,6 +28,15 @@ const config: Config = {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
       },
+      keyframes: {
+        "ping-pong": {
+          "0%, 100%": { transform: "translateX(0)" },
+          "50%": { transform: "translateX(-25px)" },
+        }
+      },
+      animation: {
+        "ping-pong": "ping-pong 4s ease-in-out infinite",
+      }
     },
   },
   plugins: [],
