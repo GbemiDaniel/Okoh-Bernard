@@ -2,20 +2,101 @@
 
 import { TerminalSubtitle } from "@/components/TerminalSubtitle";
 import { SkillCard } from "@/components/SkillCard";
+import { FeaturedProjectCard } from "@/components/FeaturedProjectCard";
+import { ArticleBriefing } from "@/components/ArticleBriefing";
 import { CyberParticles } from "@/components/CyberParticles";
 import { motion, Variants } from "framer-motion";
 import { ArrowRight, Terminal, Github, Twitter, Linkedin } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { useSectionObserver } from "@/hooks/useSectionObserver";
 
 export default function Home() {
+  // Initialize the scroll sensors
+  const heroRef = useSectionObserver(null); // null triggers default sequence
+  const offensiveRef = useSectionObserver("Offensive Capabilities");
+  const projectsRef = useSectionObserver("Featured Projects");
+  const publicationsRef = useSectionObserver("Featured Publications");
+
   const skills = [
-    { label: "Network Exploitation", progress: 92 },
-    { label: "Web App Penetration", progress: 88 },
-    { label: "OSINT Gathering", progress: 95 },
-    { label: "Reverse Engineering", progress: 75 },
-    { label: "Cloud Security (AWS)", progress: 82 },
-    { label: "Social Engineering", progress: 90 },
+    { label: "Web & API Exploitation", progress: 95, tag: "PENTESTING", colorVariant: "offensive" as const },
+    { label: "AD & Network Exploitation", progress: 92, tag: "PENTESTING", colorVariant: "offensive" as const },
+    { label: "Identity & Access (IAM)", progress: 94, tag: "SEC-ENG", colorVariant: "defensive" as const },
+    { label: "Cloud & System Hardening", progress: 90, tag: "SEC-ENG", colorVariant: "defensive" as const },
+    { label: "SIEM & Sec Monitoring", progress: 88, tag: "SEC-ENG", colorVariant: "defensive" as const },
+    { label: "LLM Threat Modeling", progress: 85, tag: "AI-SEC", colorVariant: "standard" as const },
+  ];
+
+  const featuredProjects = [
+    {
+      title: "Secured API Development",
+      description: "OWASP API Security Top 10 Practical Assessment.",
+      tag: "PENTESTING",
+      tools: ["Burp Suite", "OWASP ZAP"],
+      link: "[https://github.com/OnyedikachiO/TryHackMe_Projects/blob/main/Secure%20API%20Development%3A%20OWASP%20API%20Security%20Top%2010%20Practical%20Assessment.md](https://github.com/OnyedikachiO/TryHackMe_Projects/blob/main/Secure%20API%20Development%3A%20OWASP%20API%20Security%20Top%2010%20Practical%20Assessment.md)"
+    },
+    {
+      title: "Linux Privilege Escalation",
+      description: "Exploitation analysis via Kernel vulnerabilities.",
+      tag: "PENTESTING",
+      tools: ["LinPEAS", "Bash", "Linux"],
+      link: "[https://github.com/OnyedikachiO/TryHackMe_Projects/blob/main/Linux%20Privilege%20Escalation%20via%20Kernel%20Exploitation.md](https://github.com/OnyedikachiO/TryHackMe_Projects/blob/main/Linux%20Privilege%20Escalation%20via%20Kernel%20Exploitation.md)"
+    },
+    {
+      title: "Active Directory Hardening",
+      description: "Enterprise environment security and defense.",
+      tag: "SEC-ENG",
+      tools: ["Active Directory", "Windows Server", "PowerShell"],
+      link: "[https://github.com/OnyedikachiO/Security-Engineer-Projects-/blob/main/Active%20Directory%20Hardening.md](https://github.com/OnyedikachiO/Security-Engineer-Projects-/blob/main/Active%20Directory%20Hardening.md)"
+    },
+    {
+      title: "Cloud Security Controls",
+      description: "Implementing defensive security architecture in AWS.",
+      tag: "SEC-ENG",
+      tools: ["Amazon Web Services", "IAM"],
+      link: "[https://github.com/OnyedikachiO/Security-Engineer-Projects-/blob/main/Implementing%20Cloud%20Security%20Controls%20in%20AWS.md](https://github.com/OnyedikachiO/Security-Engineer-Projects-/blob/main/Implementing%20Cloud%20Security%20Controls%20in%20AWS.md)"
+    },
+    {
+      title: "Prompt Security in LLMs",
+      description: "Context window integrity and vulnerability analysis.",
+      tag: "AI-SEC",
+      tools: ["Python", "Prompt Injection"],
+      link: "[https://github.com/OnyedikachiO/AI-Security-Portfolio](https://github.com/OnyedikachiO/AI-Security-Portfolio)"
+    },
+    {
+      title: "Model Compromise Assessment",
+      description: "Defensive automation and ML vulnerability mapping.",
+      tag: "AI-SEC",
+      tools: ["Machine Learning Security", "Python"],
+      link: "[https://github.com/OnyedikachiO/AI-Security-Portfolio](https://github.com/OnyedikachiO/AI-Security-Portfolio)"
+    }
+  ];
+
+  const recentArticles = [
+    {
+      title: "Understanding Identity and Access Management (IAM)",
+      description: "An analysis of the core principles of enterprise access control. This article covers the implementation of robust IAM frameworks to prevent unauthorized privilege escalation and ensure secure authentication pipelines.",
+      link: "[https://medium.com/@kachisichobernardokoh/understanding-identity-and-access-management-iam-dec3f14e139a](https://medium.com/@kachisichobernardokoh/understanding-identity-and-access-management-iam-dec3f14e139a)",
+      date: "Nov 12, 2024",
+      category: "Security Engineering",
+      colorClass: "text-cyan-400"
+    },
+    {
+      title: "Threat Modeling and Risk Assessment Frameworks",
+      description: "A comprehensive breakdown of how to proactively identify and mitigate system vulnerabilities before deployment. This piece evaluates modern frameworks used to map attack surfaces and calculate potential exploit impacts.",
+      link: "[https://medium.com/@kachisichobernardokoh/threat-modeling-and-risk-assessment-frameworks-70a93b193313](https://medium.com/@kachisichobernardokoh/threat-modeling-and-risk-assessment-frameworks-70a93b193313)",
+      date: "Oct 28, 2024",
+      category: "Architecture",
+      colorClass: "text-purple-400"
+    },
+    {
+      title: "Navigating Security Governance and Compliance",
+      description: "Aligning technical security controls with rigid business and regulatory requirements. This documentation explores the intersection of compliance frameworks and active defense mechanisms within enterprise environments.",
+      link: "[https://medium.com/@kachisichobernardokoh/navigating-security-governance-frameworks-and-compliance-7ab8ae780b0c](https://medium.com/@kachisichobernardokoh/navigating-security-governance-frameworks-and-compliance-7ab8ae780b0c)",
+      date: "Oct 15, 2024",
+      category: "Governance",
+      colorClass: "text-orange-400"
+    }
   ];
 
   const buttonVariants: Variants = {
@@ -31,7 +112,7 @@ export default function Home() {
     <div className="flex flex-col">
       {/* ===================== HERO ===================== */}
       {/* Flex wrapper: robust vertical centering for mobile viewports */}
-      <div className="relative w-full min-h-[100dvh] flex flex-col items-center justify-center -mt-32 pt-20 pb-12 overflow-hidden px-4">
+      <div ref={heroRef} className="relative w-full min-h-[100dvh] flex flex-col items-center justify-center -mt-32 pt-20 pb-12 overflow-hidden">
 
         {/* Performant HTML5 Canvas Background */}
         <CyberParticles />
@@ -110,7 +191,7 @@ export default function Home() {
       </div>
 
       {/* ===================== SKILLS GRID ===================== */}
-      <div className="w-full px-4 py-24">
+      <div ref={offensiveRef} className="w-full py-24">
         <section className="flex flex-col gap-12 w-full max-w-6xl mx-auto">
           <div className="flex flex-col gap-2 items-center text-center">
             <h2 className="font-primary text-3xl font-bold text-gray-900 dark:text-white">
@@ -127,12 +208,72 @@ export default function Home() {
                 key={skill.label}
                 label={skill.label}
                 progress={skill.progress}
+                tag={skill.tag}
+                colorVariant={skill.colorVariant}
                 delay={index * 0.1}
               />
             ))}
           </div>
         </section>
       </div>
+
+      {/* ===================== FEATURED PROJECTS ===================== */}
+      <div ref={projectsRef} className="w-full pb-24 pt-12">
+        <section className="flex flex-col gap-12 w-full max-w-6xl mx-auto">
+          <div className="flex flex-col gap-2 items-center text-center">
+            <h2 className="font-primary text-3xl font-bold text-gray-900 dark:text-white">
+              Featured Projects
+            </h2>
+            <p className="font-secondary text-sm text-gray-600 dark:text-gray-400">
+              Technical assessments and architectural implementations
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 w-full max-w-6xl mx-auto mt-8">
+            {featuredProjects.map((project, index) => (
+              <FeaturedProjectCard
+                key={project.title}
+                title={project.title}
+                description={project.description}
+                tag={project.tag}
+                link={project.link}
+                tools={project.tools}
+                delay={index * 0.1}
+              />
+            ))}
+          </div>
+          
+          <div className="mt-12 flex justify-center">
+            <Link href="/projects" className="px-6 py-3 border border-[#10B981]/30 text-[#10B981] hover:bg-[#10B981]/10 rounded-lg font-mono text-sm transition-all flex items-center gap-2 group">
+              View Full Arsenal <span className="text-lg group-hover:translate-x-1 transition-transform">→</span>
+            </Link>
+          </div>
+        </section>
+      </div>
+
+      {/* ===================== PUBLICATIONS ===================== */}
+      <section ref={publicationsRef} className="w-full max-w-5xl mx-auto mt-32 mb-24">
+        <h2 className="text-3xl font-bold text-white mb-2 text-center">Featured Publications</h2>
+        <p className="text-gray-400 text-sm mb-12 text-center">Technical write-ups on architecture, threat modeling, and defensive engineering.</p>
+        
+        {recentArticles.map(article => (
+          <ArticleBriefing
+            key={article.title}
+            title={article.title}
+            description={article.description}
+            link={article.link}
+            date={article.date}
+            category={article.category}
+            colorClass={article.colorClass}
+          />
+        ))}
+
+        <div className="mt-12 flex justify-center">
+          <Link href="/blog" className="px-6 py-3 bg-white/[0.02] border border-white/10 hover:border-[#10B981]/50 hover:bg-[#10B981]/5 text-gray-300 hover:text-[#10B981] rounded-lg font-mono text-sm transition-all flex items-center gap-2">
+            View All Publications <span className="text-lg">→</span>
+          </Link>
+        </div>
+      </section>
     </div>
   );
 }

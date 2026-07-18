@@ -1,163 +1,373 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Terminal, Menu, X } from "lucide-react";
-import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
+import { Terminal, Menu, X, ChevronDown } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { ThemeToggle } from "./ThemeToggle";
+import { useTerminal } from "@/context/TerminalContext";
 
 const navItems = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
-  { href: "/certifications", label: "Certifications" },
+  {
+    label: "Expertise ▾",
+    subLinks: [
+      { href: "/security-engineering", label: "Security Engineering" },
+      { href: "/penetration-testing", label: "Penetration Testing" },
+      { href: "/ai-security", label: "AI Security" },
+    ]
+  },
   { href: "/projects", label: "Projects" },
+  { href: "/certifications", label: "Certifications" },
+  { href: "/blog", label: "Blog" },
+  { href: "/contact", label: "Contact" },
 ];
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.05
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, x: -20 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.2 } }
+};
 
 export function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+
+  // Check if current path belongs to the Expertise category
+  const isExpertiseActive = 
+    pathname === '/security-engineering' || 
+    pathname === '/penetration-testing' || 
+    pathname === '/ai-security';
   const [isScrolled, setIsScrolled] = useState(false);
-  const { scrollY } = useScroll();
+  const [isExpertiseOpen, setIsExpertiseOpen] = useState(false);
 
-  const getBrandText = () => {
-    if (pathname === "/" || pathname === "") {
-      return { mobile: "Pentester- Benard", desktop: "Pentest- Okoh Bernard" };
+  const { activeSection } = useTerminal();
+
+  const [displayText, setDisplayText] = useState("");
+  const [homeIndex, setHomeIndex] = useState(0);
+  const textRef = useRef<HTMLSpanElement>(null);
+  
+  // The sequence for the top of the homepage
+  const homeSequence = ["Welcome", "I'm Kachi", "Scroll for more "];
+
+  // NEW: Reset sequence when returning to the hero section (top of page)
+  useEffect(() => {
+    if (activeSection === null && pathname === "/") {
+      setHomeIndex(0);
+    }
+  }, [activeSection, pathname]);
+  
+  // 1. Determine the ultimate target string based on hierarchy
+  let targetText = "";
+  if (activeSection) {
+    targetText = activeSection; 
+  } else if (pathname !== "/") {
+    targetText = pathname.replace("/", "");
+  } else {
+    // Only access the array safely
+    targetText = homeSequence[homeIndex] || homeSequence[0];
+  }
+
+  // 2. Continuous State Machine (Backspace & Type)
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+
+    // Condition A: We have reached the exact target text
+    if (displayText === targetText) {
+       // If we are doing the homepage intro sequence and haven't finished, queue the next word
+       if (!activeSection && pathname === "/" && homeIndex < homeSequence.length - 1) {
+          timer = setTimeout(() => {
+             setHomeIndex(prev => prev + 1);
+          }, 1500); // Pause for 1.5s so the user can read it before deleting
+       }
+       return () => clearTimeout(timer);
     }
 
-    // Extract the first path segment
-    const pathSegment = pathname.split('/')[1] || "";
+    // Condition B: Transition Logic with Dynamic Speeds
+    const isPrefix = targetText.startsWith(displayText);
+    
+    // Is this the slow intro sequence?
+    const isIntro = !activeSection && pathname === "/";
+    
+    // Intro sequence needs authentic slow typing. Everything else (scrolling) goes into overdrive.
+    const typeSpeed = isIntro ? 70 : 25;       
+    const backspaceSpeed = isIntro ? 35 : 10;  
 
-    // Map long path names to shorter versions for the navbar
-    const labelMap: Record<string, string> = {
-      "certifications": "Certs",
-      "projects": "Projects",
-      "about": "About"
-    };
-
-    const label = labelMap[pathSegment.toLowerCase()] || (pathSegment.charAt(0).toUpperCase() + pathSegment.slice(1));
-
-    return {
-      mobile: `Pentester's-${label}`,
-      desktop: `Pentester's-${label}`
-    };
-  };
-
-  const brand = getBrandText();
-
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    if (latest > 20 && !isScrolled) {
-      setIsScrolled(true);
-    } else if (latest <= 20 && isScrolled) {
-      setIsScrolled(false);
+    if (isPrefix) {
+      // Only type if we haven't reached the target
+      if (displayText !== targetText) {
+        timer = setTimeout(() => {
+          setDisplayText(targetText.substring(0, displayText.length + 1));
+        }, typeSpeed);
+      }
+    } else {
+      // Rapid backspace
+      timer = setTimeout(() => {
+        setDisplayText(displayText.substring(0, displayText.length - 1));
+      }, backspaceSpeed);
     }
-  });
+
+    return () => clearTimeout(timer);
+  }, [displayText, targetText, activeSection, pathname, homeIndex, homeSequence.length]);
+
+  // NEW: Calculate text overflow and apply panning animation
+  useEffect(() => {
+    if (textRef.current) {
+      // Only measure and animate if the typewriter is fully finished typing the target text
+      if (displayText === targetText) {
+        const scrollWidth = textRef.current.scrollWidth;
+        // Measure against the parent container's width instead of the span's width
+        const clientWidth = textRef.current.parentElement?.clientWidth || textRef.current.clientWidth;
+        const overflow = scrollWidth - clientWidth;
+        
+        if (overflow > 0) {
+          // It's too long! Set the slide distance and trigger the animation
+          textRef.current.style.setProperty('--overflow-distance', `-${overflow}px`);
+          textRef.current.classList.add('animate-terminal-scroll');
+        }
+      } else {
+        // While typing, ensure it resets to the start and doesn't animate
+        textRef.current.classList.remove('animate-terminal-scroll');
+        textRef.current.style.transform = 'translateX(0px)';
+      }
+    }
+  }, [displayText, targetText]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Background Scroll Locking for Mobile Menu
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    };
+  }, [isOpen]);
 
   return (
-    <header className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] sm:w-[90%] max-w-4xl">
+    <header className="transition-all duration-500 ease-in-out z-50 fixed top-0 w-full flex justify-center pointer-events-none">
       <nav
-        className={`flex items-center justify-between px-4 sm:px-6 py-3 rounded-full relative transition-all duration-300 ease-in-out ${isScrolled
-            ? "backdrop-blur-2xl bg-white/60 dark:bg-base-dark/80 border border-gray-200 dark:border-white/10 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.1)] dark:shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)]"
-            : "backdrop-blur-md bg-white/30 dark:bg-white/5 border border-gray-200 dark:border-white/10 shadow-inner"
+        className={`pointer-events-auto flex items-center justify-between gap-4 md:gap-12 lg:gap-16 transition-all duration-500 ease-in-out relative z-50 ${isScrolled
+          ? "backdrop-blur-md bg-white/90 dark:bg-black/60 border border-gray-200 dark:border-white/10 rounded-full py-3 px-6 md:px-10 lg:px-12 mt-4 w-[95%] max-w-5xl shadow-lg"
+          : "bg-transparent border-transparent py-6 px-8 w-full max-w-7xl"
           }`}
       >
+        {/* MAIN CONTAINER */}
+        <div className="w-full flex items-center justify-between">
+          
+          {/* =========================================
+              LEFT SIDE: Terminal + Separator
+              ========================================= */}
+          <div className="flex items-center flex-shrink-0">
+            <Link className="relative z-50 flex items-center group" href="/" onClick={() => setIsOpen(false)}>
+              
+              {/* THE RIGID PARKING SPACE: Protects the right-side layout from shifting */}
+              <div className="flex items-center w-[150px] sm:w-[180px] md:w-[210px] lg:w-[240px]">
+                
+                {/* THE FLEX GROUP: Logo, Text, and Cursor hug each other naturally */}
+                <div className="flex items-center max-w-full gap-1.5 font-mono text-xs sm:text-sm font-medium text-[#10B981] tracking-wide">
+                  <Terminal className="w-5 h-5 text-[#10B981] shrink-0 group-hover:scale-110 transition-transform duration-200" />
+                  
+                  {/* THE MASK: Grows with text, but shrinks if it hits the rigid boundary */}
+                  <div className="overflow-hidden relative flex-shrink min-w-0">
+                    <span
+                      ref={textRef}
+                      className="text-gray-700 dark:text-gray-300 whitespace-nowrap inline-block transition-opacity duration-300"
+                    >
+                      {displayText}
+                    </span>
+                  </div>
+                  
+                  <span className="w-[2px] h-[1.1em] bg-[#10B981] animate-blink block flex-shrink-0 opacity-80"></span>
+                </div>
+                
+              </div>
+            </Link>
 
-        {/* Brand Container */}
-        <Link
-          href="/"
-          onClick={() => setIsOpen(false)}
-          className="flex items-center gap-2 shrink-0 z-50"
-        >
-          <Terminal className="w-5 h-5 text-accent-mint shrink-0" />
-          <motion.span
-            key={pathname} // Re-trigger animation on route change
-            className="text-sm font-secondary font-medium tracking-tight bg-[linear-gradient(110deg,#059669,45%,#A7F3D0,55%,#059669)] dark:bg-[linear-gradient(110deg,#10B981,45%,#ECFDF5,55%,#10B981)] bg-[length:200%_100%] bg-clip-text text-transparent"
-            initial={{ opacity: 0, y: -5 }}
-            animate={{
-              opacity: 1, y: 0,
-              backgroundPosition: ["0% 0%", "200% 0%"],
-            }}
-            transition={{
-              opacity: { duration: 0.3 },
-              y: { duration: 0.3 },
-              backgroundPosition: {
-                duration: 4,
-                repeat: Infinity,
-                ease: "linear",
-              }
-            }}
-          >
-            <span className="sm:hidden">{brand.mobile}</span>
-            <span className="hidden sm:inline">{brand.desktop}</span>
-          </motion.span>
-        </Link>
+            {/* VISUAL SEPARATOR: Properly spaced from the terminal and the nav links */}
+            <div className="hidden lg:block w-[1px] h-5 bg-gray-300 dark:bg-white/20 ml-5 mr-2 lg:ml-8 lg:mr-4 flex-shrink-0"></div>
+          </div>
 
-        {/* Desktop Navigation Links & Theme Toggle */}
-        <div className="hidden md:flex items-center gap-6">
-          <ul className="flex items-center gap-6">
-            {navItems.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className={`font-secondary text-sm transition-all duration-300 hover:-translate-y-[1px] ${pathname === item.href
-                      ? "text-accent-mint font-medium"
-                      : "text-gray-800 dark:text-gray-300 hover:text-black dark:hover:text-white"
-                    }`}
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          {/* =========================================
+              RIGHT SIDE: Navlinks + Partition + Toggle
+              ========================================= */}
+          <div className="flex items-center justify-end flex-shrink-0">
+            
+            {/* Desktop Nav */}
+            <div className="hidden lg:flex items-center gap-6">
+              <ul className="flex items-center gap-8">
+                {navItems.map((item) => (
+                  <li key={item.label || item.href} className="relative group">
+                    {item.subLinks ? (
+                      <>
+                        <span className={`cursor-default flex items-center gap-1 whitespace-nowrap font-secondary text-sm transition-colors duration-200 py-2 ${
+                          isExpertiseActive 
+                            ? 'text-[#10B981] font-semibold' 
+                            : 'text-gray-800 dark:text-gray-300 hover:text-[#10B981] dark:hover:text-[#10B981]'
+                        }`}>
+                          {item.label.replace(' ▾', '')}
+                          <ChevronDown className="w-3 h-3 group-hover:rotate-180 transition-transform duration-200" />
+                        </span>
+                        <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                          <div className="backdrop-blur-xl bg-white/95 dark:bg-[#0A0A0A]/90 border border-gray-200 dark:border-white/10 rounded-xl p-2 flex flex-col gap-1 min-w-[200px] shadow-2xl">
+                            {item.subLinks.map(subItem => (
+                              <Link
+                                key={subItem.href}
+                                href={subItem.href}
+                                className={`whitespace-nowrap font-secondary text-sm px-4 py-2 rounded-lg transition-colors duration-200 hover:text-[#10B981] dark:hover:text-[#10B981] ${pathname === subItem.href
+                                  ? "bg-accent-mint/10 text-[#10B981] font-medium"
+                                  : "text-gray-800 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10"
+                                  }`}
+                              >
+                                {subItem.label}
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      <Link
+                        href={item.href!}
+                        className={`whitespace-nowrap font-secondary text-sm transition-colors duration-200 hover:text-[#10B981] dark:hover:text-[#10B981] ${pathname === item.href
+                          ? "text-[#10B981] font-medium"
+                          : "text-gray-800 dark:text-gray-300"
+                          }`}
+                      >
+                        {item.label}
+                      </Link>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          <div className="pl-6 border-l border-gray-300 dark:border-white/10">
-            <ThemeToggle />
+            {/* Stylish Vertical Divider (Partition for Toggle) */}
+            <div className="hidden lg:block w-[1px] h-5 bg-gray-300 dark:bg-white/10 mx-4 lg:mx-6 flex-shrink-0"></div>
+
+            {/* Theme Toggle / Mobile Hamburger Menu */}
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <ThemeToggle />
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="flex lg:hidden flex-shrink-0 items-center justify-center p-2 w-12 h-12 text-gray-800 dark:text-white/80 hover:text-[#10B981] dark:hover:text-[#10B981] transition-all duration-200 active:scale-90"
+                aria-label="Toggle mobile menu"
+              >
+                {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
+            </div>
+            
           </div>
         </div>
+      </nav>
 
-        {/* Mobile Hamburger Toggle & Theme Toggle (Hidden on Desktop) */}
-        <div className="flex md:hidden items-center gap-2 z-50">
-          <ThemeToggle />
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="flex items-center p-2 text-gray-800 dark:text-white/80 hover:text-black dark:hover:text-white transition-colors"
-            aria-label="Toggle mobile menu"
+      {/* Mobile Animated HUD Overlay */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="fixed inset-0 top-[4.5rem] z-40 bg-white/95 dark:bg-black/90 backdrop-blur-xl h-[100dvh] flex flex-col pt-8 px-6 lg:hidden pointer-events-auto overflow-y-auto pb-32"
           >
-            {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </button>
-        </div>
-
-        {/* Mobile Dropdown Menu (Framer Motion) */}
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
-              className="absolute top-full left-0 w-full mt-4 backdrop-blur-xl bg-white/90 dark:bg-base-dark/90 border border-gray-200 dark:border-white/10 rounded-2xl p-4 flex flex-col gap-2 shadow-2xl md:hidden overflow-hidden origin-top"
+            <motion.ul
+              variants={containerVariants}
+              initial="hidden"
+              animate="show"
+              className="flex flex-col w-full text-left gap-4"
             >
-              <ul className="flex flex-col w-full text-center">
-                {navItems.map((item) => (
-                  <li key={item.href} className="w-full">
+              {navItems.map((item) => (
+                <motion.li variants={itemVariants} key={item.label || item.href} className="w-full">
+                  {item.subLinks ? (
+                    <div className="flex flex-col gap-1 w-full">
+                      <button
+                        onClick={() => setIsExpertiseOpen(!isExpertiseOpen)}
+                        className={`flex items-center justify-start gap-2 w-full py-4 px-4 font-secondary text-base transition-all duration-150 rounded-xl ${
+                          isExpertiseActive 
+                            ? 'text-[#10B981] font-semibold bg-accent-mint/10' 
+                            : 'text-gray-800 dark:text-white/70 hover:bg-gray-100 dark:hover:bg-white/5'
+                        }`}
+                      >
+                        <span>{item.label.replace(' ▾', '')}</span>
+                        <ChevronDown className={`w-4 h-4 text-[#10B981] transition-transform duration-200 ${isExpertiseOpen ? 'rotate-180' : ''}`} />
+                      </button>
+
+                      <AnimatePresence>
+                        {isExpertiseOpen && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.2 }}
+                            className="overflow-hidden"
+                          >
+                            <div className="flex flex-col pl-4 border-l border-gray-200 dark:border-white/10 ml-6 mt-1 mb-2 gap-1">
+                              {item.subLinks.map(subItem => (
+                                <Link
+                                  href={subItem.href}
+                                  key={subItem.href}
+                                  onClick={() => { setIsOpen(false); setIsExpertiseOpen(false); }}
+                                  className={`block py-3 px-4 font-secondary text-sm transition-all duration-150 active:scale-[0.98] active:text-[#10B981] rounded-lg ${pathname === subItem.href
+                                    ? "bg-accent-mint/10 text-[#10B981] font-medium"
+                                    : "text-gray-600 dark:text-white/60 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white"
+                                    }`}
+                                >
+                                  {subItem.label}
+                                </Link>
+                              ))}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  ) : (
                     <Link
-                      href={item.href}
+                      href={item.href!}
                       onClick={() => setIsOpen(false)}
-                      className={`block py-3 px-4 font-secondary text-base transition-colors rounded-xl ${pathname === item.href
-                          ? "bg-accent-mint/10 text-accent-mint font-medium border border-accent-mint/20"
-                          : "text-gray-800 dark:text-white/70 hover:bg-gray-100 dark:hover:bg-white/5 dark:hover:text-white"
+                      className={`block py-4 px-4 font-secondary text-base transition-all duration-150 active:scale-[0.98] active:text-[#10B981] rounded-xl ${pathname === item.href
+                        ? "bg-accent-mint/10 text-[#10B981] font-medium border border-[#10B981]/20"
+                        : "text-gray-800 dark:text-white/70 hover:bg-gray-100 dark:hover:bg-white/5"
                         }`}
                     >
                       {item.label}
                     </Link>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          )}
-        </AnimatePresence>
+                  )}
+                </motion.li>
+              ))}
+            </motion.ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      </nav>
     </header>
   );
 }

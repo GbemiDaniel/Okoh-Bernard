@@ -2,8 +2,15 @@
 
 import { motion, Variants } from "framer-motion";
 import Image from "next/image";
+import { useSectionObserver } from "@/hooks/useSectionObserver";
 
 export default function AboutPage() {
+  // Initialize personalized scroll sensors
+  const bioRef = useSectionObserver("About Me"); 
+  const skillsRef = useSectionObserver("My Skills"); 
+  const certsRef = useSectionObserver("My Qualifications"); 
+  const articlesRef = useSectionObserver("My Insights"); 
+
   const containerVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
@@ -57,76 +64,77 @@ export default function AboutPage() {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="w-full backdrop-blur-md bg-white/80 border border-gray-300 shadow-xl dark:bg-white/5 dark:border-white/10 dark:shadow-inner rounded-2xl p-4 sm:p-6 md:p-10 relative corner-brackets"
+          className="relative flex flex-col w-full h-full max-h-[650px] sm:max-h-[750px] bg-[#0A0A0A] border border-white/10 rounded-xl overflow-hidden shadow-2xl"
         >
-          {/* Header */}
-          <div className="mb-6 border-b border-gray-300 dark:border-white/10 pb-4 sm:pb-6">
-            <h1 className="font-primary text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight">
-              <span className="bg-gradient-to-b from-gray-900 to-gray-600 dark:from-white dark:via-gray-200 dark:to-gray-400 text-transparent bg-clip-text">
-                System Out: Identity_
-              </span>
-            </h1>
+          {/* Sticky Terminal Header */}
+          <div className="flex items-center gap-2 px-4 py-4 bg-white/[0.02] border-b border-white/10 z-10 sticky top-0">
+            <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
+            <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+            <div className="w-3 h-3 rounded-full bg-[#10B981]/80"></div>
+            <span className="ml-3 text-xs font-mono text-gray-500">sys.admin - Profile Dossier</span>
           </div>
 
-          {/* Terminal Logs */}
-          <div className="font-secondary text-slate-800 dark:text-slate-300 text-sm sm:text-base leading-relaxed space-y-4 sm:space-y-6">
+          {/* Scrollable Text Area */}
+          <div className="flex-1 overflow-y-auto px-4 sm:px-5 py-6 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-white/10 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-white/20">
+            
+            {/* Block 1: Bio */}
+            <div ref={bioRef} className="mb-10">
+              <h3 className="text-[#10B981] font-mono text-base sm:text-lg mb-4">Profile Overview</h3>
+              <div className="flex flex-col gap-4 text-gray-400 text-sm sm:text-base leading-relaxed">
+                <p>Hi, I&apos;m Onyedikachi Bernard Okoh. I am a cybersecurity professional specializing in Security Engineering, Penetration Testing, and AI Security.</p>
+                <p>My technical foundation began at the system level. Long before pursuing security professionally, I spent years exploring the underlying mechanics of Windows and Linux environments, developing a deep proficiency with command-line interfaces and OS-level configurations. I naturally gravitated toward the logic governing systems beneath the graphical interface.</p>
+                <p>In 2023, my curiosity about how websites and digital systems function drove me to gain structured exposure to software engineering. This foundational understanding of how technology is built ultimately led me to my true strength: cybersecurity. I realized that to effectively secure or test an application, you must first understand its underlying mechanics.</p>
+                <p>Graduating from the University of Nigeria in 2024 with a degree in Agriculture (Crop Science) further shaped my analytical approach. It trained me to recognize complex patterns, isolate variables, and systematically troubleshoot interconnected systems. As I transitioned fully into cybersecurity, I realized that securing technology requires more than just technical tooling—it requires understanding the human behaviors and business logic that influence system integrity. I approach every environment with the curiosity of an attacker and the responsibility of a defender, aiming to provide clear, actionable remediation.</p>
+              </div>
+            </div>
 
-            <motion.p variants={itemVariants}>
-              <Prefix />
-              <span>Initializing user profile... Success.</span>
-            </motion.p>
+            {/* Block 2: Technical Skills */}
+            <div ref={skillsRef} className="mb-10">
+              <h3 className="text-[#10B981] font-mono text-base sm:text-lg mb-4">Technical Skills</h3>
+              <ul className="space-y-3 text-gray-300 font-mono text-sm sm:text-base ml-1 sm:ml-2">
+                <li className="flex items-start gap-2"><span className="text-[#10B981] mt-0.5 shrink-0">→</span> <span><strong className="text-white font-sans">Security Engineering:</strong> Active Directory, Windows Server, Linux System Hardening, IAM, Cloud Security (AWS).</span></li>
+                <li className="flex items-start gap-2"><span className="text-[#10B981] mt-0.5 shrink-0">→</span> <span><strong className="text-white font-sans">Penetration Testing:</strong> Web App & API Security, Privilege Escalation, Post-Exploitation, Vulnerability Validation (Nmap, Burp Suite, Metasploit, Wireshark).</span></li>
+                <li className="flex items-start gap-2"><span className="text-[#10B981] mt-0.5 shrink-0">→</span> <span><strong className="text-white font-sans">AI Security:</strong> LLM Vulnerability Research, Prompt Injection, Machine Learning Security, Model Compromise.</span></li>
+                <li className="flex items-start gap-2"><span className="text-[#10B981] mt-0.5 shrink-0">→</span> <span><strong className="text-white font-sans">Scripting & Automation:</strong> Python, PowerShell, Bash.</span></li>
+              </ul>
+            </div>
 
-            <motion.p variants={itemVariants} className="pl-4 border-l-2 border-gray-300 dark:border-white/5">
-              I am a Junior Penetration Tester and Security Researcher dedicated to
-              discovering vulnerabilities before threat actors do. My approach combines
-              methodical reconnaissance with creative exploitation techniques.
-            </motion.p>
+            {/* Block 3: Certifications & Qualifications */}
+            <div ref={certsRef} className="mb-10">
+              <h3 className="text-[#10B981] font-mono text-base sm:text-lg mb-4">Certifications & Qualifications</h3>
+              <ul className="space-y-3 text-gray-300 font-mono text-sm sm:text-base ml-1 sm:ml-2">
+                <li className="flex items-start gap-2"><span className="text-[#10B981] mt-0.5 shrink-0">→</span> <span><strong className="text-white font-sans">TryHackMe:</strong> Jr. Penetration Tester, Security Engineer, AI Security, Cyber Security 101, Pre-Security.</span></li>
+                <li className="flex items-start gap-2"><span className="text-[#10B981] mt-0.5 shrink-0">→</span> <span><strong className="text-white font-sans">Badges:</strong> Network & System Security, Software Security, AI Path Completion, Model Compromise.</span></li>
+              </ul>
+            </div>
 
-            <motion.p variants={itemVariants}>
-              <Prefix />
-              <span>Loading core competencies...</span>
-            </motion.p>
+            {/* Block 4: Articles & Insights */}
+            <div ref={articlesRef} className="mb-4">
+              <h3 className="text-[#10B981] font-mono text-base sm:text-lg mb-4">Articles & Insights</h3>
+              <p className="text-gray-400 text-sm sm:text-base mb-4">I actively document my technical methodologies, architectural reviews, and vulnerability assessments:</p>
+              <ul className="space-y-3 text-gray-300 font-mono text-sm sm:text-base ml-1 sm:ml-2">
+                <li className="flex items-start gap-2"><span className="text-[#10B981] mt-0.5 shrink-0">→</span> <span>Understanding Identity and Access Management (IAM)</span></li>
+                <li className="flex items-start gap-2"><span className="text-[#10B981] mt-0.5 shrink-0">→</span> <span>Threat Modeling and Risk Assessment Frameworks</span></li>
+                <li className="flex items-start gap-2"><span className="text-[#10B981] mt-0.5 shrink-0">→</span> <span>Navigating Security Governance, Frameworks, and Compliance</span></li>
+                <li className="flex items-start gap-2"><span className="text-[#10B981] mt-0.5 shrink-0">→</span> <span>Cracking the Code: A Practical Guide to Classical & Modern Cryptography</span></li>
+              </ul>
+            </div>
 
-            <motion.ul variants={itemVariants} className="list-none pl-4 space-y-2 border-l-2 border-gray-300 dark:border-white/5">
-              <li className="flex items-start gap-2">
-                <span className="text-[#10B981] shrink-0">{"->"}</span>
-                <span>Offensive Security Operations (Red Teaming)</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-[#10B981] shrink-0">{"->"}</span>
-                <span>Web Application Security Architectures</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-[#10B981] shrink-0">{"->"}</span>
-                <span>Vulnerability Research & Disclosure</span>
-              </li>
-            </motion.ul>
-
-            <motion.p variants={itemVariants}>
-              <Prefix />
-              <span>Querying objective status...</span>
-            </motion.p>
-
-            <motion.p variants={itemVariants} className="pl-4 border-l-2 border-gray-300 dark:border-white/5">
-              Currently seeking opportunities to join a forward-thinking security team
-              where I can leverage my skills to harden infrastructure, conduct rigorous
-              adversarial simulations, and contribute to the broader security community.
-            </motion.p>
-
-            <motion.div variants={itemVariants} className="pt-2">
-              <a
-                href="mailto:contact@deecrypt.com"
-                className="text-[#10B981] font-bold hover:bg-[#10B981]/10 px-4 py-2 rounded-md transition-all cursor-pointer inline-flex items-center gap-2"
+            {/* Block 5: Resume Download Action */}
+            <div className="mt-10 pt-6 border-t border-white/10 flex items-center justify-start pb-4">
+              <a 
+                href="/Onyedikachi_Bernard_Okoh_CV.pdf" 
+                target="_blank"
+                rel="noopener noreferrer"
+                download 
+                className="group relative inline-flex items-center gap-3 px-6 py-3 bg-[#10B981]/5 hover:bg-[#10B981]/15 border border-[#10B981]/30 hover:border-[#10B981]/60 rounded-md font-mono text-sm text-[#10B981] transition-all shadow-[0_0_15px_rgba(16,185,129,0.0)] hover:shadow-[0_0_20px_rgba(16,185,129,0.15)]"
               >
-                {">"} Initiate_Handshake
+                <svg className="w-4 h-4 group-hover:translate-y-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                <span>[Download_CV.pdf]</span>
               </a>
-            </motion.div>
-
-            <motion.div variants={itemVariants} className="pt-6 mt-4 border-t border-gray-300 dark:border-white/10 flex items-center justify-between text-xs text-slate-500 dark:text-white/40">
-              <span>Status: <span className="text-[#10B981] uppercase">Listen Mode Active</span></span>
-              <span className="text-slate-800 dark:text-white animate-pulse">_</span>
-            </motion.div>
-
+            </div>
           </div>
         </motion.div>
 

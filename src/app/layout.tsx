@@ -5,6 +5,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Providers } from "./Providers";
 import { Preloader } from "@/components/Preloader";
+import { TerminalProvider } from "@/context/TerminalContext";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -78,11 +79,14 @@ export default function RootLayout({
             <div className="absolute bottom-0 left-0 w-[50vw] h-[50vw] bg-radial-[at_0%_100%] from-emerald-100/30 to-transparent rounded-full blur-3xl opacity-100 dark:opacity-0 transition-opacity duration-700 pointer-events-none mix-blend-multiply" />
           </div>
 
-          <Navbar />
-          
-          <main className="flex-1 w-full max-w-5xl mx-auto px-4 sm:px-6 pt-32 pb-16 flex flex-col relative z-0">
-            {children}
-          </main>
+          {/* Wrap Navbar and Main in TerminalProvider */}
+          <TerminalProvider>
+            <Navbar />
+            {/* SPACING FIX APPLIED HERE */}
+            <main className="flex-1 w-full max-w-5xl mx-auto px-4 sm:px-6 pt-32 md:pt-40 lg:pt-48 pb-16 flex flex-col relative z-0">
+              {children}
+            </main>
+          </TerminalProvider>
 
           <Footer />
         </Providers>
