@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import { Terminal, Shield, Cpu, Github, ExternalLink, ChevronRight } from "lucide-react";
+import { Terminal, Github, ExternalLink, ChevronRight } from "lucide-react";
 import TerminalWindow from "./TerminalWindow";
 
 type Project = { title: string; url: string; category?: string };

@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import { useTerminal } from "@/context/TerminalContext";
 
 export function useSectionObserver(sectionName: string | null) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const ref = useRef<any>(null);
   const { setActiveSection } = useTerminal();
 

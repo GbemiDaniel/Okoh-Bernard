@@ -4,8 +4,9 @@ import { useEffect } from "react";
 import { useTerminal } from "@/context/TerminalContext";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowLeft, FileText, Settings, Code, ShieldCheck, Github } from "lucide-react";
+import { ArrowLeft, FileText, Settings, Code, ShieldCheck } from "lucide-react";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const projectDatabase: Record<string, any> = {
   "jwt-signature-validation": {
     title: "Bypassing JWT Authentication in Legacy API",

@@ -61,9 +61,9 @@ export function Navbar() {
   // The sequence for the top of the homepage
   const homeSequence = ["Welcome", "I'm Kachi", "Scroll for more "];
 
-  // NEW: Reset sequence when returning to the hero section (top of page)
   useEffect(() => {
     if (activeSection === null && pathname === "/") {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setHomeIndex(0);
     }
   }, [activeSection, pathname]);
@@ -172,6 +172,12 @@ export function Navbar() {
       document.documentElement.style.overflow = "";
     };
   }, [isOpen]);
+
+  // NEW: Automate closing of mobile menu on route change
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsOpen(false);
+  }, [pathname]);
 
   return (
     <header className="transition-all duration-500 ease-in-out z-50 fixed top-0 w-full flex justify-center pointer-events-none">

@@ -10,9 +10,11 @@ export function CyberParticles() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const particlesInit = useCallback(async (engine: any) => {
     await loadSlim(engine);
   }, []);

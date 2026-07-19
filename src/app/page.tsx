@@ -1,7 +1,7 @@
 "use client";
 
 import { TerminalSubtitle } from "@/components/TerminalSubtitle";
-import { SkillCard } from "@/components/SkillCard";
+import ArsenalSection from "@/components/ArsenalSection";
 import { FeaturedProjectCard } from "@/components/FeaturedProjectCard";
 import { ArticleBriefing } from "@/components/ArticleBriefing";
 import { CyberParticles } from "@/components/CyberParticles";
@@ -17,15 +17,6 @@ export default function Home() {
   const offensiveRef = useSectionObserver("Offensive Capabilities");
   const projectsRef = useSectionObserver("Featured Projects");
   const publicationsRef = useSectionObserver("Featured Publications");
-
-  const skills = [
-    { label: "Web & API Exploitation", progress: 95, tag: "PENTESTING", colorVariant: "offensive" as const },
-    { label: "AD & Network Exploitation", progress: 92, tag: "PENTESTING", colorVariant: "offensive" as const },
-    { label: "Identity & Access (IAM)", progress: 94, tag: "SEC-ENG", colorVariant: "defensive" as const },
-    { label: "Cloud & System Hardening", progress: 90, tag: "SEC-ENG", colorVariant: "defensive" as const },
-    { label: "SIEM & Sec Monitoring", progress: 88, tag: "SEC-ENG", colorVariant: "defensive" as const },
-    { label: "LLM Threat Modeling", progress: 85, tag: "AI-SEC", colorVariant: "standard" as const },
-  ];
 
   const featuredProjects = [
     {
@@ -104,117 +95,121 @@ export default function Home() {
     tap: { scale: 0.95, transition: { duration: 0.1 } }
   };
 
-  const iconVariants: Variants = {
-    hover: { x: 5, transition: { duration: 0.2 } }
-  };
-
   return (
     <div className="flex flex-col">
       {/* ===================== HERO ===================== */}
-      {/* Flex wrapper: robust vertical centering for mobile viewports */}
-      <div ref={heroRef} className="relative w-full min-h-[100dvh] flex flex-col items-center justify-center -mt-32 pt-20 pb-12 overflow-hidden">
-
+      <div ref={heroRef} className="relative w-full min-h-[100dvh] flex flex-col items-center justify-center -mt-32 pt-28 pb-12 overflow-hidden px-4 sm:px-6">
+        
         {/* Performant HTML5 Canvas Background */}
-        <CyberParticles />
+        <CyberParticles/>
 
-        {/* Inner Content Block — HUD style framing the entire available viewport */}
-        <div className="corner-brackets relative flex flex-col items-center justify-center text-center w-full max-w-4xl flex-1 gap-5 sm:gap-6 z-10 p-6 sm:p-10">
+        {/* The Dashboard Card Container */}
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="relative z-10 w-full max-w-4xl bg-[#030303]/80 backdrop-blur-2xl border border-gray-800 rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col"
+        >
+          {/* ================= METALLIC GLASS OVERLAYS ================= */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+            {/* The primary diagonal metallic cut */}
+            <div className="absolute top-0 left-0 w-[200%] h-[200%] origin-top-left -rotate-35 translate-y-[30%] -translate-x-[10%] bg-gradient-to-b from-white/[0.04] via-white/[0.01] to-transparent border-t border-white/[0.15] shadow-[inset_0_1px_15px_rgba(255,255,255,0.02)] backdrop-blur-md mix-blend-screen transition-transform duration-1000"></div>
+            {/* Secondary subtle shadow edge */}
+            <div className="absolute top-0 left-0 w-[200%] h-[200%] origin-top-left -rotate-35 translate-y-[30.2%] -translate-x-[10%] border-t border-black/50"></div>
+          </div>
 
-          {/* Hero Avatar */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-white/20 shadow-[0_0_35px_rgba(16,185,129,0.3)]"
-          >
-            <Image
-              src="/Palli-img 1.jpg"
-              alt="Okoh Bernard Onyedikachi Profile"
-              fill
-              className="object-cover object-top"
-              sizes="(max-width: 768px) 96px, 112px"
-              priority
-            />
-          </motion.div>
+          {/* ================= CONTENT LAYER ================= */}
+          {/* Adjusted padding for ultra-small screens (p-5 on mobile) */}
+          <div className="relative z-10 flex flex-col h-full w-full p-5 sm:p-10 gap-8 sm:gap-10">
+            
+            {/* TOP ROW: Identity & Comms */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative z-20 w-full">
+              
+              {/* Avatar & Name Group */}
+              <div className="flex flex-col md:flex-row items-start md:items-center gap-4 sm:gap-5 md:gap-8">
+                
+                {/* ID Badge Photo */}
+                <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 lg:w-36 lg:h-36 rounded-2xl md:rounded-3xl overflow-hidden border border-gray-700 shadow-[0_0_20px_rgba(16,185,129,0.15)] shrink-0 bg-[#0a0a0a] group/avatar">
+                  <Image alt="Okoh Bernard Onyedikachi Profile" className="object-cover object-top grayscale group-hover/avatar:grayscale-0 transition-all duration-700" fill priority sizes="(max-width: 768px) 80px, 144px" src="/Palli-img 1.jpg"/>
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#10B981]/10 to-transparent opacity-0 group-hover/avatar:opacity-100 transition-opacity duration-500 pointer-events-none mix-blend-overlay"></div>
+                </div>
 
-          {/* Main Heading */}
-          <h1 className="font-primary font-bold tracking-tight text-center text-4xl sm:text-5xl md:text-7xl w-full">
-            <span className="bg-gradient-to-b from-gray-900 to-gray-500 dark:from-white dark:via-gray-200 dark:to-gray-400 text-transparent bg-clip-text">
-              Okoh Bernard Onyedikachi
-            </span>
-          </h1>
+                {/* Identity Text - Scaled for S8 screens (text-lg) to prevent wrap/truncate */}
+                <div>
+                  <span className="text-[#10B981] font-mono text-[9px] sm:text-[10px] uppercase tracking-widest mb-1.5 sm:mb-2 flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse"></span>
+                    Clearance: Active
+                  </span>
+                  <h1 className="font-primary font-bold tracking-tight text-[1.1rem] xs:text-lg sm:text-2xl lg:text-3xl text-white leading-tight whitespace-nowrap">
+                    Okoh Bernard Onyedikachi
+                  </h1>
+                </div>
+              </div>
+              
+              {/* Circular Social Modules */}
+              <div className="flex items-center gap-3 shrink-0">
+                <a href="https://github.com/deecrypthub" target="_blank" rel="noopener noreferrer" className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-gray-700 bg-[#0a0a0a]/50 flex items-center justify-center text-gray-400 hover:text-white hover:border-[#10B981]/50 hover:bg-[#10B981]/10 transition-all shadow-sm">
+                  <Github className="w-4 h-4 sm:w-5 sm:h-5"/>
+                </a>
+                <a href="https://twitter.com/deecrypthub" target="_blank" rel="noopener noreferrer" className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-gray-700 bg-[#0a0a0a]/50 flex items-center justify-center text-gray-400 hover:text-white hover:border-[#10B981]/50 hover:bg-[#10B981]/10 transition-all shadow-sm">
+                  <Twitter className="w-4 h-4 sm:w-5 sm:h-5"/>
+                </a>
+                <a href="https://linkedin.com/in/deecrypthub" target="_blank" rel="noopener noreferrer" className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-gray-700 bg-[#0a0a0a]/50 flex items-center justify-center text-gray-400 hover:text-white hover:border-[#10B981]/50 hover:bg-[#10B981]/10 transition-all shadow-sm">
+                  <Linkedin className="w-4 h-4 sm:w-5 sm:h-5"/>
+                </a>
+              </div>
+            </div>
 
-          {/* Terminal Typewriter Subtitle */}
-          <TerminalSubtitle />
+            {/* MIDDLE ROW (Moved up): Integrated Terminal */}
+            <div className="bg-[#000000]/80 border border-gray-800 rounded-xl overflow-hidden shadow-[inset_0_2px_10px_rgba(0,0,0,0.5)] flex flex-col relative z-20 w-full mt-2 sm:mt-0">
+              {/* Terminal Header */}
+              <div className="flex items-center gap-2 px-3 sm:px-4 py-2.5 sm:py-3 border-b border-gray-800/80 bg-white/[0.02]">
+                <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#FF5F56] shadow-[0_0_5px_rgba(255,95,86,0.3)]"></div>
+                <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#FFBD2E] shadow-[0_0_5px_rgba(255,189,46,0.3)]"></div>
+                <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#27C93F] shadow-[0_0_5px_rgba(39,201,63,0.3)]"></div>
+                <span className="ml-2 sm:ml-3 text-gray-600 font-mono text-[9px] sm:text-[10px] uppercase tracking-wider">root@system:~# protocol_init</span>
+              </div>
+              
+              {/* Terminal Body */}
+              <div className="p-4 sm:p-6 min-h-[100px] sm:min-h-[120px] flex items-center bg-black/40">
+                <TerminalSubtitle/>
+              </div>
+            </div>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-4 sm:gap-5 w-full max-w-md mx-auto sm:max-w-none">
-            <Link href="/projects" className="w-full sm:w-auto outline-none block group">
-              <motion.div
-                variants={buttonVariants}
-                whileHover="hover"
-                whileTap="tap"
-                className="px-8 py-3 rounded-full bg-accent-mint text-base-dark font-primary font-bold shadow-[0_0_20px_rgba(45,212,191,0.4)] flex items-center justify-center gap-2 w-full sm:w-auto cursor-pointer"
-              >
-                View Write-ups
-                <motion.div variants={iconVariants}>
-                  <ArrowRight className="w-4 h-4" />
+            {/* BOTTOM ROW (Moved down): Actionable Buttons */}
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 relative z-20 w-full md:w-max">
+              <Link className="w-full sm:w-auto outline-none" href="/certifications">
+                <motion.div
+                  variants={buttonVariants}
+                  whileHover="hover"
+                  whileTap="tap"
+                  className="px-6 sm:px-8 py-3 sm:py-3.5 rounded-lg bg-[#10B981] hover:bg-[#0ea5e9] text-black font-mono font-bold flex items-center justify-center gap-2 transition-colors shadow-[0_0_15px_rgba(16,185,129,0.2)] text-sm sm:text-base"
+                >
+                  <Terminal className="w-4 h-4"/>
+                  View Credentials
                 </motion.div>
-              </motion.div>
-            </Link>
+              </Link>
 
-            <Link href="/certifications" className="w-full sm:w-auto outline-none block">
-              <motion.div
-                variants={buttonVariants}
-                whileHover="hover"
-                whileTap="tap"
-                className="px-8 py-3 rounded-full backdrop-blur-md bg-white/30 dark:bg-white/5 border border-gray-900 text-gray-900 hover:bg-white/60 dark:border-white/10 dark:text-white dark:hover:bg-white/10 font-primary font-medium flex items-center justify-center gap-2 transition-colors w-full sm:w-auto shadow-sm cursor-pointer"
-              >
-                <Terminal className="w-4 h-4 text-gray-900 dark:text-white/70" />
-                View Credentials
-              </motion.div>
-            </Link>
-          </div>
+              <Link className="w-full sm:w-auto outline-none group/btn" href="/projects">
+                <motion.div
+                  variants={buttonVariants}
+                  whileHover="hover"
+                  whileTap="tap"
+                  className="px-6 sm:px-8 py-3 sm:py-3.5 rounded-lg border border-gray-600 bg-black/40 text-gray-300 hover:text-white hover:border-gray-400 font-mono font-medium flex items-center justify-center gap-2 transition-all backdrop-blur-sm text-sm sm:text-base"
+                >
+                  View Arsenal
+                  <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform"/>
+                </motion.div>
+              </Link>
+            </div>
 
-          {/* Social Links */}
-          <div className="flex items-center justify-center gap-6">
-            <a href="https://github.com/deecrypthub" target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors duration-300">
-              <Github className="w-5 h-5 sm:w-6 sm:h-6" />
-            </a>
-            <a href="https://twitter.com/deecrypthub" target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors duration-300">
-              <Twitter className="w-5 h-5 sm:w-6 sm:h-6" />
-            </a>
-            <a href="https://linkedin.com/in/deecrypthub" target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors duration-300">
-              <Linkedin className="w-5 h-5 sm:w-6 sm:h-6" />
-            </a>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       {/* ===================== SKILLS GRID ===================== */}
-      <div ref={offensiveRef} className="w-full py-24">
-        <section className="flex flex-col gap-12 w-full max-w-6xl mx-auto">
-          <div className="flex flex-col gap-2 items-center text-center">
-            <h2 className="font-primary text-3xl font-bold text-gray-900 dark:text-white">
-              Offensive Capabilities
-            </h2>
-            <p className="font-secondary text-sm text-gray-600 dark:text-gray-400">
-              // Core technical proficiencies and primary toolsets
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 w-full">
-            {skills.map((skill, index) => (
-              <SkillCard
-                key={skill.label}
-                label={skill.label}
-                progress={skill.progress}
-                tag={skill.tag}
-                colorVariant={skill.colorVariant}
-                delay={index * 0.1}
-              />
-            ))}
-          </div>
-        </section>
+      <div ref={offensiveRef} className="w-full">
+        <ArsenalSection />
       </div>
 
       {/* ===================== FEATURED PROJECTS ===================== */}
@@ -252,7 +247,7 @@ export default function Home() {
       </div>
 
       {/* ===================== PUBLICATIONS ===================== */}
-      <section ref={publicationsRef} className="w-full max-w-5xl mx-auto mt-32 mb-24">
+      <section ref={publicationsRef} className="w-full max-w-4xl mx-auto mt-32 mb-24">
         <h2 className="text-3xl font-bold text-white mb-2 text-center">Featured Publications</h2>
         <p className="text-gray-400 text-sm mb-12 text-center">Technical write-ups on architecture, threat modeling, and defensive engineering.</p>
         
