@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <!-- Outer Shield -->
+  <path d="M256 64L112 128V256C112 358.4 256 448 256 448C256 448 400 358.4 400 256V128L256 64Z" 
+        stroke="#10B981" stroke-width="36" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Inner Terminal Bracket (>) -->
+  <path d="M208 192L272 256L208 320" 
+        stroke="#10B981" stroke-width="36" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Inner Terminal Underscore (_) -->
+  <path d="M288 320H320" 
+        stroke="#10B981" stroke-width="36" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

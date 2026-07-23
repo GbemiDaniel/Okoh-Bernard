@@ -2,6 +2,7 @@
 import { motion } from "framer-motion";
 import { Terminal, Github, ExternalLink, ChevronRight } from "lucide-react";
 import TerminalWindow from "./TerminalWindow";
+import { useSectionObserver } from "@/hooks/useSectionObserver";
 
 type Project = { title: string; url: string; category?: string };
 type SkillGroup = { category: string; items: string[] };
@@ -14,8 +15,10 @@ type ExpertiseData = {
 };
 
 export default function ExpertiseTemplate({ data }: { data: ExpertiseData }) {
+  const sectionRef = useSectionObserver("Expertise / " + data.title);
+
   return (
-    <div className="pb-20"> {/* Removed pt-*, px-*, and max-w classes to defer to layout.tsx */}
+    <div ref={sectionRef} className="pb-20 pt-28 md:pt-32 w-full max-w-5xl mx-auto px-4 sm:px-6 md:px-8"> {/* Adjusted to include standard padding and max-w since layout doesn't have it anymore */}
       
       {/* Header - Scaled Typography */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8 md:mb-10">
@@ -29,7 +32,7 @@ export default function ExpertiseTemplate({ data }: { data: ExpertiseData }) {
       </motion.div>
 
       {/* Summary Section */}
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mb-12 md:mb-16">
+      <motion.div id="overview" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mb-12 md:mb-16">
         <TerminalWindow title="Professional Summary">
           {data.summary.map((paragraph, idx) => (
             <p key={idx}>{paragraph}</p>
@@ -39,7 +42,7 @@ export default function ExpertiseTemplate({ data }: { data: ExpertiseData }) {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
         {/* Skills Column */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="lg:col-span-5">
+        <motion.div id="core-skills" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="lg:col-span-5">
           <h2 className="text-lg md:text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
             <Terminal className="w-5 h-5 text-[#10B981]"/> Core Skills & Tools
           </h2>
@@ -60,7 +63,7 @@ export default function ExpertiseTemplate({ data }: { data: ExpertiseData }) {
         </motion.div>
 
         {/* Projects Column */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="lg:col-span-7">
+        <motion.div id="featured-projects" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="lg:col-span-7">
           <h2 className="text-lg md:text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
             <ExternalLink className="w-5 h-5 text-[#10B981]"/> Featured Projects
           </h2>
@@ -71,7 +74,7 @@ export default function ExpertiseTemplate({ data }: { data: ExpertiseData }) {
                 href={project.url} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="group flex flex-col sm:flex-row sm:items-center justify-between p-4 md:p-5 rounded-xl bg-gray-50 dark:bg-white/[0.02] border border-gray-200 dark:border-white/10 hover:border-[#10B981]/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(16,185,129,0.05)]"
+                className="group flex flex-col sm:flex-row sm:items-center justify-between p-4 md:p-5 rounded-xl bg-gray-50 dark:bg-white/2 border border-gray-200 dark:border-white/10 hover:border-[#10B981]/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(16,185,129,0.05)]"
               >
                 <div className="flex flex-col gap-1 mb-3 sm:mb-0">
                   <span className="text-[10px] md:text-xs font-mono text-[#10B981]">{project.category || 'Documentation'}</span>

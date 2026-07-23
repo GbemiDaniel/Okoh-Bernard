@@ -4,7 +4,7 @@ import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Providers } from "./Providers";
-import { Preloader } from "@/components/Preloader";
+import { PremiumLoader } from "@/components/PremiumLoader";
 import { TerminalProvider } from "@/context/TerminalContext";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -28,6 +28,10 @@ export const metadata: Metadata = {
   keywords: ["Okoh Bernard", "Pentester", "Security Researcher", "Cybersecurity Portfolio", "Offensive Security", "Ethical Hacking", "Bernard Onyedikachi"],
   authors: [{ name: "Okoh Bernard Onyedikachi" }],
   creator: "Okoh Bernard Onyedikachi",
+  icons: {
+    icon: '/icon.svg',
+    apple: '/apple-icon.png',
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -68,7 +72,7 @@ export default function RootLayout({
       >
         <Providers attribute="class" defaultTheme="dark" enableSystem={false}>
           {/* Preloader overlay handles transition into the site */}
-          <Preloader />
+          <PremiumLoader />
 
           {/* Ambient Background Glows */}
           <div className="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
@@ -83,7 +87,7 @@ export default function RootLayout({
           <TerminalProvider>
             <Navbar />
             {/* SPACING FIX APPLIED HERE */}
-            <main className="flex-1 w-full max-w-5xl mx-auto px-4 sm:px-6 pt-32 md:pt-40 lg:pt-48 pb-16 flex flex-col relative z-0">
+            <main className="flex-1 w-full flex flex-col relative z-0">
               {children}
             </main>
           </TerminalProvider>

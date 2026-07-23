@@ -32,7 +32,7 @@ export default function AboutPage() {
   const Prefix = () => <span className="text-[#10B981] font-bold mr-2">[root@core]~$</span>;
 
   return (
-    <div className="w-full flex flex-col items-center justify-center">
+    <div className="w-full flex flex-col items-center justify-center px-4 sm:px-6 md:px-8 pt-28 md:pt-32">
 
       {/* Bulletproof CSS Grid — minmax() protects the image column from squishing */}
       <div className="grid grid-cols-1 md:grid-cols-[minmax(300px,1fr)_2fr] gap-8 md:gap-12 w-full max-w-6xl mx-auto z-10 min-h-[70vh] items-stretch">
@@ -42,7 +42,7 @@ export default function AboutPage() {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
-          className="relative w-full h-full min-h-[300px] md:h-auto rounded-2xl overflow-hidden border border-gray-200 dark:border-white/10 shadow-2xl bg-white/70 dark:bg-white/5 backdrop-blur-md"
+          className="relative w-full h-full min-h-75 md:h-auto rounded-2xl overflow-hidden border border-gray-200 dark:border-white/10 shadow-2xl bg-white/70 dark:bg-white/5 backdrop-blur-md"
         >
           {/* Tech overlay badge */}
           <div className="absolute top-3 left-3 px-2 py-0.5 text-[10px] font-secondary text-[#10B981] bg-[#10B981]/10 rounded border border-[#10B981]/20 z-10">
@@ -64,10 +64,10 @@ export default function AboutPage() {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="relative flex flex-col w-full h-full max-h-[650px] sm:max-h-[750px] bg-[#0A0A0A] border border-white/10 rounded-xl overflow-hidden shadow-2xl"
+          className="relative flex flex-col w-full h-full max-h-162.5 sm:max-h-187.5 bg-[#0A0A0A] border border-white/10 rounded-xl overflow-hidden shadow-2xl"
         >
           {/* Sticky Terminal Header */}
-          <div className="flex items-center gap-2 px-4 py-4 bg-white/[0.02] border-b border-white/10 z-10 sticky top-0">
+          <div className="flex items-center gap-2 px-4 py-4 bg-white/2 border-b border-white/10 z-10 sticky top-0">
             <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
             <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
             <div className="w-3 h-3 rounded-full bg-[#10B981]/80"></div>

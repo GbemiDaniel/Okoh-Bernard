@@ -1,6 +1,9 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -30,8 +33,8 @@ const config: Config = {
       },
       keyframes: {
         "ping-pong": {
-          "0%, 100%": { transform: "translateX(0)" },
-          "50%": { transform: "translateX(-25px)" },
+          "0%, 100%": { transform: "translateX(5%)" },
+          "50%": { transform: "translateX(-15%)" },
         }
       },
       animation: {

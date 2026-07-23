@@ -45,9 +45,9 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   // Check if current path belongs to the Expertise category
-  const isExpertiseActive = 
-    pathname === '/security-engineering' || 
-    pathname === '/penetration-testing' || 
+  const isExpertiseActive =
+    pathname === '/security-engineering' ||
+    pathname === '/penetration-testing' ||
     pathname === '/ai-security';
   const [isScrolled, setIsScrolled] = useState(false);
   const [isExpertiseOpen, setIsExpertiseOpen] = useState(false);
@@ -57,7 +57,7 @@ export function Navbar() {
   const [displayText, setDisplayText] = useState("");
   const [homeIndex, setHomeIndex] = useState(0);
   const textRef = useRef<HTMLSpanElement>(null);
-  
+
   // The sequence for the top of the homepage
   const homeSequence = ["Welcome", "I'm Kachi", "Scroll for more "];
 
@@ -67,11 +67,11 @@ export function Navbar() {
       setHomeIndex(0);
     }
   }, [activeSection, pathname]);
-  
+
   // 1. Determine the ultimate target string based on hierarchy
   let targetText = "";
   if (activeSection) {
-    targetText = activeSection; 
+    targetText = activeSection;
   } else if (pathname !== "/") {
     targetText = pathname.replace("/", "");
   } else {
@@ -85,24 +85,24 @@ export function Navbar() {
 
     // Condition A: We have reached the exact target text
     if (displayText === targetText) {
-       // If we are doing the homepage intro sequence and haven't finished, queue the next word
-       if (!activeSection && pathname === "/" && homeIndex < homeSequence.length - 1) {
-          timer = setTimeout(() => {
-             setHomeIndex(prev => prev + 1);
-          }, 1500); // Pause for 1.5s so the user can read it before deleting
-       }
-       return () => clearTimeout(timer);
+      // If we are doing the homepage intro sequence and haven't finished, queue the next word
+      if (!activeSection && pathname === "/" && homeIndex < homeSequence.length - 1) {
+        timer = setTimeout(() => {
+          setHomeIndex(prev => prev + 1);
+        }, 1500); // Pause for 1.5s so the user can read it before deleting
+      }
+      return () => clearTimeout(timer);
     }
 
     // Condition B: Transition Logic with Dynamic Speeds
     const isPrefix = targetText.startsWith(displayText);
-    
+
     // Is this the slow intro sequence?
     const isIntro = !activeSection && pathname === "/";
-    
+
     // Intro sequence needs authentic slow typing. Everything else (scrolling) goes into overdrive.
-    const typeSpeed = isIntro ? 70 : 25;       
-    const backspaceSpeed = isIntro ? 35 : 10;  
+    const typeSpeed = isIntro ? 70 : 25;
+    const backspaceSpeed = isIntro ? 35 : 10;
 
     if (isPrefix) {
       // Only type if we haven't reached the target
@@ -130,7 +130,7 @@ export function Navbar() {
         // Measure against the parent container's width instead of the span's width
         const clientWidth = textRef.current.parentElement?.clientWidth || textRef.current.clientWidth;
         const overflow = scrollWidth - clientWidth;
-        
+
         if (overflow > 0) {
           // It's too long! Set the slide distance and trigger the animation
           textRef.current.style.setProperty('--overflow-distance', `-${overflow}px`);
@@ -180,7 +180,7 @@ export function Navbar() {
   }, [pathname]);
 
   return (
-    <header className="transition-all duration-500 ease-in-out z-50 fixed top-0 w-full flex justify-center pointer-events-none">
+    <header className="z-50 fixed top-0 w-full flex justify-center pointer-events-none">
       <nav
         className={`pointer-events-auto flex items-center justify-between transition-all duration-500 ease-in-out relative z-50 ${isScrolled
           ? "backdrop-blur-md bg-white/90 dark:bg-black/60 border border-gray-200 dark:border-white/10 rounded-full py-3 px-6 md:px-8 lg:px-10 mt-4 w-[96%] max-w-6xl shadow-lg"
@@ -189,22 +189,22 @@ export function Navbar() {
       >
         {/* MAIN CONTAINER */}
         <div className="w-full flex items-center justify-between">
-          
+
           {/* =========================================
               LEFT SIDE: Terminal + Separator
               ========================================= */}
-          <div className="flex items-center flex-shrink-0">
+          <div className="flex items-center shrink-0">
             <Link className="relative z-50 flex items-center group" href="/" onClick={() => setIsOpen(false)}>
-              
+
               {/* THE RIGID PARKING SPACE: Protects the right-side layout from shifting */}
-              <div className="flex items-center w-[150px] sm:w-[180px] md:w-[210px] lg:w-[240px]">
-                
+              <div className="flex items-center w-37.5 sm:w-45 md:w-52.5 lg:w-60">
+
                 {/* THE FLEX GROUP: Logo, Text, and Cursor hug each other naturally */}
                 <div className="flex items-center max-w-full gap-1.5 font-mono text-xs sm:text-sm font-medium text-[#10B981] tracking-wide">
                   <Terminal className="w-5 h-5 text-[#10B981] shrink-0 group-hover:scale-110 transition-transform duration-200" />
-                  
+
                   {/* THE MASK: Grows with text, but shrinks if it hits the rigid boundary */}
-                  <div className="overflow-hidden relative flex-shrink min-w-0">
+                  <div className="overflow-hidden relative shrink min-w-0">
                     <span
                       ref={textRef}
                       className="text-gray-700 dark:text-gray-300 whitespace-nowrap inline-block transition-opacity duration-300"
@@ -212,22 +212,22 @@ export function Navbar() {
                       {displayText}
                     </span>
                   </div>
-                  
-                  <span className="w-[2px] h-[1.1em] bg-[#10B981] animate-blink block flex-shrink-0 opacity-80"></span>
+
+                  <span className="w-0.5 h-[1.1em] bg-[#10B981] animate-blink block shrink-0 opacity-80"></span>
                 </div>
-                
+
               </div>
             </Link>
 
             {/* VISUAL SEPARATOR: Properly spaced from the terminal and the nav links */}
-            <div className="hidden lg:block w-[1px] h-5 bg-gray-300 dark:bg-white/20 ml-5 mr-2 lg:ml-8 lg:mr-4 flex-shrink-0"></div>
+            <div className="hidden lg:block w-px h-5 bg-gray-300 dark:bg-white/20 ml-5 mr-2 lg:ml-8 lg:mr-4 shrink-0"></div>
           </div>
 
           {/* =========================================
               RIGHT SIDE: Navlinks + Partition + Toggle
               ========================================= */}
-          <div className="flex items-center justify-end flex-shrink-0">
-            
+          <div className="flex items-center justify-end shrink-0">
+
             {/* Desktop Nav */}
             <div className="hidden lg:flex items-center gap-4 xl:gap-6">
               <ul className="flex items-center gap-5 xl:gap-7">
@@ -235,16 +235,15 @@ export function Navbar() {
                   <li key={item.label || item.href} className="relative group">
                     {item.subLinks ? (
                       <>
-                        <span className={`cursor-default flex items-center gap-1 whitespace-nowrap font-secondary text-sm transition-colors duration-200 py-2 ${
-                          isExpertiseActive 
-                            ? 'text-[#10B981] font-semibold' 
+                        <span className={`cursor-default flex items-center gap-1 whitespace-nowrap font-secondary text-sm transition-all duration-200 py-2 active:scale-95 ${isExpertiseActive
+                            ? 'text-[#10B981] font-semibold'
                             : 'text-gray-800 dark:text-gray-300 hover:text-[#10B981] dark:hover:text-[#10B981]'
-                        }`}>
+                          }`}>
                           {item.label.replace(' ▾', '')}
                           <ChevronDown className="w-3 h-3 group-hover:rotate-180 transition-transform duration-200" />
                         </span>
                         <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                          <div className="backdrop-blur-xl bg-white/95 dark:bg-[#0A0A0A]/90 border border-gray-200 dark:border-white/10 rounded-xl p-2 flex flex-col gap-1 min-w-[200px] shadow-2xl">
+                          <div className="backdrop-blur-xl bg-white/95 dark:bg-[#0A0A0A]/90 border border-gray-200 dark:border-white/10 rounded-xl p-2 flex flex-col gap-1 min-w-50 shadow-2xl">
                             {item.subLinks.map(subItem => (
                               <Link
                                 key={subItem.href}
@@ -277,20 +276,20 @@ export function Navbar() {
             </div>
 
             {/* Stylish Vertical Divider (Partition for Toggle) */}
-            <div className="hidden lg:block w-[1px] h-5 bg-gray-300 dark:bg-white/10 mx-4 lg:mx-6 flex-shrink-0"></div>
+            <div className="hidden lg:block w-px h-5 bg-gray-300 dark:bg-white/10 mx-4 lg:mx-6 shrink-0"></div>
 
             {/* Theme Toggle / Mobile Hamburger Menu */}
-            <div className="flex items-center gap-2 flex-shrink-0">
+            <div className="flex items-center gap-2 shrink-0">
               <ThemeToggle />
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex lg:hidden flex-shrink-0 items-center justify-center p-2 w-12 h-12 text-gray-800 dark:text-white/80 hover:text-[#10B981] dark:hover:text-[#10B981] transition-all duration-200 active:scale-90"
+                className="flex lg:hidden shrink-0 items-center justify-center p-2 w-12 h-12 text-gray-800 dark:text-white/80 hover:text-[#10B981] dark:hover:text-[#10B981] transition-all duration-200 active:scale-95"
                 aria-label="Toggle mobile menu"
               >
                 {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
             </div>
-            
+
           </div>
         </div>
       </nav>
@@ -303,7 +302,7 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="fixed inset-0 top-[4.5rem] z-40 bg-white/95 dark:bg-black/90 backdrop-blur-xl h-[100dvh] flex flex-col pt-8 px-6 lg:hidden pointer-events-auto overflow-y-auto pb-32"
+            className="fixed inset-0 top-18 z-40 bg-white/95 dark:bg-black/90 backdrop-blur-xl h-dvh flex flex-col pt-8 px-6 lg:hidden pointer-events-auto overflow-y-auto pb-32"
           >
             <motion.ul
               variants={containerVariants}
@@ -317,11 +316,10 @@ export function Navbar() {
                     <div className="flex flex-col gap-1 w-full">
                       <button
                         onClick={() => setIsExpertiseOpen(!isExpertiseOpen)}
-                        className={`flex items-center justify-start gap-2 w-full py-4 px-4 font-secondary text-base transition-all duration-150 rounded-xl ${
-                          isExpertiseActive 
-                            ? 'text-[#10B981] font-semibold bg-accent-mint/10' 
+                        className={`flex items-center justify-start gap-2 w-full py-4 px-4 font-secondary text-base transition-all duration-150 rounded-xl active:scale-[0.98] ${isExpertiseActive
+                            ? 'text-[#10B981] font-semibold bg-accent-mint/10'
                             : 'text-gray-800 dark:text-white/70 hover:bg-gray-100 dark:hover:bg-white/5'
-                        }`}
+                          }`}
                       >
                         <span>{item.label.replace(' ▾', '')}</span>
                         <ChevronDown className={`w-4 h-4 text-[#10B981] transition-transform duration-200 ${isExpertiseOpen ? 'rotate-180' : ''}`} />

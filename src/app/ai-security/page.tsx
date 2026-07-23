@@ -1,11 +1,13 @@
-"use client";
+import { Metadata } from "next";
 import ExpertiseTemplate from "@/components/ExpertiseTemplate";
 import { Cpu } from "lucide-react";
-import { useSectionObserver } from "@/hooks/useSectionObserver";
+
+export const metadata: Metadata = {
+  title: "AI Security Portfolio | Okoh Bernard Onyedikachi",
+  description: "Specialized expertise in AI Security, LLM Threat Modeling, and Model Compromise Assessment.",
+};
 
 export default function AISecurityPage() {
-  const heroRef = useSectionObserver("Expertise / AI Security");
-
   const data = {
     title: "AI Security",
     icon: <Cpu className="w-5 h-5" />,
@@ -26,8 +28,8 @@ export default function AISecurityPage() {
   };
 
   return (
-    <div ref={heroRef}>
+    <main>
       <ExpertiseTemplate data={data} />
-    </div>
+    </main>
   );
 }

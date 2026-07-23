@@ -71,7 +71,7 @@ export default function BlogDirectory() {
   }, [searchQuery, activeCategory, posts]);
 
   return (
-    <main className="flex flex-col w-full max-w-5xl mx-auto px-4 sm:px-6 md:px-8 pt-6 sm:pt-8 pb-16">
+    <main className="flex flex-col w-full max-w-5xl mx-auto px-4 sm:px-6 md:px-8 pt-28 md:pt-32 pb-16">
       
       {/* HEADER */}
       <section className="mb-8 border-b border-gray-200 dark:border-gray-800 pb-6">
@@ -90,7 +90,7 @@ export default function BlogDirectory() {
         <div className="relative w-full md:max-w-2xl -mx-4 px-4 md:mx-0 md:px-0">
           
           {/* Right Edge Scroll Shadow (Mobile Only) */}
-          <div className="absolute right-0 top-0 bottom-0 w-12 sm:w-16 bg-gradient-to-l from-white dark:from-[#050505] to-transparent pointer-events-none z-10 md:hidden"></div>
+          <div className="absolute right-0 top-0 bottom-0 w-12 sm:w-16 bg-linear-to-l from-white dark:from-[#050505] to-transparent pointer-events-none z-10 md:hidden"></div>
 
           {/* Scrollable Track */}
           <div className="flex items-center gap-3 overflow-x-auto whitespace-nowrap pb-4 md:pb-0 scrollbar-hide snap-x snap-mandatory pr-12 md:pr-0">
@@ -98,10 +98,10 @@ export default function BlogDirectory() {
               <button
                 key={category}
                 onClick={() => setActiveCategory(category)}
-                className={`flex-shrink-0 snap-start px-4 py-2 rounded-full text-xs sm:text-sm font-secondary transition-all duration-300 border ${
+                className={`shrink-0 snap-start px-4 py-2 rounded-full text-xs sm:text-sm font-secondary transition-all duration-300 border active:scale-95 ${
                   activeCategory === category
                     ? "bg-[#10B981]/10 border-[#10B981]/30 text-[#10B981]"
-                    : "bg-gray-100 dark:bg-white/[0.03] border-transparent text-gray-600 dark:text-gray-400 hover:border-gray-300 dark:hover:border-white/10 hover:text-gray-900 dark:hover:text-gray-200"
+                    : "bg-gray-100 dark:bg-white/3 border-transparent text-gray-600 dark:text-gray-400 hover:border-gray-300 dark:hover:border-white/10 hover:text-gray-900 dark:hover:text-gray-200"
                 }`}
               >
                 {category}
@@ -111,7 +111,7 @@ export default function BlogDirectory() {
         </div>
 
         {/* Search Bar */}
-        <div className="relative w-full md:w-72 flex-shrink-0">
+        <div className="relative w-full md:w-72 shrink-0">
           <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500"/>
           <input
             type="text"
@@ -152,7 +152,7 @@ export default function BlogDirectory() {
               <h3 className="text-lg sm:text-xl font-sans font-semibold text-gray-900 dark:text-gray-100 group-hover:text-[#10B981] transition-colors leading-snug mb-2 sm:mb-3">
                 {post.title}
               </h3>
-              <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm leading-relaxed mb-6 sm:mb-8 flex-grow">
+              <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm leading-relaxed mb-6 sm:mb-8 grow">
                 {post.excerpt}
               </p>
               

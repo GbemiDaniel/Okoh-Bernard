@@ -55,7 +55,7 @@ export function FeaturedProjectCard({
         whileHover="hover"
         whileTap="tap"
         viewport={{ once: true, margin: "-50px" }}
-        className="p-5 md:p-6 rounded-xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors duration-300 relative overflow-hidden flex flex-col h-full hover:border-[#10B981]/50"
+        className="p-5 md:p-6 rounded-xl border border-white/5 bg-white/2 hover:bg-white/4 transition-colors duration-300 relative overflow-hidden flex flex-col h-full hover:border-[#10B981]/50"
       >
         {/* Top Row: Cyber Pill Tag */}
         <div className="flex justify-between items-start w-full mb-4">

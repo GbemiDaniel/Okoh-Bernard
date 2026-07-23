@@ -1,11 +1,13 @@
-"use client";
+import { Metadata } from "next";
 import ExpertiseTemplate from "@/components/ExpertiseTemplate";
 import { Terminal } from "lucide-react";
-import { useSectionObserver } from "@/hooks/useSectionObserver";
+
+export const metadata: Metadata = {
+  title: "Penetration Testing Portfolio | Okoh Bernard Onyedikachi",
+  description: "Specialized expertise in Penetration Testing, Web Application Security, and Vulnerability Assessment.",
+};
 
 export default function PenetrationTestingPage() {
-  const heroRef = useSectionObserver("Expertise / Penetration Testing");
-
   const data = {
     title: "Penetration Testing",
     icon: <Terminal className="w-5 h-5" />,
@@ -29,8 +31,8 @@ export default function PenetrationTestingPage() {
   };
 
   return (
-    <div ref={heroRef}>
+    <main>
       <ExpertiseTemplate data={data} />
-    </div>
+    </main>
   );
 }

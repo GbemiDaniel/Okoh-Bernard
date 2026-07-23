@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 
 export function TerminalSubtitle() {
   const [text, setText] = useState("");
-  const fullText = "> Security Analyst | Pentester & Security Researcher";
+  const fullText = "> Security Engineer | Penetration Tester | AI Security Engineer";
 
   useEffect(() => {
     let currentIndex = 0;
@@ -21,8 +21,8 @@ export function TerminalSubtitle() {
   }, []);
 
   return (
-    <div className="font-secondary text-sm sm:text-base md:text-lg flex flex-col items-center justify-center text-center w-full max-w-lg mx-auto px-4 sm:px-0 min-h-[4rem] md:min-h-[2rem]">
-      <div className="text-center w-auto max-w-full break-words whitespace-pre-wrap leading-relaxed inline">
+    <div className="font-secondary text-sm sm:text-base md:text-lg flex flex-col items-center justify-center text-center w-full max-w-lg mx-auto px-4 sm:px-0 min-h-16 md:min-h-8">
+      <div className="text-center w-auto max-w-full wrap-break-word whitespace-pre-wrap leading-relaxed inline">
         <span className="text-slate-800 dark:text-slate-300 font-medium inline">
           {text.startsWith(">") ? <span className="text-[#10B981]">{">"}</span> : null}
           {text.startsWith(">") ? text.slice(1) : text}

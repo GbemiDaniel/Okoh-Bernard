@@ -17,7 +17,7 @@ export function ArticleBriefing({ title, description, link, date, category, colo
     <div className="pb-12 mb-12 border-b border-white/5 last:border-0 last:pb-0 last:mb-0 group">
       
       {/* Metadata Bar - Stretched Full Width */}
-      <div className="flex flex-row border border-white/10 rounded-lg overflow-hidden font-mono text-[10px] sm:text-xs mb-6 w-full bg-white/[0.01]">
+      <div className="flex flex-row border border-white/10 rounded-lg overflow-hidden font-mono text-[10px] sm:text-xs mb-6 w-full bg-white/1">
         
         {/* Box 1: Published */}
         <div className="px-3 sm:px-4 py-2 sm:py-3 border-r border-white/10 flex-1">

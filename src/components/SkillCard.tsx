@@ -48,7 +48,7 @@ export function SkillCard({ label, progress, tag, colorVariant = 'standard', del
       whileHover="hover"
       whileTap="tap"
       viewport={{ once: true, margin: "-50px" }}
-      className={`p-5 md:p-6 rounded-xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] ${globalTheme.colors.primary.borderHover} transition-colors duration-300 relative overflow-hidden flex flex-col w-full`}
+      className={`p-5 md:p-6 rounded-xl border border-white/5 bg-white/2 hover:bg-white/4 ${globalTheme.colors.primary.borderHover} transition-colors duration-300 relative overflow-hidden flex flex-col w-full`}
     >
       {/* Top Row: Title (No Wrapping, No Ellipsis) */}
       <motion.span 

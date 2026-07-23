@@ -50,7 +50,7 @@ export default function ArsenalSection() {
   };
 
   return (
-    <section className="w-full max-w-5xl mx-auto py-16 sm:py-24 flex flex-col gap-8 sm:gap-12 font-sans relative">
+    <section className="w-full max-w-5xl mx-auto px-4 sm:px-6 md:px-8 py-16 sm:py-24 flex flex-col gap-8 sm:gap-12 font-sans relative">
       
       {/* CENTERED HEADER & TOGGLE */}
       <div className="flex flex-col items-center text-center gap-6 border-b border-gray-800 pb-10">
@@ -153,7 +153,7 @@ export default function ArsenalSection() {
         </div>
 
         {/* Right: Interactive Terminal Display */}
-        <div className="col-span-7 bg-[#050505] border border-gray-800/80 rounded-2xl p-8 flex flex-col h-full min-h-[300px] shadow-2xl relative overflow-hidden">
+        <div className="col-span-7 bg-[#050505] border border-gray-800/80 rounded-2xl p-8 flex flex-col h-full min-h-75 shadow-2xl relative overflow-hidden">
           
           {/* Animated Terminal Header */}
           <div className="flex items-center gap-2 mb-6 border-b border-gray-800/50 pb-4">
@@ -166,7 +166,7 @@ export default function ArsenalSection() {
           </div>
           
           {/* Terminal Output */}
-          <div className="flex-grow flex flex-col justify-center font-mono">
+          <div className="grow flex flex-col justify-center font-mono">
             <p className="text-[#10B981] text-base leading-relaxed mb-6">
               <span className="text-gray-500 mr-2">&gt;</span> {displayCap.desc}
             </p>

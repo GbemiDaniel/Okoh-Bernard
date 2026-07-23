@@ -1,11 +1,13 @@
-"use client";
+import { Metadata } from "next";
 import ExpertiseTemplate from "@/components/ExpertiseTemplate";
 import { Shield } from "lucide-react";
-import { useSectionObserver } from "@/hooks/useSectionObserver";
+
+export const metadata: Metadata = {
+  title: "Security Engineering Portfolio | Okoh Bernard Onyedikachi",
+  description: "Specialized expertise in Security Architecture, DevSecOps, and Cloud Security.",
+};
 
 export default function SecurityEngineeringPage() {
-  const heroRef = useSectionObserver("Expertise / Security Engineering");
-
   const data = {
     title: "Security Engineering",
     icon: <Shield className="w-5 h-5" />,
@@ -30,8 +32,8 @@ export default function SecurityEngineeringPage() {
   };
 
   return (
-    <div ref={heroRef}>
+    <main>
       <ExpertiseTemplate data={data} />
-    </div>
+    </main>
   );
 }

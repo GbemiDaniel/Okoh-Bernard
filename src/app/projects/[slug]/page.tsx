@@ -5,6 +5,7 @@ import { useTerminal } from "@/context/TerminalContext";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowLeft, FileText, Settings, Code, ShieldCheck } from "lucide-react";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const projectDatabase: Record<string, any> = {
@@ -47,14 +48,14 @@ export default function ProjectCaseStudy() {
   }, [setActiveSection, project.title]);
 
   return (
-    <div className="pb-20 max-w-3xl mx-auto font-secondary"> {/* Removed pt-*, px-* to defer to global layout, kept max-w-3xl for reading length */}
+    <div className="pt-28 md:pt-32 pb-20 max-w-3xl mx-auto px-4 sm:px-6 font-secondary">
       
-      {/* Back Navigation */}
-      <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="mb-8">
-        <Link className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-[#10B981] transition-colors" href="/projects">
-          <ArrowLeft className="w-4 h-4"/>
-          Back to Projects
-        </Link>
+      {/* Breadcrumbs */}
+      <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }}>
+        <Breadcrumbs items={[
+          { label: "Projects", href: "/projects" },
+          { label: project.title, href: `/projects/${slug}` }
+        ]} />
       </motion.div>
 
       {/* Title */}
@@ -156,7 +157,7 @@ export default function ProjectCaseStudy() {
           <ul className="space-y-2.5">
             {project.sections.remediation.map((step: string, idx: number) => (
               <li key={idx} className="flex gap-3 text-gray-600 dark:text-gray-300 text-sm md:text-base leading-relaxed">
-                <span className="text-[#10B981] mt-1 flex-shrink-0">•</span>
+                <span className="text-[#10B981] mt-1 shrink-0">•</span>
                 <span>{step}</span>
               </li>
             ))}

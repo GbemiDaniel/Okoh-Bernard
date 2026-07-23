@@ -90,7 +90,7 @@ export default function ProjectsPage() {
   );
 
   return (
-    <div className="pb-24">
+    <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 md:px-8 pb-24 pt-28 md:pt-32">
       
       {/* Header Section */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8 md:mb-12">
@@ -107,13 +107,13 @@ export default function ProjectsPage() {
         initial={{ opacity: 0, y: 20 }} 
         animate={{ opacity: 1, y: 0 }} 
         transition={{ delay: 0.1 }}
-        className="sticky top-[88px] z-30 py-4 mb-8 bg-white/80 dark:bg-[#050505]/80 backdrop-blur-xl border-b border-gray-200 dark:border-white/5"
+        className="sticky top-22 z-30 py-4 mb-8 bg-white/80 dark:bg-[#050505]/80 backdrop-blur-xl border-b border-gray-200 dark:border-white/5"
       >
         {/* PREMIUM FILTER UI: Scroll Shadows + Snapping */}
         <div className="relative w-full -mx-4 px-4 sm:mx-0 sm:px-0">
           
           {/* Right Edge Scroll Shadow (Fades to your dark background color) */}
-          <div className="absolute right-0 top-0 bottom-0 w-12 sm:w-16 bg-gradient-to-l from-white dark:from-[#050505] to-transparent pointer-events-none z-10 hidden sm:hidden xs:block"></div>
+          <div className="absolute right-0 top-0 bottom-0 w-12 sm:w-16 bg-linear-to-l from-white dark:from-[#050505] to-transparent pointer-events-none z-10 hidden sm:hidden xs:block"></div>
 
           {/* Scrollable Track */}
           <div className="flex items-center gap-3 overflow-x-auto whitespace-nowrap pb-4 scrollbar-hide snap-x snap-mandatory pr-12 sm:pr-0 sm:pb-0">
@@ -121,10 +121,10 @@ export default function ProjectsPage() {
               <button
                 key={filter}
                 onClick={() => setActiveFilter(filter)}
-                className={`flex-shrink-0 snap-start px-4 py-2 rounded-full text-xs sm:text-sm font-secondary transition-all duration-300 ${
+                className={`shrink-0 snap-start px-4 py-2 rounded-full text-xs sm:text-sm font-secondary transition-all duration-300 active:scale-95 ${
                 activeFilter === filter
                   ? "bg-[#10B981]/10 text-[#10B981] border border-[#10B981]/30"
-                  : "bg-gray-100 dark:bg-white/[0.03] text-gray-600 dark:text-gray-400 border border-transparent hover:border-gray-300 dark:hover:border-white/10"
+                  : "bg-gray-100 dark:bg-white/3 text-gray-600 dark:text-gray-400 border border-transparent hover:border-gray-300 dark:hover:border-white/10"
               }`}
             >
               {filter}
@@ -164,7 +164,7 @@ export default function ProjectsPage() {
                   {project.title}
                 </h3>
                 
-                <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-6 flex-grow line-clamp-3">
+                <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-6 grow line-clamp-3">
                   {project.description}
                 </p>
                 

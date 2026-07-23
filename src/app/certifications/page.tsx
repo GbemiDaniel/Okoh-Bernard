@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ShieldCheck, Award, X, CheckCircle2 } from "lucide-react";
 import { FiExternalLink } from "react-icons/fi";
 import Image from "next/image";
+import { BadgeModal } from "@/components/BadgeModal";
 
 // INJECTED REAL USER DATA
 const credentials = {
@@ -61,15 +62,44 @@ const credentials = {
     }
   ],
   badges: [
-    { id: "badge-1", title: "Network & System Security", issuer: "TryHackMe", url: "https://tryhackme.com/Kachisicho/badges/network-and-system-security" },
-    { id: "badge-2", title: "Software Security", issuer: "TryHackMe", url: "https://tryhackme.com/Kachisicho/badges/software-security" },
-    { id: "badge-3", title: "AI Path Completion", issuer: "TryHackMe", url: "https://tryhackme.com/Kachisicho/badges/ai-path-completion" },
-    { id: "badge-4", title: "Model Compromise", issuer: "TryHackMe", url: "https://tryhackme.com/Kachisicho/badges/model-compromise" }
+    {
+      id: "thm-network-and-system-security",
+      name: "Network and System Security",
+      issuer: "TryHackMe",
+      image: "/badges/network-and-system-security.png",
+      skills: ["Network Security", "Active Directory", "Firewalls", "System Hardening"],
+      verifyUrl: "https://tryhackme.com/Kachisicho/badges/network-and-system-security?utm_campaign=social_share&utm_medium=social&utm_content=badge&utm_source=copy&sharerId=67e936fecec9d2e9301f0694"
+    },
+    {
+      id: "thm-software-security",
+      name: "Software Security",
+      issuer: "TryHackMe",
+      image: "/badges/software-security.png",
+      skills: ["AppSec", "Secure Coding", "Vulnerability Analysis", "OWASP"],
+      verifyUrl: "https://tryhackme.com/Kachisicho/badges/software-security?utm_campaign=social_share&utm_medium=social&utm_content=badge&utm_source=copy&sharerId=67e936fecec9d2e9301f0694"
+    },
+    {
+      id: "thm-ai-path",
+      name: "AI Path",
+      issuer: "TryHackMe",
+      image: "/badges/ai-path.png",
+      skills: ["AI Security", "Machine Learning", "Threat Modeling", "AI Vulnerabilities"],
+      verifyUrl: "https://tryhackme.com/Kachisicho/badges/ai-path-completion?utm_campaign=social_share&utm_medium=social&utm_content=badge&utm_source=copy&sharerId=67e936fecec9d2e9301f0694"
+    },
+    {
+      id: "thm-model-compromise",
+      name: "Model Compromise",
+      issuer: "TryHackMe",
+      image: "/badges/model-compromise.png",
+      skills: ["Adversarial AI", "Data Poisoning", "Model Evasion", "Prompt Injection"],
+      verifyUrl: "https://tryhackme.com/Kachisicho/badges/model-compromise?utm_campaign=social_share&utm_medium=social&utm_content=badge&utm_source=copy&sharerId=67e936fecec9d2e9301f0694"
+    }
   ]
 };
 
 export default function CertificationsPage() {
   const [selectedCert, setSelectedCert] = useState<any | null>(null);
+  const [selectedBadge, setSelectedBadge] = useState<any | null>(null);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -93,7 +123,7 @@ export default function CertificationsPage() {
   }, [selectedCert]);
 
   return (
-    <main className="flex flex-col w-full max-w-5xl mx-auto px-4 sm:px-6 md:px-8 pt-24 pb-24 relative font-sans">
+    <main className="flex flex-col w-full max-w-5xl mx-auto px-4 sm:px-6 md:px-8 pt-28 md:pt-32 pb-24 relative font-sans">
       
       {/* HIDDEN PRELOAD CACHE FOR ZERO-LATENCY MODAL IMAGES */}
       <div className="hidden">
@@ -114,7 +144,7 @@ export default function CertificationsPage() {
 
       {/* SECTION 1: MAJOR CERTIFICATIONS */}
       <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mb-16">
-        <h2 className="flex items-center gap-3 text-xl font-bold text-white mb-6 font-mono uppercase tracking-wide text-sm">
+        <h2 className="flex items-center gap-3 text-xl font-bold text-white mb-6 font-mono uppercase tracking-wide">
           <ShieldCheck className="w-5 h-5 text-[#10B981]"/>
           Learning Pathways
         </h2>
@@ -146,27 +176,24 @@ export default function CertificationsPage() {
 
       {/* SECTION 2: SPECIALIZED BADGES */}
       <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-        <h2 className="flex items-center gap-3 text-xl font-bold text-white mb-6 font-mono uppercase tracking-wide text-sm">
+        <h2 className="flex items-center gap-3 text-xl font-bold text-white mb-6 font-mono uppercase tracking-wide">
           <Award className="w-5 h-5 text-[#10B981]"/>
           Specialized Skill Badges
         </h2>
         
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {credentials.badges.map((badge) => (
-            <a
+            <button 
               key={badge.id}
-              href={badge.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex flex-col items-center justify-center p-6 bg-[#050505] border border-gray-800/60 rounded-xl hover:bg-[#0a0a0a] hover:border-[#10B981]/40 transition-all duration-300 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#10B981]/40"
+              onClick={() => setSelectedBadge(badge)}
+              className="group relative flex flex-col items-center justify-center p-6 bg-[#050505] border border-gray-800/60 rounded-xl hover:bg-[#0a0a0a] hover:border-[#10B981]/50 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgb(16,185,129,0.15)] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#10B981]/40 active:scale-95 w-full"
             >
-              <div className="w-12 h-12 mb-3 relative flex items-center justify-center bg-[#10B981]/10 rounded-full group-hover:scale-110 transition-transform duration-300 border border-[#10B981]/20">
-                 <ShieldCheck className="w-5 h-5 text-[#10B981]"/>
+              <div className="relative w-24 h-24 mb-4 drop-shadow-lg group-hover:scale-105 transition-transform duration-300">
+                <Image alt={badge.name} className="object-contain" fill src={badge.image}/>
               </div>
-              <h3 className="text-xs font-medium text-center text-gray-400 group-hover:text-gray-100 transition-colors font-mono">
-                {badge.title}
-              </h3>
-            </a>
+              <h4 className="font-bold text-gray-900 dark:text-white">{badge.name}</h4>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{badge.issuer}</p>
+            </button>
           ))}
         </div>
       </motion.section>
@@ -175,7 +202,7 @@ export default function CertificationsPage() {
       {mounted ? createPortal(
         <AnimatePresence>
           {selectedCert && (
-            <div className="fixed inset-0 z-[999] flex items-center justify-center p-4 sm:p-6">
+            <div className="fixed inset-0 z-999 flex items-center justify-center p-4 sm:p-6">
               
               {/* Dark Overlay */}
               <motion.div 
@@ -200,7 +227,7 @@ export default function CertificationsPage() {
                 </button>
 
                 {/* LEFT COLUMN: Visual Preview */}
-                <div className="w-full h-[35vh] md:h-auto md:w-1/2 bg-[#050505] border-b md:border-b-0 md:border-r border-gray-800 relative flex-shrink-0 flex items-center justify-center p-6">
+                <div className="w-full h-[35vh] md:h-auto md:w-1/2 bg-[#050505] border-b md:border-b-0 md:border-r border-gray-800 relative shrink-0 flex items-center justify-center p-6">
                   <div className="flex flex-col items-center gap-3 text-gray-600 z-10">
                     <Award className="w-10 h-10"/>
                     <span className="font-mono text-xs text-center">[ Awaiting image: {selectedCert.previewImage} ]</span>
@@ -211,10 +238,10 @@ export default function CertificationsPage() {
                 </div>
 
                 {/* RIGHT COLUMN: Content & Details */}
-                <div className="w-full md:w-1/2 flex flex-col bg-[#0a0a0a] flex-grow overflow-hidden h-[50vh] md:h-auto">
+                <div className="w-full md:w-1/2 flex flex-col bg-[#0a0a0a] grow overflow-hidden h-[50vh] md:h-auto">
                   
                   {/* Header */}
-                  <div className="p-6 pb-4 border-b border-gray-800 flex-shrink-0 z-10">
+                  <div className="p-6 pb-4 border-b border-gray-800 shrink-0 z-10">
                     <span className="text-[10px] sm:text-xs font-mono text-[#10B981] uppercase tracking-wider block mb-2">
                       {selectedCert.issuer} • {selectedCert.date}
                     </span>
@@ -224,7 +251,7 @@ export default function CertificationsPage() {
                   </div>
 
                   {/* Scrollable Description */}
-                  <div className="p-6 overflow-y-auto flex-grow custom-scrollbar">
+                  <div className="p-6 overflow-y-auto grow custom-scrollbar">
                     <p className="text-gray-400 text-sm sm:text-base leading-relaxed mb-8">
                       {selectedCert.description}
                     </p>
@@ -234,7 +261,7 @@ export default function CertificationsPage() {
                       <div className="flex flex-wrap gap-2.5">
                         {selectedCert.skills?.map((skill: string, idx: number) => (
                           <span key={idx} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded bg-[#050505] border border-gray-800 text-gray-300">
-                            <CheckCircle2 className="w-3 h-3 text-[#10B981] flex-shrink-0"/> 
+                            <CheckCircle2 className="w-3 h-3 text-[#10B981] shrink-0"/> 
                             {skill}
                           </span>
                         ))}
@@ -243,7 +270,7 @@ export default function CertificationsPage() {
                   </div>
 
                   {/* Footer Action */}
-                  <div className="p-6 pt-4 border-t border-gray-800 flex-shrink-0 z-10">
+                  <div className="p-6 pt-4 border-t border-gray-800 shrink-0 z-10">
                     <a 
                       href={selectedCert.verifyUrl}
                       target="_blank"
@@ -261,6 +288,13 @@ export default function CertificationsPage() {
         </AnimatePresence>,
         document.body
       ) : null}
+
+      {/* Badge Modal Component */}
+      <BadgeModal 
+        badge={selectedBadge} 
+        isOpen={!!selectedBadge} 
+        onClose={() => setSelectedBadge(null)} 
+      />
     </main>
   );
 }

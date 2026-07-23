@@ -1,14 +1,46 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useTerminal } from "@/context/TerminalContext";
 import { FiMail, FiDownload, FiSend } from "react-icons/fi";
 import { FaLinkedinIn, FaGithub, FaMediumM } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { SiTryhackme } from "react-icons/si";
+import { Send, CheckCircle, Loader2 } from "lucide-react";
+import { useForm, ValidationError } from '@formspree/react';
 
 export default function ContactPage() {
   const { setActiveSection } = useTerminal();
+  const textRef = useRef<HTMLDivElement>(null);
   const [statusText, setStatusText] = useState("Initializing...");
+  const [state, handleSubmit] = useForm("xykrnzzd");
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  useEffect(() => {
+    if (state.succeeded) {
+      setFormData({ name: "", email: "", message: "" });
+    }
+  }, [state.succeeded]);
+
+  useEffect(() => {
+    if (textRef.current) {
+      const scrollWidth = textRef.current.scrollWidth;
+      const clientWidth = textRef.current.parentElement?.clientWidth || textRef.current.clientWidth;
+      const overflow = scrollWidth - clientWidth;
+
+      if (overflow > 0) {
+        // Add padding to ensure it scrolls past the very end
+        textRef.current.style.setProperty('--overflow-distance', `-${overflow + 20}px`);
+        textRef.current.classList.add('animate-terminal-scroll');
+      } else {
+        textRef.current.classList.remove('animate-terminal-scroll');
+        textRef.current.style.transform = 'translateX(0px)';
+      }
+    }
+  }, [statusText]);
 
   // Terminal Ping Pong Animation Sequence
   useEffect(() => {
@@ -34,7 +66,7 @@ export default function ContactPage() {
   }, [setActiveSection]);
 
   return (
-    <main className="flex flex-col w-full max-w-5xl mx-auto px-4 sm:px-6 md:px-8 pt-24 pb-16">
+    <main className="flex flex-col w-full max-w-5xl mx-auto px-4 sm:px-6 md:px-8 pt-28 md:pt-32 pb-16">
       
       {/* HEADER */}
       <section className="mb-12">
@@ -50,37 +82,67 @@ export default function ContactPage() {
         
         {/* CLEAR, HR-FRIENDLY FORM */}
         <div className="md:col-span-3">
-          <form className="flex flex-col gap-6" onSubmit={(e) => e.preventDefault()}>
+          <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
             
             <div className="flex flex-col gap-2">
               <label className="text-gray-700 dark:text-gray-300 font-medium text-sm">Full Name</label>
               <input 
                 type="text" 
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
                 placeholder="Enter your name..." 
-                className="bg-white dark:bg-[#050505] border border-gray-200 dark:border-gray-800 focus:border-[#10B981] dark:focus:border-[#10B981] outline-none text-gray-900 dark:text-gray-200 px-4 py-3 rounded-lg text-sm transition-colors shadow-sm dark:shadow-inner dark:shadow-black/50" 
+                className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg p-3 text-gray-900 dark:text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#10B981]/50 focus:border-[#10B981] transition-all duration-300" 
               />
+              <ValidationError prefix="Name" field="name" errors={state.errors} className="text-red-500 text-xs mt-1" />
             </div>
             
             <div className="flex flex-col gap-2">
               <label className="text-gray-700 dark:text-gray-300 font-medium text-sm">Email Address</label>
               <input 
                 type="email" 
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
                 placeholder="Enter your email..." 
-                className="bg-white dark:bg-[#050505] border border-gray-200 dark:border-gray-800 focus:border-[#10B981] dark:focus:border-[#10B981] outline-none text-gray-900 dark:text-gray-200 px-4 py-3 rounded-lg text-sm transition-colors shadow-sm dark:shadow-inner dark:shadow-black/50" 
+                className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg p-3 text-gray-900 dark:text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#10B981]/50 focus:border-[#10B981] transition-all duration-300" 
               />
+              <ValidationError prefix="Email" field="email" errors={state.errors} className="text-red-500 text-xs mt-1" />
             </div>
             
             <div className="flex flex-col gap-2">
               <label className="text-gray-700 dark:text-gray-300 font-medium text-sm">Your Message</label>
               <textarea 
                 rows={5} 
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                required
                 placeholder="How can we collaborate?" 
-                className="bg-white dark:bg-[#050505] border border-gray-200 dark:border-gray-800 focus:border-[#10B981] dark:focus:border-[#10B981] outline-none text-gray-900 dark:text-gray-200 px-4 py-3 rounded-lg text-sm transition-colors resize-none shadow-sm dark:shadow-inner dark:shadow-black/50" 
+                className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg p-3 text-gray-900 dark:text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#10B981]/50 focus:border-[#10B981] transition-all duration-300 resize-none" 
               />
+              <ValidationError prefix="Message" field="message" errors={state.errors} className="text-red-500 text-xs mt-1" />
             </div>
             
-            <button className="self-start bg-[#10B981] text-white dark:text-[#050505] hover:bg-[#0ea5e9] px-6 py-3 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 mt-2 shadow-lg shadow-[#10B981]/20 hover:shadow-[#0ea5e9]/20 hover:-translate-y-0.5 active:scale-[0.98]">
-              Send Message <FiSend size={16}/>
+            <button
+              type="submit"
+              disabled={state.submitting || state.succeeded}
+              className="flex items-center justify-center gap-2 px-6 py-3 bg-[#10B981] hover:bg-[#0EA5E9] text-white font-medium rounded-xl transition-colors duration-300 active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed disabled:active:scale-100 self-start mt-2 shadow-lg shadow-[#10B981]/20 hover:shadow-[#0ea5e9]/20"
+            >
+              {!state.submitting && !state.succeeded && !state.errors && (
+                <>Send Message <Send className="w-4 h-4" /></>
+              )}
+              {state.submitting && (
+                <>Establishing Connection... <Loader2 className="w-4 h-4 animate-spin" /></>
+              )}
+              {state.succeeded && (
+                <>Transmission Sent <CheckCircle className="w-4 h-4" /></>
+              )}
+              {Boolean(state.errors) && (
+                <>Transmission Failed. Retry?</>
+              )}
             </button>
           </form>
         </div>
@@ -100,7 +162,7 @@ export default function ContactPage() {
 
               {/* Single Line Ping Pong Text */}
               <div className="pl-6 w-full whitespace-nowrap">
-                <div className="animate-ping-pong">
+                <div ref={textRef} className="inline-block">
                   <span className="text-[#10B981] leading-none">
                     {statusText}
                     <span className="animate-pulse">_</span>
@@ -109,7 +171,7 @@ export default function ContactPage() {
               </div>
               
               {/* Right Edge Fade Mask */}
-              <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-gray-50 dark:from-[#050505] to-transparent z-10 pointer-events-none"></div>
+              <div className="absolute right-0 top-0 bottom-0 w-8 bg-linear-to-l from-gray-50 dark:from-[#050505] to-transparent z-10 pointer-events-none"></div>
             </div>
           </div>
 
