@@ -6,68 +6,190 @@ import { Github, ExternalLink, Shield, Terminal, Cpu } from "lucide-react";
 
 // --- DATA MAPPING ---
 const projects = [
+  // --- SECURITY ENGINEERING (NETWORK & SYSTEMS) ---
   {
     id: 1,
-    title: "Secured API Development: OWASP Top 10",
-    category: "Penetration Testing",
-    icon: Terminal,
-    description: "Executed comprehensive vulnerability assessments on REST APIs, identifying and exploiting business logic flaws, broken object level authorization (BOLA), and mass assignment vulnerabilities.",
-    tools: ["Burp Suite", "Postman", "API Security"],
-    url: "/projects/secured-api-development"
+    title: "Secure Network Architecture",
+    category: "Security Engineering",
+    icon: Shield,
+    description: "Design and implementation of robust network topologies focused on segmentation, zero-trust principles, and traffic analysis.",
+    tools: ["Network Security", "Architecture", "Zero-Trust"],
+    url: "https://github.com/OnyedikachiO/Security-Engineer-Projects-/blob/main/Network%20And%20System%20Security/Secure%20Network%20Architecture.md"
   },
   {
     id: 2,
-    title: "Active Directory Hardening",
+    title: "Active Directory Security & Hardening",
     category: "Security Engineering",
     icon: Shield,
-    description: "Architected secure AD environments by implementing strict group policies, disabling legacy protocols, enforcing least privilege, and mitigating common attack paths like Kerberoasting.",
-    tools: ["Windows Server", "Entra ID", "GPO"],
-    url: "/projects/active-directory-hardening"
+    description: "Mitigating lateral movement and privilege escalation by securing AD environments against modern identity-based attacks.",
+    tools: ["Active Directory", "GPO", "IAM"],
+    url: "https://github.com/OnyedikachiO/Security-Engineer-Projects-/blob/main/Network%20And%20System%20Security/Active%20Directory%20Hardening.md"
   },
   {
     id: 3,
-    title: "Linux Privilege Escalation via Kernel Exploitation",
-    category: "Penetration Testing",
+    title: "Linux System Hardening",
+    category: "Security Engineering",
     icon: Terminal,
-    description: "Conducted advanced post-exploitation simulations, leveraging misconfigured SUID binaries, cron jobs, and kernel vulnerabilities to elevate privileges in restricted Linux environments.",
-    tools: ["LinPEAS", "Bash", "Exploitation"],
-    url: "/projects/linux-privilege-escalation"
+    description: "Comprehensive configuration baselines, access controls, and kernel hardening to secure Linux infrastructure.",
+    tools: ["Linux", "Kernel", "Bash"],
+    url: "https://github.com/OnyedikachiO/Security-Engineer-Projects-/blob/main/Network%20And%20System%20Security/Linux%20System%20Hardening.md"
   },
   {
     id: 4,
-    title: "Secure Network Architecture & Zoning",
+    title: "Windows System Hardening",
     category: "Security Engineering",
     icon: Shield,
-    description: "Designed and deployed a defense-in-depth enterprise network topology. Focused on secure zoning, firewall rule optimization, and traffic isolation to minimize lateral movement.",
-    tools: ["AWS", "VPC", "Network Security"],
-    url: "/projects/secure-network-architecture"
+    description: "Enforcing Group Policy Objects (GPOs), endpoint protection, and OS-level security boundaries for Windows environments.",
+    tools: ["Windows Server", "Endpoint Protection"],
+    url: "https://github.com/OnyedikachiO/Security-Engineer-Projects-/blob/main/Network%20And%20System%20Security/Microsoft%20Windows%20System%20Hardening.md"
   },
   {
     id: 5,
-    title: "LLM Model Compromise Validation",
-    category: "AI Security",
-    icon: Cpu,
-    description: "Tested machine learning environments against novel attack vectors, focusing on prompt injection, data poisoning, and unauthorized extraction of sensitive training data.",
-    tools: ["Python", "Threat Modeling", "LLMs"],
-    url: "/projects/llm-model-compromise-validation"
+    title: "Cloud Security Fundamentals",
+    category: "Security Engineering",
+    icon: Shield,
+    description: "Securing cloud-native infrastructure, managing IAM policies, and defending against cloud misconfigurations.",
+    tools: ["Cloud Security", "AWS", "IAM"],
+    url: "https://github.com/OnyedikachiO/Security-Engineer-Projects-/blob/main/Network%20And%20System%20Security/Cloud%20Security%20Fundamentals.md"
   },
   {
     id: 6,
+    title: "Introduction to Security Engineering",
+    category: "Security Engineering",
+    icon: Shield,
+    description: "Foundational frameworks and methodologies governing enterprise-grade security engineering and risk management.",
+    tools: ["Frameworks", "Risk Management"],
+    url: "https://github.com/OnyedikachiO/Security-Engineer-Projects-/tree/main/Intro%20To%20Security%20Engeering"
+  },
+
+  // --- AI SECURITY ---
+  {
+    id: 7,
+    title: "System Prompt Hardening",
+    category: "AI Security",
+    icon: Cpu,
+    description: "Developing robust meta-prompts to secure Large Language Models against unauthorized instructional overrides.",
+    tools: ["LLMs", "Prompt Engineering"],
+    url: "https://github.com/OnyedikachiO/AI-Security-Portfolio/blob/main/Prompt%20Security/System%20Prompt%20Hardening.md"
+  },
+  {
+    id: 8,
+    title: "Prompt Injection Mitigation",
+    category: "AI Security",
+    icon: Terminal,
+    description: "Analysis and defense strategies against adversarial inputs designed to manipulate LLM output generation.",
+    tools: ["Adversarial AI", "Testing"],
+    url: "https://github.com/OnyedikachiO/AI-Security-Portfolio/blob/main/Prompt%20Security/Prompt%20Injection.md"
+  },
+  {
+    id: 9,
+    title: "LLM Jailbreaking Vectors",
+    category: "AI Security",
+    icon: Cpu,
+    description: "Researching advanced techniques used to bypass safety guardrails in AI models and corresponding defensive countermeasures.",
+    tools: ["Red Teaming", "LLMs"],
+    url: "https://github.com/OnyedikachiO/AI-Security-Portfolio/blob/main/Prompt%20Security/Jailbreaking.md"
+  },
+  {
+    id: 10,
+    title: "Prompt Defense Frameworks",
+    category: "AI Security",
+    icon: Shield,
+    description: "Implementing programmatic input validation and sanitization pipelines for AI application interfaces.",
+    tools: ["Sanitization", "Validation"],
+    url: "https://github.com/OnyedikachiO/AI-Security-Portfolio/blob/main/Prompt%20Security/Prompt%20Defense.md"
+  },
+  {
+    id: 11,
+    title: "Data Poisoning in RAG Systems",
+    category: "AI Security",
+    icon: Cpu,
+    description: "Exploring vulnerability vectors where malicious external data compromises Retrieval-Augmented Generation outputs.",
+    tools: ["RAG", "Data Integrity"],
+    url: "https://github.com/OnyedikachiO/AI-Security-Portfolio/blob/main/Data%20Poisoning%20/Data%20Poisoning%20in%20RAG%20Systems.md"
+  },
+  {
+    id: 12,
+    title: "Sensitive Information Disclosure",
+    category: "AI Security",
+    icon: Shield,
+    description: "Preventing inadvertent data leaks and PII exposure through LLM memorization and context window exploitation.",
+    tools: ["DLP", "Privacy"],
+    url: "https://github.com/OnyedikachiO/AI-Security-Portfolio/blob/main/Data%20Poisoning%20/Sensitive%20Information%20Disclosure.md"
+  },
+  {
+    id: 13,
+    title: "Securing AI Systems Architecture",
+    category: "AI Security",
+    icon: Cpu,
+    description: "End-to-end security architecture for deploying machine learning models in enterprise production environments.",
+    tools: ["MLSecOps", "Architecture"],
+    url: "https://github.com/OnyedikachiO/AI-Security-Portfolio/blob/main/Secure%20AI%20Systems/Securing%20AI%20Systems.md"
+  },
+  {
+    id: 14,
+    title: "AI Threat Modeling",
+    category: "AI Security",
+    icon: Shield,
+    description: "Adapting standard threat modeling methodologies (STRIDE, DREAD) specifically for AI/ML application lifecycles.",
+    tools: ["Threat Modeling", "STRIDE"],
+    url: "https://github.com/OnyedikachiO/AI-Security-Portfolio/blob/main/Secure%20AI%20Systems/AI%20Threat%20Modelling.md"
+  },
+  {
+    id: 15,
+    title: "AI Supply Chain Attack Vectors",
+    category: "AI Security",
+    icon: Terminal,
+    description: "Securing model weights, open-source dependencies, and training pipelines against supply chain compromises.",
+    tools: ["Supply Chain", "Dependencies"],
+    url: "https://github.com/OnyedikachiO/AI-Security-Portfolio/blob/main/AI%20Supply%20Chain%20Security/AI%20Supply%20Chain%20Attack%20Vectors.md"
+  },
+  {
+    id: 16,
+    title: "AI Forensics",
+    category: "AI Security",
+    icon: Cpu,
+    description: "Techniques for investigating AI incidents, tracing anomalous model behavior, and establishing digital provenance.",
+    tools: ["Forensics", "Incident Response"],
+    url: "https://github.com/OnyedikachiO/AI-Security-Portfolio/blob/main/AI%20Fundamental/AI%20Forensics.md"
+  },
+
+  // --- PENETRATION TESTING ---
+  {
+    id: 17,
+    title: "Secured API Development: OWASP API Security Top 10",
+    category: "Penetration Testing",
+    icon: Terminal,
+    description: "Executed comprehensive vulnerability assessments on REST APIs, identifying and exploiting business logic flaws and authorization vulnerabilities.",
+    tools: ["Burp Suite", "API Security", "OWASP"],
+    url: "https://github.com/OnyedikachiO/TryHackMe_Projects/blob/main/Secure%20API%20Development%3A%20OWASP%20API%20Security%20Top%2010%20Practical%20Assessment.md"
+  },
+  {
+    id: 18,
+    title: "Linux Privilege Escalation via Kernel Exploitation",
+    category: "Penetration Testing",
+    icon: Terminal,
+    description: "Conducted advanced post-exploitation simulations leveraging misconfigured binaries and kernel vulnerabilities to elevate privileges.",
+    tools: ["LinPEAS", "Exploitation", "Bash"],
+    url: "https://github.com/OnyedikachiO/TryHackMe_Projects/blob/main/Linux%20Privilege%20Escalation%20via%20Kernel%20Exploitation.md"
+  },
+  {
+    id: 19,
     title: "JWT Signature Validation Vulnerabilities",
     category: "Penetration Testing",
     icon: Terminal,
-    description: "Analyzed and exploited cryptographic flaws in JSON Web Token implementations, specifically targeting algorithm confusion and missing signature verification mechanisms.",
-    tools: ["Burp Suite", "Cryptography", "Python"],
-    url: "/projects/jwt-signature-validation"
+    description: "Analyzed and exploited cryptographic flaws in JSON Web Token implementations, targeting algorithm confusion and missing verification.",
+    tools: ["Burp Suite", "Cryptography", "Web App"],
+    url: "https://github.com/OnyedikachiO/TryHackMe_Projects/blob/main/JWT%20Signature%20Validation%20Vulnerabilities%20Assessment.md"
   },
   {
-    id: 7,
-    title: "Implementing Cloud Security Controls",
-    category: "Security Engineering",
-    icon: Shield,
-    description: "Hardened cloud infrastructure by configuring robust IAM roles, setting up centralized logging with CloudTrail, and enforcing encryption at rest and in transit.",
-    tools: ["AWS", "IAM", "CloudTrail"],
-    url: "/projects/implementing-cloud-security-controls"
+    id: 20,
+    title: "OWASP Top 10 2025: IAAA Failures Analysis",
+    category: "Penetration Testing",
+    icon: Terminal,
+    description: "In-depth analysis and practical exploitation of Identification, Authentication, and Authorization failures in modern web applications.",
+    tools: ["Web App", "Authentication", "OWASP"],
+    url: "https://github.com/OnyedikachiO/TryHackMe_Projects/blob/main/OWASP%20Top%2010%202025%3A%20IAAA%20Failures%20Analysis.md"
   }
 ];
 
@@ -148,6 +270,8 @@ export default function ProjectsPage() {
                 transition={{ duration: 0.25 }}
                 key={project.id}
                 href={project.url}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="group flex flex-col h-full p-5 sm:p-6 bg-white dark:bg-[#0A0A0A] border border-gray-200 dark:border-white/10 rounded-2xl transition-all duration-300 shadow-sm hover:bg-gray-50 dark:hover:bg-[#121212] hover:border-[#10B981]/50 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(16,185,129,0.15)] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#10B981]/40"
               >
                 <div className="flex items-center justify-between mb-4">

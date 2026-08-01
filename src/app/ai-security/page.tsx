@@ -21,9 +21,12 @@ export default function AISecurityPage() {
       { category: "Tooling", items: ["Python"] }
     ],
     projects: [
-      { title: "AI Path Completion", url: "#", category: "Research" },
-      { title: "Model Compromise Validation", url: "#", category: "Testing" },
-      { title: "AI Security Portfolio", url: "#", category: "Documentation" }
+      { title: "System Prompt Hardening", url: "https://github.com/OnyedikachiO/AI-Security-Portfolio/blob/main/Prompt%20Security/System%20Prompt%20Hardening.md", category: "LLM Security" },
+      { title: "Prompt Injection Mitigation", url: "https://github.com/OnyedikachiO/AI-Security-Portfolio/blob/main/Prompt%20Security/Prompt%20Injection.md", category: "Testing" },
+      { title: "LLM Jailbreaking Vectors", url: "https://github.com/OnyedikachiO/AI-Security-Portfolio/blob/main/Prompt%20Security/Jailbreaking.md", category: "Research" },
+      { title: "Data Poisoning in RAG Systems", url: "https://github.com/OnyedikachiO/AI-Security-Portfolio/blob/main/Data%20Poisoning%20/Data%20Poisoning%20in%20RAG%20Systems.md", category: "Data Security" },
+      { title: "Securing AI Systems Architecture", url: "https://github.com/OnyedikachiO/AI-Security-Portfolio/blob/main/Secure%20AI%20Systems/Securing%20AI%20Systems.md", category: "Architecture" },
+      { title: "AI Threat Modeling", url: "https://github.com/OnyedikachiO/AI-Security-Portfolio/blob/main/Secure%20AI%20Systems/AI%20Threat%20Modelling.md", category: "Threat Modeling" }
     ]
   };
 

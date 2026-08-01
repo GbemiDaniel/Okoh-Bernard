@@ -108,7 +108,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="relative z-10 w-full max-w-[92%] sm:max-w-md md:max-w-xl lg:max-w-4xl mx-auto bg-[#030303]/80 backdrop-blur-2xl border border-gray-800 rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col"
+          className="relative z-10 w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-4xl mx-auto bg-[#030303]/80 backdrop-blur-2xl border border-gray-800 rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col"
         >
           {/* ================= METALLIC GLASS OVERLAYS ================= */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">

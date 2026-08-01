@@ -16,38 +16,86 @@ export default function BlogDirectory() {
     {
       id: 1,
       title: "Understanding Identity and Access Management (IAM)",
-      tag: "IAM",
+      tag: "Security Architecture",
+      category: "Security Architecture",
       date: "Oct 2023",
       platform: "Medium",
-      excerpt: "A deep dive into the fundamentals of Identity and Access Management, exploring core principles, lifecycle management, and implementation strategies for enterprise security.",
-      link: "https://medium.com/@kachisichobernardokoh/understanding-identity-and-access-management-iam-dec3f14e139a"
+      description: "An architectural breakdown of why perimeter defenses fail when identity pipelines are broken, exploring the IAAA framework, MFA, and modern SSO strategies.",
+      excerpt: "An architectural breakdown of why perimeter defenses fail when identity pipelines are broken, exploring the IAAA framework, MFA, and modern SSO strategies.",
+      link: "https://medium.com/@kachisichobernardokoh/understanding-identity-and-access-management-iam-dec3f14e139a",
+      url: "https://medium.com/@kachisichobernardokoh/understanding-identity-and-access-management-iam-dec3f14e139a"
     },
     {
       id: 2,
-      title: "Cracking the Code: A Practical Guide to Classical & Modern Cryptography",
-      tag: "CRYPTOGRAPHY",
+      title: "Prompt Security and Context Window Integrity in Large Language Models",
+      tag: "AI Security",
+      category: "AI Security",
       date: "Nov 2023",
       platform: "Medium",
-      excerpt: "Exploring the evolution of cryptographic methods. From breaking classical ciphers to understanding modern encryption standards through practical TryHackMe walkthroughs.",
-      link: "https://medium.com/@kachisichobernardokoh/cracking-the-code-a-practical-guide-to-classical-modern-cryptography-tryhackme-walkthrough-e0ea319d9d11"
+      description: "A comprehensive analysis of LLM vulnerabilities, detailing how attackers weaponize context windows and outlining enterprise defensive strategies like strict context isolation.",
+      excerpt: "A comprehensive analysis of LLM vulnerabilities, detailing how attackers weaponize context windows and outlining enterprise defensive strategies like strict context isolation.",
+      link: "https://medium.com/@kachisichobernardokoh/prompt-security-and-context-window-integrity-in-large-language-models-roles-security-d9149c9e4a86",
+      url: "https://medium.com/@kachisichobernardokoh/prompt-security-and-context-window-integrity-in-large-language-models-roles-security-d9149c9e4a86"
     },
     {
       id: 3,
       title: "Threat Modeling and Risk Assessment Frameworks",
-      tag: "RISK-ASSESSMENT",
+      tag: "Risk Management",
+      category: "Risk Management",
       date: "Jan 2024",
-      platform: "LinkedIn",
-      excerpt: "An analytical breakdown of industry-standard threat modeling and risk assessment frameworks designed to secure enterprise architecture and preemptively identify vulnerabilities.",
-      link: "https://medium.com/@kachisichobernardokoh/threat-modeling-and-risk-assessment-frameworks-70a93b193313"
+      platform: "Medium",
+      description: "A strategic overview of moving from reactive alerting to proactive defense by integrating standard threat modeling methodologies into the development lifecycle.",
+      excerpt: "A strategic overview of moving from reactive alerting to proactive defense by integrating standard threat modeling methodologies into the development lifecycle.",
+      link: "https://medium.com/@kachisichobernardokoh/threat-modeling-and-risk-assessment-frameworks-70a93b193313",
+      url: "https://medium.com/@kachisichobernardokoh/threat-modeling-and-risk-assessment-frameworks-70a93b193313"
     },
     {
       id: 4,
       title: "Navigating Security Governance, Frameworks, and Compliance",
-      tag: "GOVERNANCE",
+      tag: "Governance & Compliance",
+      category: "Governance & Compliance",
       date: "Feb 2024",
       platform: "Medium",
-      excerpt: "Understanding the critical role of security governance, compliance standards (NIST, ISO 27001), and framework alignment in building resilient modern organizations.",
-      link: "https://medium.com/@kachisichobernardokoh/navigating-security-governance-frameworks-and-compliance-7ab8ae780b0c"
+      description: "Bridging the gap between technical execution and business compliance by exploring how organizations align with industry frameworks and regulatory mandates.",
+      excerpt: "Bridging the gap between technical execution and business compliance by exploring how organizations align with industry frameworks and regulatory mandates.",
+      link: "https://medium.com/@kachisichobernardokoh/navigating-security-governance-frameworks-and-compliance-7ab8ae780b0c",
+      url: "https://medium.com/@kachisichobernardokoh/navigating-security-governance-frameworks-and-compliance-7ab8ae780b0c"
+    },
+    {
+      id: 5,
+      title: "Why Every AI Security Professional Should Understand FGSM, BIM, and PGD",
+      tag: "Adversarial Machine Learning",
+      category: "Adversarial Machine Learning",
+      date: "Mar 2024",
+      platform: "Medium",
+      description: "Exploring advanced adversarial attacks against machine learning models, focusing on how malicious inputs intentionally degrade AI performance.",
+      excerpt: "Exploring advanced adversarial attacks against machine learning models, focusing on how malicious inputs intentionally degrade AI performance.",
+      link: "https://medium.com/@kachisichobernardokoh",
+      url: "https://medium.com/@kachisichobernardokoh"
+    },
+    {
+      id: 6,
+      title: "Cracking the Code: A Practical Guide to Classical & Modern Cryptography",
+      tag: "Cryptography",
+      category: "Cryptography",
+      date: "Apr 2024",
+      platform: "Medium",
+      description: "Tracing the evolution of data protection from classical ciphers to the modern cryptographic algorithms securing today's enterprise communications.",
+      excerpt: "Tracing the evolution of data protection from classical ciphers to the modern cryptographic algorithms securing today's enterprise communications.",
+      link: "https://medium.com/@kachisichobernardokoh/cracking-the-code-a-practical-guide-to-classical-modern-cryptography-tryhackme-walkthrough-e0ea319d9d11",
+      url: "https://medium.com/@kachisichobernardokoh/cracking-the-code-a-practical-guide-to-classical-modern-cryptography-tryhackme-walkthrough-e0ea319d9d11"
+    },
+    {
+      id: 7,
+      title: "Diffie-Hellman: Establishing Secrets over Insecure Channels",
+      tag: "Cryptography",
+      category: "Cryptography",
+      date: "May 2024",
+      platform: "Medium",
+      description: "A technical breakdown of secure key exchange protocols, demonstrating how systems safely negotiate encryption keys across fully monitored public networks.",
+      excerpt: "A technical breakdown of secure key exchange protocols, demonstrating how systems safely negotiate encryption keys across fully monitored public networks.",
+      link: "https://medium.com/@kachisichobernardokoh/diffie-hellman-establishing-secrets-over-insecure-channels-4cd687575a3f",
+      url: "https://medium.com/@kachisichobernardokoh/diffie-hellman-establishing-secrets-over-insecure-channels-4cd687575a3f"
     }
   ];
 
@@ -63,12 +111,12 @@ export default function BlogDirectory() {
     return posts.filter((post) => {
       const matchesSearch = 
         post.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-        post.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
+        post.description.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesCategory = activeCategory === "All" || post.tag === activeCategory;
       
       return matchesSearch && matchesCategory;
     });
-  }, [searchQuery, activeCategory, posts]);
+  }, [searchQuery, activeCategory]);
 
   return (
     <main className="flex flex-col w-full max-w-5xl mx-auto px-4 sm:px-6 md:px-8 pt-28 md:pt-32 pb-16">
@@ -135,7 +183,7 @@ export default function BlogDirectory() {
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.25 }}
               key={post.id}
-              href={post.link}
+              href={post.url}
               target="_blank"
               rel="noopener noreferrer"
               className="group relative flex flex-col p-5 sm:p-8 bg-white dark:bg-[#0A0A0A] border border-gray-200 dark:border-white/10 rounded-2xl transition-all duration-300 h-full shadow-sm hover:bg-gray-50 dark:hover:bg-[#121212] hover:border-[#10B981]/50 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(16,185,129,0.15)] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#10B981]/40"
@@ -152,8 +200,8 @@ export default function BlogDirectory() {
               <h3 className="text-lg sm:text-xl font-sans font-semibold text-gray-900 dark:text-gray-100 group-hover:text-[#10B981] transition-colors leading-snug mb-2 sm:mb-3">
                 {post.title}
               </h3>
-              <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm leading-relaxed mb-6 sm:mb-8 grow">
-                {post.excerpt}
+              <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm leading-relaxed mb-6 sm:mb-8 grow line-clamp-3">
+                {post.description}
               </p>
               
               {/* Bottom Action Row (Multi-Platform UI) */}

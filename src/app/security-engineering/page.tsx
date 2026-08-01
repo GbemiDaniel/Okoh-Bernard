@@ -22,12 +22,12 @@ export default function SecurityEngineeringPage() {
       { category: "Automation", items: ["Python", "PowerShell", "Bash"] }
     ],
     projects: [
-      { title: "Secure Network Architecture", url: "#", category: "Architecture" },
-      { title: "Active Directory Hardening", url: "#", category: "Infrastructure" },
-      { title: "Linux System Hardening", url: "#", category: "Infrastructure" },
-      { title: "Windows System Hardening", url: "#", category: "Infrastructure" },
-      { title: "Implementing Cloud Security Controls in AWS", url: "#", category: "Cloud" },
-      { title: "Identity & Access Management (IAM) Fundamentals", url: "#", category: "IAM" }
+      { title: "Secure Network Architecture", url: "https://github.com/OnyedikachiO/Security-Engineer-Projects-/blob/main/Network%20And%20System%20Security/Secure%20Network%20Architecture.md", category: "Architecture" },
+      { title: "Active Directory Hardening", url: "https://github.com/OnyedikachiO/Security-Engineer-Projects-/blob/main/Network%20And%20System%20Security/Active%20Directory%20Hardening.md", category: "Infrastructure" },
+      { title: "Linux System Hardening", url: "https://github.com/OnyedikachiO/Security-Engineer-Projects-/blob/main/Network%20And%20System%20Security/Linux%20System%20Hardening.md", category: "Infrastructure" },
+      { title: "Windows System Hardening", url: "https://github.com/OnyedikachiO/Security-Engineer-Projects-/blob/main/Network%20And%20System%20Security/Microsoft%20Windows%20System%20Hardening.md", category: "Infrastructure" },
+      { title: "Cloud Security Fundamentals", url: "https://github.com/OnyedikachiO/Security-Engineer-Projects-/blob/main/Network%20And%20System%20Security/Cloud%20Security%20Fundamentals.md", category: "Cloud" },
+      { title: "Introduction to Security Engineering", url: "https://github.com/OnyedikachiO/Security-Engineer-Projects-/tree/main/Intro%20To%20Security%20Engeering", category: "Frameworks" }
     ]
   };
 

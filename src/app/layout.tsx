@@ -21,13 +21,21 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Okoh Bernard | Pentester & Security Researcher",
-    template: "%s | Okoh Bernard"
+    default: "Okoh Onyedikachi Bernard | Security Engineer",
+    template: "%s |Okoh Onyedikachi Bernard"
   },
-  description: "Portfolio of Okoh Bernard Onyedikachi, a Security Analyst and Pentester specializing in web application security, offensive operations, and vulnerability research.",
-  keywords: ["Okoh Bernard", "Pentester", "Security Researcher", "Cybersecurity Portfolio", "Offensive Security", "Ethical Hacking", "Bernard Onyedikachi"],
-  authors: [{ name: "Okoh Bernard Onyedikachi" }],
-  creator: "Okoh Bernard Onyedikachi",
+  description: "Cybersecurity professional specializing in Security Engineering, Penetration Testing, and AI Security. Explore my vulnerability assessments, architectural designs, and technical research.",
+  keywords: [
+    "Security Engineer",
+    "Penetration Tester",
+    "AI Security",
+    "Cybersecurity Portfolio",
+    "LLM Security",
+    "Red Team",
+    "Vulnerability Assessment"
+  ],
+  authors: [{ name: "Onyedikachi Bernard Okoh" }],
+  creator: "Onyedikachi Bernard Okoh",
   icons: {
     icon: '/icon.svg',
     apple: '/apple-icon.png',
@@ -35,28 +43,35 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://okohbernard.com", // Placeholder: User can update this
-    title: "Okoh Bernard | Pentester & Security Researcher",
-    description: "Security Analyst and Pentester specializing in offensive security and vulnerability research.",
-    siteName: "Okoh Bernard Portfolio",
+    url: "https://okoh-bernard-portfolio.vercel.app", // TODO: Update with actual deployment URL
+    title: "Onyedikachi Bernard Okoh | Security Engineer",
+    description: "Cybersecurity professional specializing in Security Engineering, Penetration Testing, and AI Security.",
+    siteName: "Onyedikachi Bernard Okoh Portfolio",
     images: [
       {
-        url: "/Palli-img 2.jpg",
+        url: "/pall's banner.png",
         width: 1200,
         height: 630,
-        alt: "Okoh Bernard | Pentester & Security Researcher",
+        alt: "Onyedikachi Bernard Okoh - Security Engineer Portfolio",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Okoh Bernard | Pentester & Security Researcher",
-    description: "Security Analyst and Pentester specializing in offensive security and vulnerability research.",
-    images: ["/Palli-img 2.jpg"],
+    title: "Onyedikachi Bernard Okoh | Security Engineer",
+    description: "Cybersecurity professional specializing in Security Engineering, Penetration Testing, and AI Security.",
+    images: ["/opengraph-image.jpg"],
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 

@@ -1,29 +1,53 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, FormEvent } from "react";
 import { useTerminal } from "@/context/TerminalContext";
-import { FiMail, FiDownload, FiSend } from "react-icons/fi";
+import { FiMail, FiDownload } from "react-icons/fi";
 import { FaLinkedinIn, FaGithub, FaMediumM } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
 import { SiTryhackme } from "react-icons/si";
 import { Send, CheckCircle, Loader2 } from "lucide-react";
-import { useForm, ValidationError } from '@formspree/react';
 
 export default function ContactPage() {
   const { setActiveSection } = useTerminal();
   const textRef = useRef<HTMLDivElement>(null);
   const [statusText, setStatusText] = useState("Initializing...");
-  const [state, handleSubmit] = useForm("xykrnzzd");
+  
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  useEffect(() => {
-    if (state.succeeded) {
-      setFormData({ name: "", email: "", message: "" });
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setErrorMessage("");
+
+    const data = new FormData(e.currentTarget);
+
+    try {
+      const response = await fetch("https://formspree.io/f/mwvgjkrl", {
+        method: "POST",
+        body: data,
+        headers: {
+          Accept: "application/json",
+        },
+      });
+
+      if (response.ok) {
+        setIsSuccess(true);
+        setFormData({ name: "", email: "", message: "" });
+      } else {
+        setErrorMessage("System Error: Unable to route transmission. Please try again.");
+      }
+    } catch (error) {
+      setErrorMessage("Network Error: Connection refused.");
+    } finally {
+      setIsSubmitting(false);
     }
-  }, [state.succeeded]);
+  };
 
   useEffect(() => {
     if (textRef.current) {
@@ -95,7 +119,6 @@ export default function ContactPage() {
                 placeholder="Enter your name..." 
                 className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg p-3 text-gray-900 dark:text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#10B981]/50 focus:border-[#10B981] transition-all duration-300" 
               />
-              <ValidationError prefix="Name" field="name" errors={state.errors} className="text-red-500 text-xs mt-1" />
             </div>
             
             <div className="flex flex-col gap-2">
@@ -109,7 +132,6 @@ export default function ContactPage() {
                 placeholder="Enter your email..." 
                 className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg p-3 text-gray-900 dark:text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#10B981]/50 focus:border-[#10B981] transition-all duration-300" 
               />
-              <ValidationError prefix="Email" field="email" errors={state.errors} className="text-red-500 text-xs mt-1" />
             </div>
             
             <div className="flex flex-col gap-2">
@@ -123,27 +145,41 @@ export default function ContactPage() {
                 placeholder="How can we collaborate?" 
                 className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg p-3 text-gray-900 dark:text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#10B981]/50 focus:border-[#10B981] transition-all duration-300 resize-none" 
               />
-              <ValidationError prefix="Message" field="message" errors={state.errors} className="text-red-500 text-xs mt-1" />
             </div>
             
             <button
               type="submit"
-              disabled={state.submitting || state.succeeded}
+              disabled={isSubmitting || isSuccess}
               className="flex items-center justify-center gap-2 px-6 py-3 bg-[#10B981] hover:bg-[#0EA5E9] text-white font-medium rounded-xl transition-colors duration-300 active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed disabled:active:scale-100 self-start mt-2 shadow-lg shadow-[#10B981]/20 hover:shadow-[#0ea5e9]/20"
             >
-              {!state.submitting && !state.succeeded && !state.errors && (
+              {!isSubmitting && !isSuccess && !errorMessage && (
                 <>Send Message <Send className="w-4 h-4" /></>
               )}
-              {state.submitting && (
+              {isSubmitting && (
                 <>Establishing Connection... <Loader2 className="w-4 h-4 animate-spin" /></>
               )}
-              {state.succeeded && (
-                <>Transmission Sent <CheckCircle className="w-4 h-4" /></>
+              {isSuccess && (
+                <>Sent Successfully <CheckCircle className="w-4 h-4" /></>
               )}
-              {Boolean(state.errors) && (
+              {errorMessage && (
                 <>Transmission Failed. Retry?</>
               )}
             </button>
+
+            {/* Success / Error Feedback */}
+            {isSuccess && (
+              <div className="mt-2 p-3 bg-[#10B981]/10 border border-[#10B981]/30 rounded-xl flex items-center gap-3">
+                <span className="text-[#10B981] font-bold">✓</span>
+                <p className="text-sm text-[#10B981] font-mono">Sent Successfully</p>
+              </div>
+            )}
+
+            {errorMessage && (
+              <div className="mt-2 p-3 bg-red-500/10 border border-red-500/30 rounded-xl flex items-start gap-3">
+                <span className="text-red-500 font-bold">!</span>
+                <p className="text-sm text-red-400 font-mono">{errorMessage}</p>
+              </div>
+            )}
           </form>
         </div>
 
@@ -186,7 +222,7 @@ export default function ContactPage() {
                 kachisichobernardokoh@gmail.com
               </a>
               
-              <a href="/resume.pdf" target="_blank" className="group flex items-center gap-3 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
+              <a href="/Onyedikachi_Bernard_Okoh_CV.pdf" target="_blank" download className="group flex items-center gap-3 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
                  <div className="p-2 bg-gray-50 dark:bg-[#0a0a0a] rounded border border-gray-200 dark:border-gray-800 group-hover:border-[#10B981] transition-colors">
                   <FiDownload className="text-[#10B981]"/> 
                 </div>
