@@ -18,14 +18,14 @@ Status values: `NOT STARTED` | `IN PROGRESS` | `READY FOR REVIEW` | `APPROVED`
 ---
 
 ## Phase 0: Cleanup and shell
-Status: IN PROGRESS
+Status: READY FOR REVIEW
 Board: none
-- [ ] Branch `redesign` exists; old UI, old content and unused packages removed per the approved deletion list (BLOCKED: removal needs Daniel's explicit go-ahead, see run log)
+- [x] Branch `redesign` exists; old UI, old content and unused packages removed per the approved deletion list
 - [x] Redirects in `next.config.ts` (all return 308); `/certifications` goes to `/#credentials`; `/projects/:slug` goes to `/work`
 - [x] README replaced with a short real one; `handoff/` gitignored
-- [ ] `layout.tsx` wired with fonts, tokens and the empty header and footer shell; dark only (waits on the removal)
+- [x] `layout.tsx` wired with fonts, tokens and the empty header and footer shell; dark only
 - [x] Open Graph and Twitter metadata point to a real, resolving banner image
-- [ ] Type-check, lint and production build pass; branch pushed (passing on the current state; push waits on the removal)
+- [x] Type-check, lint and production build pass; branch pushed
 Gate: Daniel opens the preview. Routes load on the dark ground in Geist, no old UI visible, old links redirect.
 
 ## Phase 1: Design tokens, header and footer
@@ -165,3 +165,4 @@ Status: NOT STARTED
 ## Run log
 (Claude Code adds a dated line per run: what was done, what is ready for review.)
 - 2026-10-17, Phase 0 (IN PROGRESS): added GOALS.md; committed site config, content loader, tokens, fonts, `/work` and `/writeups` skeletons, hologram assets; redirects verified (all 308, `/projects/:slug` to `/work`); README replaced; TryHackMe records moved to `src/lib/credentials.ts`; new share banner and KB favicon. BLOCKED: the removal of the old UI was stopped by the auto-mode safety check and needs Daniel's explicit approval, so layout wiring and the push wait. Branch not pushed yet.
+- 2026-10-18, Phase 0 (READY FOR REVIEW): Daniel kept the original banner as the share image (renamed to `og-banner.png`) and approved the deletions. Removed the old UI, content, three unused photos and the packages `react-tsparticles`, `tsparticles-slim`, `react-icons`, `next-themes`. Wired `globals.css` and `layout.tsx` (tokens, Geist, header and footer shell, dark only); placeholders on `/`, `/about`, `/contact` and the 404. Checked every route at 390 and 1440 in headless Chrome. Branch pushed.
