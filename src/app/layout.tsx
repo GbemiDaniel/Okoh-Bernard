@@ -47,7 +47,8 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={fontVariables}>
-      <body className="flex min-h-dvh flex-col bg-bg font-sans text-ink antialiased">
+      <body className="relative flex min-h-dvh flex-col bg-bg font-sans text-ink antialiased">
+        <div id="top" className="absolute top-0" aria-hidden="true" />
         <SiteHeader />
         <main className="flex w-full flex-1 flex-col">{children}</main>
         <SiteFooter />

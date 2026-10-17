@@ -19,6 +19,7 @@
   --color-bg-wash: #0b2229; /* boards use #0b2229; tokens.json says #0e2a33 */
   --color-bg-raised: #0a1424;
   --color-bg-card: #0d1828; /* card and tile fill on every board */
+  --color-bg-lift: #10202f; /* top of raised round buttons */
   --color-bg-overlay: rgb(5 10 19 / 0.86); /* page menu */
   --color-surface: rgb(255 255 255 / 0.04);
   --color-surface-strong: rgb(255 255 255 / 0.07);
@@ -32,6 +33,7 @@
   --color-ink-300: #c2d1d6;
   --color-ink-350: #b6c6cc;
   --color-ink-muted: #a3b5bd;
+  --color-ink-420: #9fb2ba; /* desktop nav links at rest */
   --color-ink-450: #94a8b0;
   --color-ink-500: #8ea3ab;
   --color-ink-550: #7f949c;
@@ -190,6 +192,14 @@
 
 /* Values that are not utilities: gradients and the shared edge borders. */
 :root {
+  /* Channels for alpha tints: rgb(var(--mint-rgb) / 0.4) */
+  --mint-rgb: 94 234 212;
+  --violet-rgb: 139 92 246;
+  --lilac-rgb: 167 139 250;
+  --white-rgb: 255 255 255;
+  --bg-rgb: 7 15 28;
+  --raised-rgb: 10 20 36;
+
   --grad-brand: linear-gradient(90deg, #5eead4, #8b5cf6 70%, #a78bfa);
   --grad-brand-short: linear-gradient(90deg, #5eead4, #a78bfa);
   --grad-contact-border: linear-gradient(135deg, rgb(94 234 212 / 0.65), rgb(167 139 250 / 0.65));

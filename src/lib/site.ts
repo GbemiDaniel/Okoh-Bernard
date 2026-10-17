@@ -20,11 +20,25 @@ export const site = {
   formspreeId: "mwvgjkrl",
 } as const;
 
+// Pages nav. `hint` is the mono tag in the mobile pages menu (01-home-mobile).
 export const nav = [
-  { label: "Work", href: "/work" },
-  { label: "Writeups", href: "/writeups" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
+  { label: "Work", href: "/work", hint: "32 LABS" },
+  { label: "Writeups", href: "/writeups", hint: "ARTICLES" },
+  { label: "About", href: "/about", hint: "CERTIFICATES" },
+  { label: "Contact", href: "/contact", hint: "SAY HELLO" },
+] as const;
+
+export const footerNav = [
+  ...nav.map(({ label, href }) => ({ label, href })),
+  { label: "Certificates & Badges", href: "/about#credentials" },
+  { label: "Résumé", href: site.resume },
+] as const;
+
+export const socials = [
+  { label: "GitHub", href: site.github },
+  { label: "LinkedIn", href: site.linkedin },
+  { label: "Medium", href: site.medium },
+  { label: "Email", href: `mailto:${site.email}` },
 ] as const;
 
 // Every open placeholder on the site, so nothing ships by accident.
