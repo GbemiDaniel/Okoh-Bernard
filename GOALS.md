@@ -18,7 +18,7 @@ Status values: `NOT STARTED` | `IN PROGRESS` | `READY FOR REVIEW` | `APPROVED`
 ---
 
 ## Phase 0: Cleanup and shell
-Status: READY FOR REVIEW
+Status: APPROVED (Daniel, 2026-10-18: "move on to the next")
 Board: none
 - [x] Branch `redesign` exists; old UI, old content and unused packages removed per the approved deletion list
 - [x] Redirects in `next.config.ts` (all return 308); `/certifications` goes to `/#credentials`; `/projects/:slug` goes to `/work`
@@ -29,13 +29,13 @@ Board: none
 Gate: Daniel opens the preview. Routes load on the dark ground in Geist, no old UI visible, old links redirect.
 
 ## Phase 1: Design tokens, header and footer
-Status: NOT STARTED
+Status: READY FOR REVIEW
 Boards: 00-home-desktop, 01-home-mobile, 08-type-geist
-- [ ] Tokens (color, type, spacing, radii, shadows, motion) match the boards
-- [ ] Header, mobile (390): logo with satellite, resume pill, pages menu
-- [ ] Header, desktop (1440): pill nav with sliding lens
-- [ ] Footer: ridge, nav list, social icons, WAT clock, base line
-- [ ] Menu opens and closes by touch, mouse and keyboard; focus rings; reduced motion respected
+- [x] Tokens (color, type, spacing, radii, shadows, motion) match the boards
+- [x] Header, mobile (390): logo with satellite, resume pill, pages menu
+- [x] Header, desktop (1440): pill nav with sliding lens
+- [x] Footer: ridge, nav list, social icons, WAT clock, base line
+- [x] Menu opens and closes by touch, mouse and keyboard; focus rings; reduced motion respected
 Gate: header and footer compared side by side with the boards at 390 and 1440.
 
 ## Phase 2: Shared pieces
@@ -160,6 +160,11 @@ Status: NOT STARTED
 - Hero wash: boards use #0b2229; tokens.json says #0e2a33. Board wins.
 - Desktop nav: board tabs are Work, Writeups, About, Contact; the Navbar README says Home, About, Work, Contact. Board wins.
 - Footer credit: HANDOFF allows an "Engineered by Daniel" link to deecrypthub. Left out for now; Daniel has not decided whether to add it.
+- Desktop header: the Navbar README describes a transparent bar that fills on scroll, a gradient progress line and a Home tab. Board 00 has a constant blurred bar, no progress line, and Work, Writeups, About, Contact. Board wins.
+- Desktop nav lens: on the homepage board it follows the section in view; site-wide it marks the current page. Homepage section tracking comes with Phase 3.
+- Mobile header scrolls away with the page (absolute, as on every board); the desktop header is fixed.
+- Breakpoint: desktop header and footer from 1024px. No tablet board, so 768 to 1023 uses the mobile header.
+- Rim light, grain and the primary glass button (`btn-p`) were built in Phase 1 because the header and footer use them. Phase 2 turns them into the full kit.
 - Scrollbar: boards hide it. Daniel asked for a themed one instead: thin mint glass pill on the night track, native CSS only so scroll-linked motion keeps native scrolling.
 - OG banner: Daniel chose to keep the original banner as the share image. Renamed to `public/og-banner.png` (1672x941).
 
@@ -168,3 +173,4 @@ Status: NOT STARTED
 - 2026-10-17, Phase 0 (IN PROGRESS): added GOALS.md; committed site config, content loader, tokens, fonts, `/work` and `/writeups` skeletons, hologram assets; redirects verified (all 308, `/projects/:slug` to `/work`); README replaced; TryHackMe records moved to `src/lib/credentials.ts`; new share banner and KB favicon. BLOCKED: the removal of the old UI was stopped by the auto-mode safety check and needs Daniel's explicit approval, so layout wiring and the push wait. Branch not pushed yet.
 - 2026-10-18, Phase 0 (READY FOR REVIEW): Daniel kept the original banner as the share image (renamed to `og-banner.png`) and approved the deletions. Removed the old UI, content, three unused photos and the packages `react-tsparticles`, `tsparticles-slim`, `react-icons`, `next-themes`. Wired `globals.css` and `layout.tsx` (tokens, Geist, header and footer shell, dark only); placeholders on `/`, `/about`, `/contact` and the 404. Checked every route at 390 and 1440 in headless Chrome. Branch pushed.
 - 2026-10-18, Phase 0 review feedback: themed scrollbar added; body uses `overflow-x: clip` so sticky scroll effects work; footer credit stays out until Daniel decides; missing pages stay as placeholders. Still READY FOR REVIEW.
+- 2026-10-18, Phase 0 approved by Daniel. Phase 1 (READY FOR REVIEW): tokens extended (alpha channels, nav and lift colours); grain and rim light; mobile header (orbiting KB logo, résumé pill, pages menu) and desktop header (pill nav with lens, résumé, Get in touch); footer with mobile and desktop ridge art, card, socials, live WAT clock and base line; motion pauses off screen and stops under reduced motion. Checked in Chrome at 360, 390 and 1440: no horizontal overflow, menu opens by click and closes by Escape with focus returned, scroll locks while open, focus ring 2px mint. Branch pushed.
