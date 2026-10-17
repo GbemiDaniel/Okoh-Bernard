@@ -151,7 +151,6 @@ Status: NOT STARTED
 - New Open Graph image check (og:image is absolute to the production domain, so previews only resolve after merge)
 - TryHackMe badge links: check in a browser (scripted requests get 429); certificate PDFs return 200
 - Canonical slugs: `iam-compromise-investigation` vs `aws-iam-compromise-investigation`; "Terraform IaC Hardening" vs "Terraform Cloud IaC Hardening"
-- Decide the old photos in `public/` (`Palli-img 1.jpg`, `Palli-img 2.jpg`, `hero-profile.jpg`): unused by the new site
 
 ## Conflicts (board vs handoff, log every one)
 - Severity Medium colour: board shows red, handoff says amber. Decision: amber.
