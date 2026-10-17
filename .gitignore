@@ -47,3 +47,5 @@ next-env.d.ts
 .agent.json         
 .agent.md                   
 .agent/
+# design handoff (never commit)
+/handoff/
