@@ -51,8 +51,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: "/og-banner.png",
-        width: 1200,
-        height: 630,
+        width: 1672,
+        height: 941,
         alt: "Onyedikachi Bernard Okoh - Security Engineer Portfolio",
       },
     ],

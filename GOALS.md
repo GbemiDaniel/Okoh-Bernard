@@ -151,7 +151,7 @@ Status: NOT STARTED
 - New Open Graph image check (og:image is absolute to the production domain, so previews only resolve after merge)
 - TryHackMe badge links: check in a browser (scripted requests get 429); certificate PDFs return 200
 - Canonical slugs: `iam-compromise-investigation` vs `aws-iam-compromise-investigation`; "Terraform IaC Hardening" vs "Terraform Cloud IaC Hardening"
-- Decide the old photos in `public/` (`Palli's banner.png`, `Palli-img 1.jpg`, `Palli-img 2.jpg`, `hero-profile.jpg`): unused by the new site
+- Decide the old photos in `public/` (`Palli-img 1.jpg`, `Palli-img 2.jpg`, `hero-profile.jpg`): unused by the new site
 
 ## Conflicts (board vs handoff, log every one)
 - Severity Medium colour: board shows red, handoff says amber. Decision: amber.
@@ -161,7 +161,7 @@ Status: NOT STARTED
 - Hero wash: boards use #0b2229; tokens.json says #0e2a33. Board wins.
 - Desktop nav: board tabs are Work, Writeups, About, Contact; the Navbar README says Home, About, Work, Contact. Board wins.
 - Footer credit: HANDOFF allows an "Engineered by Daniel" link to deecrypthub; Daniel's rule bans those links. Left out.
-- OG banner: the old banner is the previous branding, so a new 1200x630 banner was built from board elements (`public/og-banner.png`).
+- OG banner: Daniel chose to keep the original banner as the share image. Renamed to `public/og-banner.png` (1672x941).
 
 ## Run log
 (Claude Code adds a dated line per run: what was done, what is ready for review.)
