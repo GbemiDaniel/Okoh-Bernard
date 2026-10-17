@@ -20,12 +20,12 @@ Status values: `NOT STARTED` | `IN PROGRESS` | `READY FOR REVIEW` | `APPROVED`
 ## Phase 0: Cleanup and shell
 Status: IN PROGRESS
 Board: none
-- [ ] Branch `redesign` exists; old UI, old content and unused packages removed per the approved deletion list
-- [ ] Redirects in `next.config.ts` (all return 308); `/certifications` goes to `/#credentials`; `/projects/:slug` goes to `/work`
-- [ ] README replaced with a short real one; `handoff/` gitignored
-- [ ] `layout.tsx` wired with fonts, tokens and the empty header and footer shell; dark only
-- [ ] Open Graph and Twitter metadata point to a real, resolving banner image
-- [ ] Type-check, lint and production build pass; branch pushed
+- [ ] Branch `redesign` exists; old UI, old content and unused packages removed per the approved deletion list (BLOCKED: removal needs Daniel's explicit go-ahead, see run log)
+- [x] Redirects in `next.config.ts` (all return 308); `/certifications` goes to `/#credentials`; `/projects/:slug` goes to `/work`
+- [x] README replaced with a short real one; `handoff/` gitignored
+- [ ] `layout.tsx` wired with fonts, tokens and the empty header and footer shell; dark only (waits on the removal)
+- [x] Open Graph and Twitter metadata point to a real, resolving banner image
+- [ ] Type-check, lint and production build pass; branch pushed (passing on the current state; push waits on the removal)
 Gate: Daniel opens the preview. Routes load on the dark ground in Geist, no old UI visible, old links redirect.
 
 ## Phase 1: Design tokens, header and footer
@@ -148,12 +148,21 @@ Status: NOT STARTED
 - Real GitHub repo URL per lab
 - Medium article bodies, publish dates, read times
 - Writeup cover images
-- New Open Graph image check
+- New Open Graph image check (og:image is absolute to the production domain, so previews only resolve after merge)
+- TryHackMe badge links: check in a browser (scripted requests get 429); certificate PDFs return 200
+- Canonical slugs: `iam-compromise-investigation` vs `aws-iam-compromise-investigation`; "Terraform IaC Hardening" vs "Terraform Cloud IaC Hardening"
+- Decide the old photos in `public/` (`Palli's banner.png`, `Palli-img 1.jpg`, `Palli-img 2.jpg`, `hero-profile.jpg`): unused by the new site
 
 ## Conflicts (board vs handoff, log every one)
 - Severity Medium colour: board shows red, handoff says amber. Decision: amber.
 - Work hub filters: board chips win over the handoff's four categories plus tab.
 - Homepage sections: board wins over the handoff's list.
+- Heading weight: boards set display type at 700 (desktop hero 750); tokens.json says 800. Board wins.
+- Hero wash: boards use #0b2229; tokens.json says #0e2a33. Board wins.
+- Desktop nav: board tabs are Work, Writeups, About, Contact; the Navbar README says Home, About, Work, Contact. Board wins.
+- Footer credit: HANDOFF allows an "Engineered by Daniel" link to deecrypthub; Daniel's rule bans those links. Left out.
+- OG banner: the old banner is the previous branding, so a new 1200x630 banner was built from board elements (`public/og-banner.png`).
 
 ## Run log
 (Claude Code adds a dated line per run: what was done, what is ready for review.)
+- 2026-10-17, Phase 0 (IN PROGRESS): added GOALS.md; committed site config, content loader, tokens, fonts, `/work` and `/writeups` skeletons, hologram assets; redirects verified (all 308, `/projects/:slug` to `/work`); README replaced; TryHackMe records moved to `src/lib/credentials.ts`; new share banner and KB favicon. BLOCKED: the removal of the old UI was stopped by the auto-mode safety check and needs Daniel's explicit approval, so layout wiring and the push wait. Branch not pushed yet.
