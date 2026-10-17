@@ -159,10 +159,12 @@ Status: NOT STARTED
 - Heading weight: boards set display type at 700 (desktop hero 750); tokens.json says 800. Board wins.
 - Hero wash: boards use #0b2229; tokens.json says #0e2a33. Board wins.
 - Desktop nav: board tabs are Work, Writeups, About, Contact; the Navbar README says Home, About, Work, Contact. Board wins.
-- Footer credit: HANDOFF allows an "Engineered by Daniel" link to deecrypthub; Daniel's rule bans those links. Left out.
+- Footer credit: HANDOFF allows an "Engineered by Daniel" link to deecrypthub. Left out for now; Daniel has not decided whether to add it.
+- Scrollbar: boards hide it. Daniel asked for a themed one instead: thin mint glass pill on the night track, native CSS only so scroll-linked motion keeps native scrolling.
 - OG banner: Daniel chose to keep the original banner as the share image. Renamed to `public/og-banner.png` (1672x941).
 
 ## Run log
 (Claude Code adds a dated line per run: what was done, what is ready for review.)
 - 2026-10-17, Phase 0 (IN PROGRESS): added GOALS.md; committed site config, content loader, tokens, fonts, `/work` and `/writeups` skeletons, hologram assets; redirects verified (all 308, `/projects/:slug` to `/work`); README replaced; TryHackMe records moved to `src/lib/credentials.ts`; new share banner and KB favicon. BLOCKED: the removal of the old UI was stopped by the auto-mode safety check and needs Daniel's explicit approval, so layout wiring and the push wait. Branch not pushed yet.
 - 2026-10-18, Phase 0 (READY FOR REVIEW): Daniel kept the original banner as the share image (renamed to `og-banner.png`) and approved the deletions. Removed the old UI, content, three unused photos and the packages `react-tsparticles`, `tsparticles-slim`, `react-icons`, `next-themes`. Wired `globals.css` and `layout.tsx` (tokens, Geist, header and footer shell, dark only); placeholders on `/`, `/about`, `/contact` and the 404. Checked every route at 390 and 1440 in headless Chrome. Branch pushed.
+- 2026-10-18, Phase 0 review feedback: themed scrollbar added; body uses `overflow-x: clip` so sticky scroll effects work; footer credit stays out until Daniel decides; missing pages stay as placeholders. Still READY FOR REVIEW.
