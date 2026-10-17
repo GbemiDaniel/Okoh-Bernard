@@ -20,6 +20,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://okoh-bernard-portfolio.vercel.app"),
   title: {
     default: "Okoh Onyedikachi Bernard | Security Engineer",
     template: "%s |Okoh Onyedikachi Bernard"
@@ -49,7 +50,7 @@ export const metadata: Metadata = {
     siteName: "Onyedikachi Bernard Okoh Portfolio",
     images: [
       {
-        url: "/pall's banner.png",
+        url: "/og-banner.png",
         width: 1200,
         height: 630,
         alt: "Onyedikachi Bernard Okoh - Security Engineer Portfolio",
@@ -60,7 +61,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Onyedikachi Bernard Okoh | Security Engineer",
     description: "Cybersecurity professional specializing in Security Engineering, Penetration Testing, and AI Security.",
-    images: ["/opengraph-image.jpg"],
+    images: ["/og-banner.png"],
   },
   robots: {
     index: true,
