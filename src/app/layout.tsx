@@ -53,7 +53,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         </noscript>
         <div id="top" className="absolute top-0" aria-hidden="true" />
         <SiteHeader />
-        <main className="flex w-full flex-1 flex-col">{children}</main>
+        {/* clip, not hidden: decorative glows (hologram halo) may bleed past the edge, and
+            hidden would break position: sticky. Mobile browsers widen the layout viewport
+            for any overflow, so it has to be clipped here, not only on <body>. */}
+        <main className="flex w-full flex-1 flex-col overflow-x-clip">{children}</main>
         <SiteFooter />
       </body>
     </html>
