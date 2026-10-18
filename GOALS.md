@@ -29,7 +29,7 @@ Board: none
 Gate: Daniel opens the preview. Routes load on the dark ground in Geist, no old UI visible, old links redirect.
 
 ## Phase 1: Design tokens, header and footer
-Status: READY FOR REVIEW
+Status: APPROVED (Daniel, 2026-10-18: "looks good carry on")
 Boards: 00-home-desktop, 01-home-mobile, 08-type-geist
 - [x] Tokens (color, type, spacing, radii, shadows, motion) match the boards
 - [x] Header, mobile (390): logo with satellite, resume pill, pages menu
@@ -39,12 +39,12 @@ Boards: 00-home-desktop, 01-home-mobile, 08-type-geist
 Gate: header and footer compared side by side with the boards at 390 and 1440.
 
 ## Phase 2: Shared pieces
-Status: NOT STARTED
+Status: READY FOR REVIEW
 Boards: 09-button-pairs, 03-case-study, 00-home-desktop
-- [ ] Lens button pair (primary and secondary) moves like one piece of glass by mouse, touch and keyboard
-- [ ] Capsule, section heading, chips, glass card, rim and grain
-- [ ] Scroll reveal helper with reduced-motion fallback
-- [ ] Shown on a hidden temporary page, `/_kit`, removed before merge
+- [x] Lens button pair (primary and secondary) moves like one piece of glass by mouse, touch and keyboard
+- [x] Capsule, section heading, chips, glass card, rim and grain
+- [x] Scroll reveal helper with reduced-motion fallback
+- [x] Shown on a hidden temporary page, `/_kit`, removed before merge
 Gate: Daniel tries the buttons on a phone and a laptop.
 
 ## Phase 3: Homepage sections (one section per run, mobile first, then desktop)
@@ -165,6 +165,8 @@ Status: NOT STARTED
 - Mobile header scrolls away with the page (absolute, as on every board); the desktop header is fixed.
 - Breakpoint: desktop header and footer from 1024px. No tablet board, so 768 to 1023 uses the mobile header.
 - Rim light, grain and the primary glass button (`btn-p`) were built in Phase 1 because the header and footer use them. Phase 2 turns them into the full kit.
+- Button pair: board 09 recommends "A · Split capsule" (golden-ratio split, lens always visible). The homepage boards (00, 01) use a later version: lens hidden at rest, 58/42 split, lit discs, tap fires then navigates. Built the homepage version.
+- Lens motion: HANDOFF suggests Framer Motion or animating the board's own variables. Used the board's variables and data attributes in CSS, so timings match exactly.
 - Scrollbar: boards hide it. Daniel asked for a themed one instead: thin mint glass pill on the night track, native CSS only so scroll-linked motion keeps native scrolling.
 - OG banner: Daniel chose to keep the original banner as the share image. Renamed to `public/og-banner.png` (1672x941).
 
@@ -174,3 +176,4 @@ Status: NOT STARTED
 - 2026-10-18, Phase 0 (READY FOR REVIEW): Daniel kept the original banner as the share image (renamed to `og-banner.png`) and approved the deletions. Removed the old UI, content, three unused photos and the packages `react-tsparticles`, `tsparticles-slim`, `react-icons`, `next-themes`. Wired `globals.css` and `layout.tsx` (tokens, Geist, header and footer shell, dark only); placeholders on `/`, `/about`, `/contact` and the 404. Checked every route at 390 and 1440 in headless Chrome. Branch pushed.
 - 2026-10-18, Phase 0 review feedback: themed scrollbar added; body uses `overflow-x: clip` so sticky scroll effects work; footer credit stays out until Daniel decides; missing pages stay as placeholders. Still READY FOR REVIEW.
 - 2026-10-18, Phase 0 approved by Daniel. Phase 1 (READY FOR REVIEW): tokens extended (alpha channels, nav and lift colours); grain and rim light; mobile header (orbiting KB logo, résumé pill, pages menu) and desktop header (pill nav with lens, résumé, Get in touch); footer with mobile and desktop ridge art, card, socials, live WAT clock and base line; motion pauses off screen and stops under reduced motion. Checked in Chrome at 360, 390 and 1440: no horizontal overflow, menu opens by click and closes by Escape with focus returned, scroll locks while open, focus ring 2px mint. Branch pushed.
+- 2026-10-18, Phase 1 approved by Daniel. Phase 2 (READY FOR REVIEW): kit in `src/components/kit` and `src/styles/kit.css`: split capsule (hero pair), segmented capsule (topic picker and ring switch, arrow keys), link capsule, arrow link, section headings (mobile orbit index, desktop rule, page kicker, case study head), skill chips, orbit and mono tags, filter chips, glass card, panel, quote, scroll reveal. Demo at `/_kit` (noindex, folder `src/app/%5Fkit`). Checked in Chrome at 390 and 1440: hover, keyboard focus and touch tap on the capsule (fires, then navigates), arrow keys and lens direction on the segmented capsule, reveal on scroll, no overflow, reduced motion shows final states. Branch pushed.
