@@ -159,11 +159,11 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
-    min-height: 52px;
-    padding: 0 22px;
+    min-height: clamp(44px, 13.33vw, 52px);
+    padding: 0 clamp(17.6px, 5.641vw, 22px);
     border-radius: var(--radius-pill);
     border: 1px solid transparent;
-    font: 600 15px/1 var(--font-sans);
+    font: 600 clamp(12px, 3.846vw, 15px)/1 var(--font-sans);
     color: var(--color-ink);
     cursor: pointer;
     background:
