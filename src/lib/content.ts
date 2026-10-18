@@ -56,14 +56,19 @@ export type CaseStudy = {
 export type Writeup = {
   slug: string;
   title: string;
+  /** Mono area line, e.g. "AI · ADVERSARIAL ML" */
   area: string;
+  /** Colour family for the card: ai (lavender), cloud (sky), devsecops (mint) */
+  hue: "ai" | "cloud" | "devsecops";
   summary: string;
-  /** YYYY-MM, as shown on the cards */
+  /** Publish date on Medium, YYYY-MM-DD */
   date: string;
   readMinutes: number;
   mediumUrl: string;
   tags?: string[];
   cover?: string;
+  /** Position on the homepage (1 is the lead card); omitted if not shown there */
+  homeOrder?: number;
   body: string;
   sections: Record<string, string>;
 };
@@ -124,7 +129,7 @@ let writeupCache: Writeup[] | null = null;
 export function getWriteups(): Writeup[] {
   if (writeupCache) return writeupCache;
   const items = readDir("writeups").map(({ file, data, body }) => {
-    need(file, data, ["slug", "title", "area", "summary", "date", "readMinutes", "mediumUrl"]);
+    need(file, data, ["slug", "title", "area", "hue", "summary", "date", "readMinutes", "mediumUrl"]);
     return { ...(data as Omit<Writeup, "body" | "sections">), body, sections: splitSections(body) };
   });
   writeupCache = items.sort((a, b) => b.date.localeCompare(a.date));
