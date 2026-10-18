@@ -49,26 +49,28 @@ Gate: Daniel tries the buttons on a phone and a laptop.
 
 ## Phase 3: Homepage sections (one section per run, mobile first, then desktop)
 Boards: 01-home-mobile, 00-home-desktop
-Each section below is its own run. Tick it, set it `READY FOR REVIEW`, stop.
+Each section below is its own run. Tick it, set it `READY FOR REVIEW`, stop. (Overridden by Daniel on 2026-10-18 for this phase: all sections in one run.)
 
-- 3.1 Hero with the hologram portrait. Status: READY FOR REVIEW
+- 3.1 Hero with the hologram portrait. Status: APPROVED (Daniel, 2026-10-18: "go ahead, finish phase three")
   - [x] Hologram assembles once on load, matches board colour grade, seed and timing
   - [x] Hero text, buttons (no "Remote" tile or motto in either hero board; see Conflicts)
   - [x] Low-tier fallback works; desktop hero hierarchy matches. Smooth on a mid-range phone: Daniel to confirm on a real device
-- 3.2 The Record. Status: NOT STARTED
-  - [ ] Matches board at 390 and 1440
-- 3.3 Three Orbits. Status: NOT STARTED
-  - [ ] Matches board; animation respects reduced motion
-- 3.4 Case Studies strip. Status: NOT STARTED
-  - [ ] Cards use real slugs; desktop pinned horizontal strip works
-- 3.5 Skills. Status: NOT STARTED
-  - [ ] Matches board
-- 3.6 Writeups preview. Status: NOT STARTED
-  - [ ] Matches board; real Medium links only
-- 3.7 About and credentials. Status: NOT STARTED
-  - [ ] Matches board; element with `id="credentials"` exists; badges and certificates from `public/`
-- 3.8 Contact block. Status: NOT STARTED
-  - [ ] Matches board; real contact details from `site.ts`
+- 3.2 The Record. Status: READY FOR REVIEW
+  - [x] Matches board at 390 and 1440
+- 3.3 Three Orbits. Status: READY FOR REVIEW
+  - [x] Matches board; animation respects reduced motion
+- 3.4 Case Studies strip. Status: READY FOR REVIEW
+  - [x] Cards use real slugs (unimported labs open the work hub until their case study exists); desktop pinned horizontal strip works
+- 3.5 Skills. Status: READY FOR REVIEW
+  - [x] Matches board
+- 3.6 Writeups preview. Status: READY FOR REVIEW
+  - [x] Matches board; real Medium links only (dates and read times verified on Medium)
+- 3.7 About and credentials. Status: READY FOR REVIEW
+  - [x] Matches board; element with `id="credentials"` exists; badges and certificates from the TryHackMe records (board icons, each links to its verify page)
+- 3.8 Contact block. Status: READY FOR REVIEW
+  - [x] Matches board; real contact details from `site.ts`
+- 3.9 Homepage section nav (added: on both boards, not listed above). Status: READY FOR REVIEW
+  - [x] Mobile orbit dial, desktop progress rail, header lens follows the section in view
 Gate for the whole homepage: every section `APPROVED`, then the full page is checked top to bottom at 360, 390, 768, 1024, 1440.
 
 ## Phase 4: Case study template (one lab)
@@ -146,10 +148,12 @@ Status: NOT STARTED
 ## Open TODOs (mirror of `site.ts` todos)
 - Resume PDF
 - Real GitHub repo URL per lab
-- Medium article bodies, publish dates, read times
+- Medium article bodies (publish dates and read times now verified)
 - Writeup cover images
 - New Open Graph image check (og:image is absolute to the production domain, so previews only resolve after merge)
 - TryHackMe badge links: check in a browser (scripted requests get 429); certificate PDFs return 200
+- Copy to confirm with Kachi: "I usually reply within a day" and "Works remote" (desktop contact, board copy)
+- Featured card blurbs (board copy) to check against the Notion labs when they are imported (Phase 6 and 7)
 - Canonical slugs: `iam-compromise-investigation` vs `aws-iam-compromise-investigation`; "Terraform IaC Hardening" vs "Terraform Cloud IaC Hardening"
 
 ## Conflicts (board vs handoff, log every one)
@@ -174,6 +178,15 @@ Status: NOT STARTED
 - Hero links: "View my work" and "Get in touch" point to #work and #contact as on the board; until 3.4 and 3.8 add those sections they open /work and /contact.
 - Desktop hero stats: 08 domains and 09 credentials are computed from the data; 32 labs is `site.labCount` until every lab is imported (lab count TODO).
 - Header nav at 1024: tabs are 108px on the board; they now shrink to 88px at 1024 so the pill never touches the résumé pill. Unchanged at 1440.
+- Run scope: Daniel asked for all of Phase 3 in one run ("finish phase three and report back"), overriding one section per run for this phase.
+- Writeups header: the board says "READ ON SITE"; until the on-site articles exist (Phase 8) the cards open Medium, so the label reads "READ ON MEDIUM". Restore with Phase 8.
+- Credentials: the board shows them as icons only; each now links to its TryHackMe verify page so every claim can be checked.
+- Motto: the desktop board makes it a replay button; HANDOFF says it writes once and is not tappable. HANDOFF wins here (it records the client decision).
+- Record tiles: the board nests links inside a <dl>, which is invalid HTML; built as a grid of links with the same look.
+- Email row: at a true 390px the board's own email row overflows (its preview was zoomed to 1.15). Text now scales to fit from 360px up; at 320px it truncates with the full address in the tooltip and the Copy button.
+- Desktop content width: with the progress rail showing (1280px and up), content starts at least 180px in so the rail's label never covers copy. Below 1280 the rail is hidden. 1920 keeps the board's 1200px column.
+- Tablet (768 to 1023, no board): sections keep a 720px column, the orbit map caps at 546px and the hero button pair at 430px.
+- Overflow bug found and fixed: the hologram halo (118% of the stage, as on the board) widened the mobile layout viewport to 425px, zooming the page out. main now clips horizontal overflow. This also affected the approved 3.1 hero.
 - Scrollbar: boards hide it. Daniel asked for a themed one instead: thin mint glass pill on the night track, native CSS only so scroll-linked motion keeps native scrolling.
 - OG banner: Daniel chose to keep the original banner as the share image. Renamed to `public/og-banner.png` (1672x941).
 
@@ -186,3 +199,4 @@ Status: NOT STARTED
 - 2026-10-18, Phase 1 approved by Daniel. Phase 2 (READY FOR REVIEW): kit in `src/components/kit` and `src/styles/kit.css`: split capsule (hero pair), segmented capsule (topic picker and ring switch, arrow keys), link capsule, arrow link, section headings (mobile orbit index, desktop rule, page kicker, case study head), skill chips, orbit and mono tags, filter chips, glass card, panel, quote, scroll reveal. Demo at `/_kit` (noindex, folder `src/app/%5Fkit`). Checked in Chrome at 390 and 1440: hover, keyboard focus and touch tap on the capsule (fires, then navigates), arrow keys and lens direction on the segmented capsule, reveal on scroll, no overflow, reduced motion shows final states. Branch pushed.
 - 2026-10-18, Phase 2 review feedback: buttons and capsules now scale fluidly on small phones; quieter lens active state on both capsules. Checked at 320, 360, 390 and 1440: no label overflows its segment, no page overflow. Still READY FOR REVIEW.
 - 2026-10-18, Phase 2 approved by Daniel. 3.1 Hero (READY FOR REVIEW): hologram engine ported from the board (seed 7, same decode, timings, grade, scanlines, scan band, glitches, puck), assets from `public/hologram`, scales to any width (1.5x on desktop as on the board), pauses off screen, low tier at 4 or fewer cores, 3GB memory or slow frames (adds `lite` site-wide), reduced motion draws the settled frame once. Mobile hero from 01, desktop hero from 00 with desktop-only reveals and the parallax. Checked in Chrome: final frame identical to the board side by side; 0 draws off screen; 1 draw under reduced motion; low tier at 4 cores; no overflow at 360, 390, 1024, 1440. Branch pushed.
+- 2026-10-18, 3.1 approved by Daniel; Phase 3 finished in one run at his request. 3.2 to 3.8 and the added 3.9 section nav set to READY FOR REVIEW. Writeups metadata added as content files (dates and read times verified on Medium). Fixed a horizontal overflow from the hologram halo that also affected 3.1. Checked in Chrome at 320, 360, 390, 768, 1024, 1280, 1440 and 1920: no overflow; count-ups, motto, reveals, orbit switching by ring, label, tab and swipe, panel jump to the right slide, copy email, dial (open, Escape, focus), rail and header lens, pinned strip, contact fill; reduced motion stops loops and shows final states. Branch pushed.

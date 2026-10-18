@@ -45,6 +45,10 @@
   .hero-scroll { display: none; }
   .hero-lede { margin: 14px auto 0; max-width: 330px; font: 400 16px/1.6 var(--font-sans); color: var(--color-ink-muted); }
   .hero .cap { margin-top: 24px; }
+  /* Tablet (no board): the pair keeps its desktop width instead of spanning the screen. */
+  @media (min-width: 48rem) and (max-width: 63.99rem) {
+    .hero .cap { max-width: 430px; margin-left: auto; margin-right: auto; }
+  }
 
   /* ---------- Hero, desktop ---------- */
   @media (min-width: 64rem) {
