@@ -3,13 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import { Reveal, SectionHeading } from "@/components/kit";
 import { OrbitGlyph } from "@/components/site/OrbitGlyph";
-import { site } from "@/lib/site";
 
 const TILE_ICONS = {
   labs: "M6 3v12M18 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM6 21a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM18 9c0 4-6 3-12 6",
   domains: "M4 20h4L19 9l-4-4L4 16zM13 7l4 4",
   creds: "M12 3l7 4v10l-7 4-7-4V7zM9 12l2 2 4-4",
-  place: "M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12zM12 6.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5z",
+  remote: "M3 5h18v11H3zM8 20h8M12 16v4",
 };
 
 function TileIcon({ d }: { d: string }) {
@@ -39,18 +38,6 @@ function useCountUp(target: number, delay: number, run: boolean) {
     return () => cancelAnimationFrame(raf);
   }, [run, target, delay]);
   return v;
-}
-
-function LocalTime() {
-  const [t, setT] = useState<string | null>(null);
-  useEffect(() => {
-    const fmt = new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: site.timeZone });
-    const tick = () => setT(fmt.format(new Date()));
-    tick();
-    const id = setInterval(tick, 20000);
-    return () => clearInterval(id);
-  }, []);
-  return <span>{t ? `WAT · ${t} local` : "WAT"}</span>;
 }
 
 export function Record({ labs, domains, credentials }: { labs: number; domains: number; credentials: number }) {
@@ -129,14 +116,14 @@ export function Record({ labs, domains, credentials }: { labs: number; domains: 
             <div className="fx-t" style={{ "--d": "270ms" } as React.CSSProperties}>
               <span className="grain" aria-hidden="true" />
               <span className="fx-k">
-                <TileIcon d={TILE_ICONS.place} />
-                BASED IN
+                <TileIcon d={TILE_ICONS.remote} />
+                WORKS
               </span>
               <span className="fx-v">
-                <b>{site.location}</b>
+                <b>Remote</b>
                 <span className="fx-sub">
                   <OrbitGlyph />
-                  <LocalTime />
+                  <span>Or hybrid</span>
                 </span>
               </span>
             </div>

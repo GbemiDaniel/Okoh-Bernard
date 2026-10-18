@@ -7,8 +7,8 @@ export const site = {
   shortName: "Kachi Bernard",
   displayName: "Onyedikachi Bernard",
   url: "https://okoh-bernard-portfolio.vercel.app",
-  location: "Nigeria",
-  timeZone: "Africa/Lagos",
+  // Never state his location or local time anywhere on the site (Daniel, 2026-10-18).
+  workMode: "Remote or hybrid",
   email: "kachisichobernardokoh@gmail.com",
   linkedin: "https://www.linkedin.com/in/onyedikachi-bernard-okoh-405861262",
   github: "https://github.com/OnyedikachiO",
@@ -57,6 +57,6 @@ export const todos = [
   "share preview: og:image is absolute to the production domain, so previews resolve only after merge",
   "credentials: check the TryHackMe badge links in a browser (scripted requests get 429)",
   "slugs: confirm iam-compromise-investigation vs aws-iam-compromise-investigation, and the Terraform lab slug",
-  "copy: Kachi to confirm \"I usually reply within a day\" and \"Works remote\" (desktop contact)",
+  "copy: Kachi to confirm \"I usually reply within a day\" (desktop contact)",
   "featured cards: check the board blurbs against the Notion labs on import",
 ] as const;

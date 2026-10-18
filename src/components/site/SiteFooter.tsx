@@ -72,19 +72,12 @@ function Horizon({ art, id, className, still }: { art: typeof MOBILE; id: string
   );
 }
 
-function WatClock() {
-  const [time, setTime] = useState<string | null>(null);
-  useEffect(() => {
-    const fmt = new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: site.timeZone });
-    const tick = () => setTime(fmt.format(new Date()));
-    tick();
-    const id = setInterval(tick, 20000);
-    return () => clearInterval(id);
-  }, []);
+// The board's live local clock is replaced by work mode: no location or local time on the site.
+function WorkMode() {
   return (
     <span className="ft-clk">
       <OrbitGlyph />
-      <span>{time ? `NG · ${time} WAT` : "NG · WAT"}</span>
+      <span>REMOTE · HYBRID</span>
     </span>
   );
 }
@@ -170,14 +163,14 @@ export function SiteFooter() {
                 );
               })}
             </div>
-            <WatClock />
+            <WorkMode />
           </div>
         </div>
         <div className="ft-base">
           <span>
             © {new Date().getFullYear()} {site.displayName}. All rights reserved.
           </span>
-          <span className="mono">BUILT IN NIGERIA · SECURE BY DESIGN</span>
+          <span className="mono">SECURE BY DESIGN</span>
         </div>
       </div>
     </footer>

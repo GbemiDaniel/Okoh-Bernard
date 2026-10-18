@@ -75,7 +75,7 @@ export function AboutBlock() {
             <SectionHeading id="about-title" index={6} total={7} label="About" lead="About" accent="Me" />
           </Reveal>
           <Reveal desktopOnly delay={120} as="p" className="about-p">
-            I&apos;m Kachi, a security engineer based in Nigeria working across cloud security, DevSecOps and AI security. I learn by doing:
+            I&apos;m Kachi, a security engineer working across cloud security, DevSecOps and AI security. I learn by doing:
             every misconfiguration I find gets fixed, verified and written up so someone else can follow the same path.
           </Reveal>
           <Reveal desktopOnly delay={180}>

@@ -131,8 +131,7 @@ export function ContactBlock() {
               </p>
               <div className="ct-avail">
                 <OrbitGlyph dur="3s" width={16} />
-                {/* TODO(copy): Kachi to confirm "works remote". */}
-                <span>BASED IN NIGERIA · WORKS REMOTE</span>
+                <span>OPEN TO REMOTE · HYBRID</span>
               </div>
             </Reveal>
             <Reveal desktopOnly delay={120}>
