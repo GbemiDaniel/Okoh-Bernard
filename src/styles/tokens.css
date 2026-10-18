@@ -20,6 +20,7 @@
   --color-bg-raised: #0a1424;
   --color-bg-card: #0d1828; /* card and tile fill on every board */
   --color-bg-lift: #10202f; /* top of raised round buttons */
+  --color-bg-sheen: #0d1d2b; /* right end of the link capsule fill */
   --color-bg-overlay: rgb(5 10 19 / 0.86); /* page menu */
   --color-surface: rgb(255 255 255 / 0.04);
   --color-surface-strong: rgb(255 255 255 / 0.07);
@@ -199,6 +200,7 @@
   --white-rgb: 255 255 255;
   --bg-rgb: 7 15 28;
   --raised-rgb: 10 20 36;
+  --on-mint-rgb: 6 42 37;
 
   --grad-brand: linear-gradient(90deg, #5eead4, #8b5cf6 70%, #a78bfa);
   --grad-brand-short: linear-gradient(90deg, #5eead4, #a78bfa);
