@@ -18,6 +18,9 @@ export const site = {
   // TODO(resume): the PDF is not in public/. Daniel to supply it before launch.
   resume: "/Onyedikachi_Bernard_Okoh_CV.pdf",
   formspreeId: "mwvgjkrl",
+  // Notion count: 15 cloud + 17 DevSecOps. TODO(lab count): confirm with Kachi.
+  // Replace with getCaseStudies().length once every lab is imported.
+  labCount: 32,
 } as const;
 
 // Pages nav. `hint` is the mono tag in the mobile pages menu (01-home-mobile).

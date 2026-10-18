@@ -12,11 +12,14 @@ export function Reveal({
   delay = 0,
   as: Tag = "div",
   className = "",
+  desktopOnly = false,
 }: {
   children: React.ReactNode;
   delay?: number;
   as?: "div" | "section" | "li" | "p" | "span";
   className?: string;
+  /** Animate only at lg and up (the mobile hero board has no entrance motion). */
+  desktopOnly?: boolean;
 }) {
   const ref = useRef<HTMLElement>(null);
 
@@ -39,7 +42,7 @@ export function Reveal({
   return (
     <Tag
       ref={ref as React.Ref<never>}
-      className={`rv ${className}`}
+      className={`${desktopOnly ? "rv-lg" : "rv"} ${className}`}
       style={delay ? ({ "--d": `${delay}ms` } as React.CSSProperties) : undefined}
     >
       {children}

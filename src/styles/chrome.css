@@ -361,6 +361,8 @@
     }
     .dh-logo { justify-self: start; display: flex; align-items: center; min-height: 44px; }
     .dn {
+      /* Tab width: 108px on the board (1440), down to 88px at 1024 so the header never crowds. */
+      --dn-w: clamp(88px, 7.5vw, 108px);
       position: relative;
       display: flex;
       padding: 4px;
@@ -371,7 +373,7 @@
     .dn a {
       position: relative;
       z-index: 1;
-      width: 108px;
+      width: var(--dn-w);
       height: 40px;
       display: grid;
       place-items: center;
@@ -386,8 +388,8 @@
       position: absolute;
       z-index: 0;
       top: 4px;
-      left: calc(4px + var(--li) * 108px);
-      width: 108px;
+      left: calc(4px + var(--li) * var(--dn-w));
+      width: var(--dn-w);
       height: 40px;
       border-radius: var(--radius-pill);
       overflow: hidden;

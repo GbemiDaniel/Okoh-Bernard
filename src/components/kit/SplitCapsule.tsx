@@ -3,7 +3,13 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-export type CapsuleAction = { label: string; href: string; icon: React.ReactNode };
+export type CapsuleAction = {
+  label: string;
+  href: string;
+  icon: React.ReactNode;
+  /** Page to open when an in-page target (#work) is not on this page. */
+  fallback?: string;
+};
 
 type Side = 0 | 1 | 2;
 
@@ -37,7 +43,7 @@ export function SplitCapsule({ primary, secondary, className = "" }: { primary: 
   };
 
   // Tap or click: light the half, pulse it, then travel.
-  const go = (e: React.MouseEvent<HTMLAnchorElement>, i: 1 | 2, href: string) => {
+  const go = (e: React.MouseEvent<HTMLAnchorElement>, i: 1 | 2, href: string, fallback?: string) => {
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
     e.preventDefault();
     busy.current = true;
@@ -52,8 +58,11 @@ export function SplitCapsule({ primary, secondary, className = "" }: { primary: 
     const still = reduced();
     timers.current = [
       window.setTimeout(() => {
-        if (href.startsWith("#")) {
-          document.querySelector(href)?.scrollIntoView({ behavior: still ? "auto" : "smooth", block: "start" });
+        const target = href.startsWith("#") ? document.querySelector(href) : null;
+        if (target) {
+          target.scrollIntoView({ behavior: still ? "auto" : "smooth", block: "start" });
+        } else if (href.startsWith("#")) {
+          if (fallback) router.push(fallback);
         } else {
           router.push(href);
         }
@@ -80,7 +89,7 @@ export function SplitCapsule({ primary, secondary, className = "" }: { primary: 
       onPointerCancel={() => setPress(0)}
       onFocus={() => light(i)}
       onBlur={leave}
-      onClick={(e) => go(e, i, a.href)}
+      onClick={(e) => go(e, i, a.href, a.fallback)}
     >
       <span className="disc" aria-hidden="true">
         {a.icon}

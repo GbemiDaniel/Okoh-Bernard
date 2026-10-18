@@ -39,7 +39,7 @@ Boards: 00-home-desktop, 01-home-mobile, 08-type-geist
 Gate: header and footer compared side by side with the boards at 390 and 1440.
 
 ## Phase 2: Shared pieces
-Status: READY FOR REVIEW
+Status: APPROVED (Daniel, 2026-10-18: "alright. lets go.")
 Boards: 09-button-pairs, 03-case-study, 00-home-desktop
 - [x] Lens button pair (primary and secondary) moves like one piece of glass by mouse, touch and keyboard
 - [x] Capsule, section heading, chips, glass card, rim and grain
@@ -51,10 +51,10 @@ Gate: Daniel tries the buttons on a phone and a laptop.
 Boards: 01-home-mobile, 00-home-desktop
 Each section below is its own run. Tick it, set it `READY FOR REVIEW`, stop.
 
-- 3.1 Hero with the hologram portrait. Status: NOT STARTED
-  - [ ] Hologram assembles once on load, matches board colour grade, seed and timing
-  - [ ] Hero text, buttons, "Remote" tile, motto (static, no replay button)
-  - [ ] Smooth on a mid-range phone; low-tier fallback works; desktop hero hierarchy matches
+- 3.1 Hero with the hologram portrait. Status: READY FOR REVIEW
+  - [x] Hologram assembles once on load, matches board colour grade, seed and timing
+  - [x] Hero text, buttons (no "Remote" tile or motto in either hero board; see Conflicts)
+  - [x] Low-tier fallback works; desktop hero hierarchy matches. Smooth on a mid-range phone: Daniel to confirm on a real device
 - 3.2 The Record. Status: NOT STARTED
   - [ ] Matches board at 390 and 1440
 - 3.3 Three Orbits. Status: NOT STARTED
@@ -169,6 +169,11 @@ Status: NOT STARTED
 - Lens motion: HANDOFF suggests Framer Motion or animating the board's own variables. Used the board's variables and data attributes in CSS, so timings match exactly.
 - Lens active state: Daniel found the board's lens (white top sheen, bright bottom edge, heavy glow) off from the rest of the system. Changed on both capsules to a soft tint, 1px hairline and a faint glow, matching the active filter chip and cards. Daniel's call overrides the board here.
 - Button scaling: boards scale with a preview zoom. Built fluid sizes instead: capsules, link capsule and glass button scale from 80% at 312px to the board size at 390px and up.
+- 3.1 hero contents: GOALS lists a "Remote" tile and the motto in the hero. Neither hero board has them: the mobile hero is hologram, eyebrow, name, lede and the button pair; the desktop hero adds the role line, stats and scroll cue. The motto lives in section 06 About (3.7) and "Based in Nigeria" is a Record tile (3.2). Board wins.
+- Hologram start: the board starts the build clock at mount, even while assets are still loading. The site starts it once the particles and portrait are ready (or after 1.2s), so visitors always see the build from the first frame. Seed, timings and look are unchanged.
+- Hero links: "View my work" and "Get in touch" point to #work and #contact as on the board; until 3.4 and 3.8 add those sections they open /work and /contact.
+- Desktop hero stats: 08 domains and 09 credentials are computed from the data; 32 labs is `site.labCount` until every lab is imported (lab count TODO).
+- Header nav at 1024: tabs are 108px on the board; they now shrink to 88px at 1024 so the pill never touches the résumé pill. Unchanged at 1440.
 - Scrollbar: boards hide it. Daniel asked for a themed one instead: thin mint glass pill on the night track, native CSS only so scroll-linked motion keeps native scrolling.
 - OG banner: Daniel chose to keep the original banner as the share image. Renamed to `public/og-banner.png` (1672x941).
 
@@ -180,3 +185,4 @@ Status: NOT STARTED
 - 2026-10-18, Phase 0 approved by Daniel. Phase 1 (READY FOR REVIEW): tokens extended (alpha channels, nav and lift colours); grain and rim light; mobile header (orbiting KB logo, résumé pill, pages menu) and desktop header (pill nav with lens, résumé, Get in touch); footer with mobile and desktop ridge art, card, socials, live WAT clock and base line; motion pauses off screen and stops under reduced motion. Checked in Chrome at 360, 390 and 1440: no horizontal overflow, menu opens by click and closes by Escape with focus returned, scroll locks while open, focus ring 2px mint. Branch pushed.
 - 2026-10-18, Phase 1 approved by Daniel. Phase 2 (READY FOR REVIEW): kit in `src/components/kit` and `src/styles/kit.css`: split capsule (hero pair), segmented capsule (topic picker and ring switch, arrow keys), link capsule, arrow link, section headings (mobile orbit index, desktop rule, page kicker, case study head), skill chips, orbit and mono tags, filter chips, glass card, panel, quote, scroll reveal. Demo at `/_kit` (noindex, folder `src/app/%5Fkit`). Checked in Chrome at 390 and 1440: hover, keyboard focus and touch tap on the capsule (fires, then navigates), arrow keys and lens direction on the segmented capsule, reveal on scroll, no overflow, reduced motion shows final states. Branch pushed.
 - 2026-10-18, Phase 2 review feedback: buttons and capsules now scale fluidly on small phones; quieter lens active state on both capsules. Checked at 320, 360, 390 and 1440: no label overflows its segment, no page overflow. Still READY FOR REVIEW.
+- 2026-10-18, Phase 2 approved by Daniel. 3.1 Hero (READY FOR REVIEW): hologram engine ported from the board (seed 7, same decode, timings, grade, scanlines, scan band, glitches, puck), assets from `public/hologram`, scales to any width (1.5x on desktop as on the board), pauses off screen, low tier at 4 or fewer cores, 3GB memory or slow frames (adds `lite` site-wide), reduced motion draws the settled frame once. Mobile hero from 01, desktop hero from 00 with desktop-only reveals and the parallax. Checked in Chrome: final frame identical to the board side by side; 0 draws off screen; 1 draw under reduced motion; low tier at 4 cores; no overflow at 360, 390, 1024, 1440. Branch pushed.

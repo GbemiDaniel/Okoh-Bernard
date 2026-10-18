@@ -1,0 +1,153 @@
+/*
+  Homepage sections. 3.1 Hero: 01-home-mobile (below lg), 00-home-desktop
+  (lg and up). Below 390px and between 1024 and 1440px sizes scale with the
+  screen, in place of the boards' preview zoom.
+*/
+
+@layer components {
+  /* Hologram stage */
+  .holo { position: relative; width: 100%; }
+  .holo canvas { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; pointer-events: none; }
+  .holo-halo {
+    position: absolute;
+    left: 50%;
+    top: var(--halo-top, 43.18%);
+    width: 117.95%;
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: var(--hologram-halo);
+    pointer-events: none;
+  }
+
+  /* Top-of-page teal wash behind the hero (both boards' root background) */
+  .home { position: relative; isolation: isolate; }
+  .home-wash {
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: -1;
+    height: 1110px;
+    background: radial-gradient(120% 100% at 50% 0%, var(--color-bg-wash) 0%, var(--color-bg) 60%);
+    pointer-events: none;
+  }
+
+  /* ---------- Hero, mobile ---------- */
+  .hero { position: relative; padding-top: 56px; text-align: center; }
+  .hero-stage { width: min(390px, 100%); margin: 0 auto; }
+  .hero-copy { padding: 10px 20px 0; }
+  .hero-hello { margin: 0; font: 600 10.5px/1.4 var(--font-sans); letter-spacing: 0.22em; color: var(--color-ink-muted); }
+  .hero-hello i { display: none; }
+  .hero h1 { margin: 10px 0 0; font: 700 clamp(36.8px, 11.79vw, 46px)/0.98 var(--font-sans); letter-spacing: -0.05em; }
+  .hero h1 .grad { background: var(--grad-brand); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero-role,
+  .hero-lede-d,
+  .hero-meta,
+  .hero-scroll { display: none; }
+  .hero-lede { margin: 14px auto 0; max-width: 330px; font: 400 16px/1.6 var(--font-sans); color: var(--color-ink-muted); }
+  .hero .cap { margin-top: 24px; }
+
+  /* ---------- Hero, desktop ---------- */
+  @media (min-width: 64rem) {
+    .home-wash { background: radial-gradient(70% 900px at 75% 0%, var(--color-bg-wash) 0%, var(--color-bg) 70%); }
+
+    .hero {
+      display: grid;
+      grid-template-columns: min(600px, 41.67vw) 1fr;
+      align-items: center;
+      max-width: 1440px;
+      margin: 0 auto;
+      min-height: clamp(720px, 100svh, 900px);
+      padding: 60px min(120px, 8.33vw) 0 min(150px, 10.42vw);
+      box-sizing: border-box;
+      text-align: left;
+    }
+    .hero-copy { grid-column: 1; grid-row: 1; position: relative; z-index: 3; padding: 0; will-change: transform; }
+    .hero-r {
+      grid-column: 2;
+      grid-row: 1;
+      position: relative;
+      display: grid;
+      place-items: center;
+      will-change: transform;
+    }
+    .hero-stage { width: clamp(420px, 40.63vw, 585px); }
+
+    .hero-hello { display: flex; align-items: center; gap: 12px; font: 500 11.5px/1 var(--font-mono); letter-spacing: 0.2em; color: var(--color-mint-ink); }
+    .hero-hello i { display: block; width: 28px; height: 1px; background: linear-gradient(90deg, var(--color-mint), transparent); }
+    .hero h1 { margin-top: 18px; font: 750 clamp(60px, 5.833vw, 84px)/0.94 var(--font-sans); letter-spacing: -0.055em; }
+    .hero-lede { display: none; }
+    .hero-role { display: block; margin: 26px 0 0; font: 600 clamp(20px, 1.806vw, 26px)/1.25 var(--font-sans); letter-spacing: -0.02em; color: var(--color-ink); }
+    .hero-lede-d { display: block; margin: 12px 0 0; max-width: 440px; font: 400 clamp(15px, 1.181vw, 17px)/1.6 var(--font-sans); color: var(--color-ink-500); }
+    .hero .cap { margin-top: 34px; width: clamp(360px, 29.86vw, 430px); }
+
+    .hero-meta {
+      display: flex;
+      gap: 36px;
+      margin: 40px 0 0;
+      padding: 22px 0 0;
+      border-top: 1px solid rgb(var(--white-rgb) / 0.06);
+      font: 500 10.5px/1 var(--font-mono);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-ink-700);
+    }
+    .hero-meta dt { order: 2; }
+    .hero-meta div { display: flex; flex-direction: column; }
+    .hero-meta dd {
+      order: 1;
+      margin: 0 0 9px;
+      font: 600 20px/1 var(--font-sans);
+      letter-spacing: -0.02em;
+      color: var(--color-ink-300);
+      font-variant-numeric: tabular-nums;
+      text-transform: none;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      left: 50%;
+      bottom: 34px;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      font: 500 9.5px/1 var(--font-mono);
+      letter-spacing: 0.2em;
+      color: var(--color-ink-600);
+    }
+    .hero-mouse { position: relative; width: 22px; height: 34px; border-radius: 12px; box-shadow: inset 0 0 0 1.5px rgb(var(--white-rgb) / 0.25); }
+    .hero-mouse i {
+      position: absolute;
+      left: 50%;
+      top: 7px;
+      width: 3px;
+      height: 7px;
+      margin-left: -1.5px;
+      border-radius: 2px;
+      background: var(--color-mint);
+      animation: dkwheel 1.8s var(--ease-kb) infinite;
+    }
+    @keyframes dkwheel {
+      0% { transform: translateY(0); opacity: 0; }
+      25% { opacity: 1; }
+      80% { transform: translateY(12px); opacity: 0; }
+      100% { opacity: 0; }
+    }
+
+    /* Desktop-only reveals (00 .rv); the mobile hero has none. */
+    .rv-lg {
+      opacity: 0;
+      transform: translateY(28px);
+      filter: blur(4px);
+      transition: opacity 0.9s var(--ease-kb), transform 0.9s var(--ease-kb), filter 0.9s var(--ease-kb);
+      transition-delay: var(--d, 0ms);
+    }
+    .rv-lg.in { opacity: 1; transform: none; filter: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-mouse i { animation: none; }
+    .rv-lg { opacity: 1 !important; transform: none !important; filter: none !important; transition: none !important; }
+  }
+}

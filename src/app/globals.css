@@ -3,6 +3,7 @@
 @import "../styles/surfaces.css";
 @import "../styles/chrome.css";
 @import "../styles/kit.css";
+@import "../styles/home.css";
 
 /* Base, from the shared rules at the top of every board. Night only. */
 @layer base {
