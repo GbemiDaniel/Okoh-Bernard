@@ -21,6 +21,8 @@ export const site = {
   // Notion count: 15 cloud + 17 DevSecOps. TODO(lab count): confirm with Kachi.
   // Replace with getCaseStudies().length once every lab is imported.
   labCount: 32,
+  cloudLabs: 15,
+  devsecopsLabs: 17,
 } as const;
 
 // Pages nav. `hint` is the mono tag in the mobile pages menu (01-home-mobile).

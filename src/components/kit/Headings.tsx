@@ -11,6 +11,18 @@ function OrbitIndex({ index, total }: { index: number; total: number }) {
   );
 }
 
+/** Just the mobile "07 / 07" orbit index, for sections whose title sits elsewhere (01 contact card). */
+export function SectionIndex({ index, total }: { index: number; total: number }) {
+  return (
+    <div className="sh-idx">
+      <OrbitIndex index={index} total={total} />
+      <span>
+        {pad(index)} / {pad(total)}
+      </span>
+    </div>
+  );
+}
+
 /**
  * Section opener. Mobile: orbit index and "01 / 07" (01-home-mobile).
  * Desktop: "01" with a drawn rule and a mono label (00-home-desktop).
@@ -25,8 +37,10 @@ export function SectionHeading({
   breakBeforeAccent = false,
   gradient = false,
   lede,
+  id,
   as: Tag = "h2",
 }: {
+  id?: string;
   index: number;
   total: number;
   label: string;
@@ -50,7 +64,7 @@ export function SectionHeading({
         <i aria-hidden="true" />
         <span>{label.toUpperCase()}</span>
       </div>
-      <Tag className="sh-title">
+      <Tag className="sh-title" id={id}>
         {lead}
         {breakBeforeAccent ? <br /> : " "}
         {gradient ? <span className="grad">{accent}</span> : <em>{accent}</em>}

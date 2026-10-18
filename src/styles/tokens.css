@@ -21,6 +21,8 @@
   --color-bg-card: #0d1828; /* card and tile fill on every board */
   --color-bg-lift: #10202f; /* top of raised round buttons */
   --color-bg-sheen: #0d1d2b; /* right end of the link capsule fill */
+  --color-bg-node: #0f2230; /* inside of the learning-path hex nodes */
+  --color-bg-medal: #141a33; /* inside of the badge medallions */
   --color-bg-overlay: rgb(5 10 19 / 0.86); /* page menu */
   --color-surface: rgb(255 255 255 / 0.04);
   --color-surface-strong: rgb(255 255 255 / 0.07);

@@ -4,6 +4,7 @@
 @import "../styles/chrome.css";
 @import "../styles/kit.css";
 @import "../styles/home.css";
+@import "../styles/home-sections.css";
 
 /* Base, from the shared rules at the top of every board. Night only. */
 @layer base {
