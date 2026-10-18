@@ -383,7 +383,7 @@
       transition: color 0.4s var(--ease-kb);
     }
     .dn a:hover,
-    .dn a[aria-current="page"] { color: var(--color-ink); }
+    .dn a[aria-current] { color: var(--color-ink); }
     .dn-lens {
       position: absolute;
       z-index: 0;

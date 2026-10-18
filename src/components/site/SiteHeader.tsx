@@ -40,6 +40,8 @@ export function SiteHeader() {
     if (!open) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    // Lets the homepage section dial step aside while the pages menu is open (01).
+    document.documentElement.dataset.menu = "open";
     menuRef.current?.querySelector<HTMLElement>("a")?.focus();
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") close(true);
@@ -51,12 +53,24 @@ export function SiteHeader() {
     mq.addEventListener("change", onMq);
     return () => {
       document.body.style.overflow = prev;
+      delete document.documentElement.dataset.menu;
       window.removeEventListener("keydown", onKey);
       mq.removeEventListener("change", onMq);
     };
   }, [open, close]);
 
-  const activeIndex = nav.findIndex((n) => isActive(pathname, n.href));
+  // On the homepage the desktop lens follows the section in view and the links
+  // scroll within the page (00: Work, Writeups, About, Contact map to sections 3, 5, 6, 7).
+  const home = pathname === "/";
+  const [homeSec, setHomeSec] = useState(-1);
+  useEffect(() => {
+    const on = (e: Event) => setHomeSec((e as CustomEvent<number>).detail);
+    window.addEventListener("kb:section", on);
+    return () => window.removeEventListener("kb:section", on);
+  }, []);
+  const HOME_MAP: Record<number, number> = { 3: 0, 5: 1, 6: 2, 7: 3 };
+  const HOME_ANCHOR = ["#work", "#writeups", "#about", "#contact"];
+  const activeIndex = home ? (HOME_MAP[homeSec] ?? -1) : nav.findIndex((n) => isActive(pathname, n.href));
 
   return (
     <>
@@ -119,9 +133,15 @@ export function SiteHeader() {
             <span className="grain" />
           </span>
           {nav.map((item, i) => (
-            <Link key={item.href} href={item.href} aria-current={i === activeIndex ? "page" : undefined}>
-              {item.label}
-            </Link>
+            home ? (
+              <a key={item.href} href={HOME_ANCHOR[i]} aria-current={i === activeIndex ? "location" : undefined}>
+                {item.label}
+              </a>
+            ) : (
+              <Link key={item.href} href={item.href} aria-current={i === activeIndex ? "page" : undefined}>
+                {item.label}
+              </Link>
+            )
           ))}
         </nav>
         <div className="dh-r">
