@@ -55,31 +55,31 @@ Each section below is its own run. Tick it, set it `READY FOR REVIEW`, stop. (Ov
   - [x] Hologram assembles once on load, matches board colour grade, seed and timing
   - [x] Hero text, buttons (no "Remote" tile or motto in either hero board; see Conflicts)
   - [x] Low-tier fallback works; desktop hero hierarchy matches. Smooth on a mid-range phone: Daniel to confirm on a real device
-- 3.2 The Record. Status: READY FOR REVIEW
+- 3.2 The Record. Status: APPROVED (Daniel, 2026-10-18: "alright. On to the next phase")
   - [x] Matches board at 390 and 1440
-- 3.3 Three Orbits. Status: READY FOR REVIEW
+- 3.3 Three Orbits. Status: APPROVED (Daniel, 2026-10-18: "alright. On to the next phase")
   - [x] Matches board; animation respects reduced motion
-- 3.4 Case Studies strip. Status: READY FOR REVIEW
+- 3.4 Case Studies strip. Status: APPROVED (Daniel, 2026-10-18: "alright. On to the next phase")
   - [x] Cards use real slugs (unimported labs open the work hub until their case study exists); desktop pinned horizontal strip works
-- 3.5 Skills. Status: READY FOR REVIEW
+- 3.5 Skills. Status: APPROVED (Daniel, 2026-10-18: "alright. On to the next phase")
   - [x] Matches board
-- 3.6 Writeups preview. Status: READY FOR REVIEW
+- 3.6 Writeups preview. Status: APPROVED (Daniel, 2026-10-18: "alright. On to the next phase")
   - [x] Matches board; real Medium links only (dates and read times verified on Medium)
-- 3.7 About and credentials. Status: READY FOR REVIEW
+- 3.7 About and credentials. Status: APPROVED (Daniel, 2026-10-18: "alright. On to the next phase")
   - [x] Matches board; element with `id="credentials"` exists; badges and certificates from the TryHackMe records (board icons, each links to its verify page)
-- 3.8 Contact block. Status: READY FOR REVIEW
+- 3.8 Contact block. Status: APPROVED (Daniel, 2026-10-18: "alright. On to the next phase")
   - [x] Matches board; real contact details from `site.ts`
-- 3.9 Homepage section nav (added: on both boards, not listed above). Status: READY FOR REVIEW
+- 3.9 Homepage section nav (added: on both boards, not listed above). Status: APPROVED (Daniel, 2026-10-18: "alright. On to the next phase")
   - [x] Mobile orbit dial, desktop progress rail, header lens follows the section in view
 Gate for the whole homepage: every section `APPROVED`, then the full page is checked top to bottom at 360, 390, 768, 1024, 1440.
 
 ## Phase 4: Case study template (one lab)
-Status: NOT STARTED
+Status: READY FOR REVIEW
 Boards: 03-case-study. Content: `content/case-studies/the-overpowered-role.md`
-- [ ] Hero, meta, result strip, Objective, What I found, What I did, Before and after, lesson quote, skills, repo button, previous and next
-- [ ] Extra sections from the reference file (Scenario, Validation, Recommendations, Tools) in the same section style
-- [ ] Handles missing sections without gaps (DevSecOps labs have a shorter template)
-- [ ] Code blocks and tables render cleanly at 390
+- [x] Hero, meta, result strip, Objective, What I found, What I did, Before and after, lesson quote, skills, repo button, previous and next
+- [x] Extra sections from the reference file (Scenario, Validation, Recommendations, Tools) in the same section style
+- [x] Handles missing sections without gaps (DevSecOps labs have a shorter template)
+- [x] Code blocks and tables render cleanly at 390
 Gate: The Overpowered Role side by side with board 03.
 
 ## Phase 5: Work hub
@@ -188,6 +188,13 @@ Status: NOT STARTED
 - Desktop content width: with the progress rail showing (1280px and up), content starts at least 180px in so the rail's label never covers copy. Below 1280 the rail is hidden. 1920 keeps the board's 1200px column.
 - Tablet (768 to 1023, no board): sections keep a 720px column, the orbit map caps at 546px and the hero button pair at 430px.
 - Overflow bug found and fixed: the hologram halo (118% of the stage, as on the board) widened the mobile layout viewport to 425px, zooming the page out. main now clips horizontal overflow. This also affected the approved 3.1 hero.
+- Case study section order: HANDOFF 8b says both "body headings as the section order" and "add extras after What I did". Followed the content file's heading order (Objective, Scenario, What I found, What I did, Validation, Before and after, What I recommend), so the story reads in sequence. Evidence snippets sit inside What I did. The "What I learned" prose is shown once, as the quote.
+- Finding code: the board shows the offending policy above the finding cards; each finding's code block now sits directly above its own card. The board's file name and WILDCARD flag come from the fence info (```json file=... flag=...).
+- Finding body: the board shortens Finding 02; the page uses the full text from the content file (content wins over the mockup).
+- Severity badges: board shows both in red; HANDOFF colours apply (High red, Medium amber).
+- Repo button: until a lab's repo URL is known it opens the GitHub profile (as on the board) and reads "View my labs on GitHub" so it does not promise a specific repo.
+- Previous and next: titles come from a 32-lab registry built from the work board (`src/lib/labs.ts`); a lab not imported yet links to the work hub.
+- Case study desktop: no board, so the page keeps the mobile column centred at 720px under the desktop header (HANDOFF 3).
 - Scrollbar: boards hide it. Daniel asked for a themed one instead: thin mint glass pill on the night track, native CSS only so scroll-linked motion keeps native scrolling.
 - OG banner: Daniel chose to keep the original banner as the share image. Renamed to `public/og-banner.png` (1672x941).
 
@@ -202,3 +209,4 @@ Status: NOT STARTED
 - 2026-10-18, Phase 2 approved by Daniel. 3.1 Hero (READY FOR REVIEW): hologram engine ported from the board (seed 7, same decode, timings, grade, scanlines, scan band, glitches, puck), assets from `public/hologram`, scales to any width (1.5x on desktop as on the board), pauses off screen, low tier at 4 or fewer cores, 3GB memory or slow frames (adds `lite` site-wide), reduced motion draws the settled frame once. Mobile hero from 01, desktop hero from 00 with desktop-only reveals and the parallax. Checked in Chrome: final frame identical to the board side by side; 0 draws off screen; 1 draw under reduced motion; low tier at 4 cores; no overflow at 360, 390, 1024, 1440. Branch pushed.
 - 2026-10-18, 3.1 approved by Daniel; Phase 3 finished in one run at his request. 3.2 to 3.8 and the added 3.9 section nav set to READY FOR REVIEW. Writeups metadata added as content files (dates and read times verified on Medium). Fixed a horizontal overflow from the hologram halo that also affected 3.1. Checked in Chrome at 320, 360, 390, 768, 1024, 1280, 1440 and 1920: no overflow; count-ups, motto, reveals, orbit switching by ring, label, tab and swipe, panel jump to the right slide, copy email, dial (open, Escape, focus), rail and header lens, pinned strip, contact fill; reduced motion stops loops and shows final states. Branch pushed.
 - 2026-10-18, Phase 3 feedback: removed every mention of Kachi's location and the live local-time clocks (Record tile, About line, footer pill and base line, desktop contact pill); work mode reads remote or hybrid. Checked: no page renders location text; build, lint and type-check pass. Phase 3 still READY FOR REVIEW.
+- 2026-10-18, Phase 3 approved by Daniel. Phase 4 (READY FOR REVIEW): case study template at /work/[slug] from board 03, fed by the content file. Markdown rendered to React (marked tokens, no raw HTML); JSON highlighting with true wildcards flagged; findings as severity cards; numbered steps with evidence; tables scroll inside their card. Lab registry for previous and next. Checked with the reference lab at 360, 390 and 1440 (no overflow, tables fit, long code scrolls in its card) and with a temporary fixture missing most sections (numbering closes up, nothing empty renders; fixture deleted). Fixed a class clash that hid the result strip. Branch pushed.

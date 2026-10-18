@@ -37,7 +37,7 @@ A web application runs on an EC2 instance and uses an IAM role through an instan
 ### Finding 01 (High): Over-privileged S3 permissions
 The role's custom policy allowed every S3 action on every resource.
 
-```json
+```json file=WebAppOverPrivS3Policy.json flag=WILDCARD
 {
   "Effect": "Allow",
   "Action": ["s3:*"],

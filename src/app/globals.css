@@ -5,6 +5,7 @@
 @import "../styles/kit.css";
 @import "../styles/home.css";
 @import "../styles/home-sections.css";
+@import "../styles/case.css";
 
 /* Base, from the shared rules at the top of every board. Night only. */
 @layer base {
