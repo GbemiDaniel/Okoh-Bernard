@@ -1,116 +1,64 @@
-import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
-import { Providers } from "./Providers";
-import { PremiumLoader } from "@/components/PremiumLoader";
-import { TerminalProvider } from "@/context/TerminalContext";
+import { fontVariables } from "./fonts";
+import { SiteHeader } from "@/components/site/SiteHeader";
+import { SiteFooter } from "@/components/site/SiteFooter";
+import { site } from "@/lib/site";
 
-const plusJakartaSans = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  variable: "--font-primary",
-  display: "swap",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-secondary",
-  display: "swap",
-});
+const title = `${site.name} | Cloud Security & DevSecOps Engineer`;
+// The hero line from 01-home-mobile.
+const description =
+  "Cloud security and DevSecOps engineer. I find the misconfiguration, prove the risk, fix it and validate the fix.";
 
 export const metadata: Metadata = {
-  title: {
-    default: "Okoh Onyedikachi Bernard | Security Engineer",
-    template: "%s |Okoh Onyedikachi Bernard"
-  },
-  description: "Cybersecurity professional specializing in Security Engineering, Penetration Testing, and AI Security. Explore my vulnerability assessments, architectural designs, and technical research.",
-  keywords: [
-    "Security Engineer",
-    "Penetration Tester",
-    "AI Security",
-    "Cybersecurity Portfolio",
-    "LLM Security",
-    "Red Team",
-    "Vulnerability Assessment"
-  ],
-  authors: [{ name: "Onyedikachi Bernard Okoh" }],
-  creator: "Onyedikachi Bernard Okoh",
-  icons: {
-    icon: '/icon.svg',
-    apple: '/apple-icon.png',
-  },
+  metadataBase: new URL(site.url),
+  title: { default: title, template: `%s | ${site.name}` },
+  description,
+  keywords: ["Cloud Security", "DevSecOps", "AWS Security", "AI Security", "Security Engineer", "Portfolio"],
+  authors: [{ name: site.name }],
+  creator: site.name,
+  alternates: { canonical: "/" },
+  // The share image is app/opengraph-image.tsx; inner pages set their own tags with pageMeta.
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://okoh-bernard-portfolio.vercel.app", // TODO: Update with actual deployment URL
-    title: "Onyedikachi Bernard Okoh | Security Engineer",
-    description: "Cybersecurity professional specializing in Security Engineering, Penetration Testing, and AI Security.",
-    siteName: "Onyedikachi Bernard Okoh Portfolio",
-    images: [
-      {
-        url: "/pall's banner.png",
-        width: 1200,
-        height: 630,
-        alt: "Onyedikachi Bernard Okoh - Security Engineer Portfolio",
-      },
-    ],
+    url: "/",
+    title,
+    description,
+    siteName: site.name,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Onyedikachi Bernard Okoh | Security Engineer",
-    description: "Cybersecurity professional specializing in Security Engineering, Penetration Testing, and AI Security.",
-    images: ["/opengraph-image.jpg"],
+    title,
+    description,
   },
   robots: {
     index: true,
     follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
+    googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 },
   },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export const viewport: Viewport = {
+  themeColor: "#070f1c",
+  colorScheme: "dark",
+};
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${plusJakartaSans.variable} ${jetbrainsMono.variable} antialiased min-h-screen flex flex-col relative overflow-x-hidden bg-base-light dark:bg-base-dark text-foreground`}
-      >
-        <Providers attribute="class" defaultTheme="dark" enableSystem={false}>
-          {/* Preloader overlay handles transition into the site */}
-          <PremiumLoader />
-
-          {/* Ambient Background Glows */}
-          <div className="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
-            <div className="glow-emerald top-1/4 left-1/4 opacity-0 dark:opacity-50 transition-opacity duration-700" />
-            <div className="glow-emerald top-3/4 right-1/4 opacity-0 dark:opacity-30 transition-opacity duration-700" />
-            {/* Light Mode subtle pearlescent glows */}
-            <div className="absolute top-0 right-0 w-[40vw] h-[40vw] bg-radial-[at_100%_0%] from-indigo-200/40 to-transparent rounded-full blur-3xl opacity-100 dark:opacity-0 transition-opacity duration-700 pointer-events-none mix-blend-multiply" />
-            <div className="absolute bottom-0 left-0 w-[50vw] h-[50vw] bg-radial-[at_0%_100%] from-emerald-100/30 to-transparent rounded-full blur-3xl opacity-100 dark:opacity-0 transition-opacity duration-700 pointer-events-none mix-blend-multiply" />
-          </div>
-
-          {/* Wrap Navbar and Main in TerminalProvider */}
-          <TerminalProvider>
-            <Navbar />
-            {/* SPACING FIX APPLIED HERE */}
-            <main className="flex-1 w-full flex flex-col relative z-0">
-              {children}
-            </main>
-          </TerminalProvider>
-
-          <Footer />
-        </Providers>
+    <html lang="en" className={fontVariables}>
+      <body className="relative flex min-h-dvh flex-col bg-bg font-sans text-ink antialiased">
+        <noscript>
+          <style>{".rv,.rv-lg{opacity:1!important;transform:none!important;filter:none!important}"}</style>
+        </noscript>
+        <div id="top" className="absolute top-0" aria-hidden="true" />
+        <SiteHeader />
+        {/* clip, not hidden: decorative glows (hologram halo) may bleed past the edge, and
+            hidden would break position: sticky. Mobile browsers widen the layout viewport
+            for any overflow, so it has to be clipped here, not only on <body>. */}
+        <main className="flex w-full flex-1 flex-col overflow-x-clip">{children}</main>
+        <SiteFooter />
       </body>
     </html>
   );
 }
-

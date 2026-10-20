@@ -1,140 +1,95 @@
 @import "tailwindcss";
+@import "../styles/tokens.css";
+@import "../styles/surfaces.css";
+@import "../styles/chrome.css";
+@import "../styles/kit.css";
+@import "../styles/boot.css";
+@import "../styles/home.css";
+@import "../styles/home-sections.css";
+@import "../styles/case.css";
+@import "../styles/work.css";
+@import "../styles/about.css";
+@import "../styles/contact.css";
+@import "../styles/inner-desktop.css";
+@import "../styles/writeups.css";
 
-@keyframes terminal-blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-.animate-blink {
-  animation: terminal-blink 1s step-end infinite;
-  /* Add hardware acceleration */
-  will-change: opacity;
-  transform: translateZ(0); 
-}
-
-@custom-variant dark (&:is(.dark *));
-
-@theme {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-base-dark: #050806;
-  --color-base-light: #f1f5f9;
-  --color-accent-emerald: #00f098;
-  --color-accent-mint: #2dd4bf;
-
-  --font-primary: var(--font-primary, "Plus Jakarta Sans", sans-serif);
-  --font-secondary: var(--font-secondary, "JetBrains Mono", monospace);
-}
-
-:root {
-  --background: #f1f5f9; /* Frosted Platinum */
-  --foreground: #050806;
-}
-
-.dark {
-  --background: #050806; /* Dark mode default */
-  --foreground: #f1f5f9;
-}
-
-body {
-  background-color: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-primary);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* UTILITY CLASSES (Based on visual extraction) */
-
-/* 1. Terminal Targeting Brackets (Option A) */
-.corner-brackets {
-  position: relative;
-  padding: 1.5rem;
-}
-.corner-brackets::before,
-.corner-brackets::after {
-  content: "";
-  position: absolute;
-  width: 1rem;
-  height: 1rem;
-  border-color: var(--color-accent-emerald);
-  border-style: solid;
-  pointer-events: none;
-  opacity: 0.8;
-}
-.corner-brackets::before {
-  top: 0;
-  left: 0;
-  border-width: 1px 0 0 1px;
-}
-.corner-brackets::after {
-  bottom: 0;
-  right: 0;
-  border-width: 0 1px 1px 0;
-}
-
-/* 2. Frosted Glassmorphism Panel (Option B) */
-.glass-panel {
-  background: rgba(255, 255, 255, 0.03); /* bg-white/5 equivalent mapped for both modes */
-  backdrop-filter: blur(16px); /* backdrop-blur-lg */
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.1); /* border-white/10 */
-  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.02), 0 8px 32px rgba(0, 0, 0, 0.1);
-  border-radius: 1rem;
-}
-.dark .glass-panel {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05); /* Subtler border in dark mode */
-}
-
-/* 3. Deep Atmospheric Glow (Option B) */
-.glow-emerald {
-  position: absolute;
-  width: 40vw;
-  height: 40vw;
-  background: radial-gradient(circle, rgba(0, 240, 152, 0.12) 0%, transparent 60%);
-  filter: blur(60px);
-  z-index: -1;
-  border-radius: 50%;
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-}
-
-/* 4. Glowing Progress Bar (Option A) */
-.progress-glow {
-  background-color: var(--color-accent-emerald);
-  box-shadow: 0 0 12px rgba(0, 240, 152, 0.6), 0 0 24px rgba(0, 240, 152, 0.3);
-  border-radius: 9999px; /* full rounded */
-}
-
-/* 5. Metallic Text Gradient */
-.text-metallic {
-  background: linear-gradient(135deg, #1e293b 0%, #64748b 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-.dark .text-metallic {
-  background: linear-gradient(135deg, #ffffff 0%, #a1a1aa 100%);
-}
-
-@keyframes terminal-scroll {
-  0%, 15% { transform: translateX(0); }
-  45%, 55% { transform: translateX(var(--overflow-distance)); }
-  85%, 100% { transform: translateX(0); }
-}
-.animate-terminal-scroll {
-  animation: terminal-scroll 6s ease-in-out infinite;
-  will-change: transform;
-}
-
-@layer utilities {
-  /* Hide scrollbar for Chrome, Safari and Opera */
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
+/* Base, from the shared rules at the top of every board. Night only. */
+@layer base {
+  html {
+    color-scheme: dark;
+    scroll-behavior: smooth;
   }
-  /* Hide scrollbar for IE, Edge and Firefox */
-  .scrollbar-hide {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    /* clip, not hidden: hidden breaks position: sticky (the pinned work strip). */
+    overflow-x: clip;
+    background: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
   }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button {
+    font-family: inherit;
+  }
+
+  :focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+/*
+  Scrollbar: a thin mint glass pill on the night ground. Native and CSS only,
+  so scroll-linked motion (pinned strip, reveals, progress rail) keeps the
+  browser's own scrolling. No gradient: that is reserved for three places.
+*/
+@supports not selector(::-webkit-scrollbar) {
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(94 234 212 / 0.32) var(--color-bg);
+  }
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  border: 3px solid transparent;
+  border-radius: 999px;
+  background-clip: padding-box;
+  background-color: rgb(94 234 212 / 0.28);
+  box-shadow: inset 0 0 0 1px rgb(94 234 212 / 0.18);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  border-width: 2px;
+  background-color: rgb(94 234 212 / 0.5);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background-color: var(--color-mint);
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--color-bg);
 }

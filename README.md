@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Kachi Bernard, portfolio
 
-## Getting Started
+Portfolio of Onyedikachi (Kachi) Bernard Okoh, cloud security and DevSecOps engineer. Live at [okoh-bernard-portfolio.vercel.app](https://okoh-bernard-portfolio.vercel.app).
 
-First, run the development server:
+The `redesign` branch is a full rebuild. Progress is tracked phase by phase in [GOALS.md](GOALS.md).
+
+## Stack
+
+Next.js (App Router), React, TypeScript, Tailwind CSS v4, Framer Motion, Formspree for the contact form, deployed on Vercel.
+
+## Run it
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev     # http://localhost:3000
+npm run build
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Where things live
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Path | What it holds |
+| --- | --- |
+| `src/lib/site.ts` | Contact details, links, nav, and every open TODO |
+| `src/lib/content.ts` | Loader for the markdown in `content/` |
+| `src/lib/credentials.ts` | TryHackMe certificates and badges with verify links |
+| `src/styles/tokens.css` | Design tokens (colour, type, spacing, radii, motion) |
+| `content/case-studies/` | One markdown file per lab; `the-overpowered-role.md` is the schema reference |
+| `content/writeups/` | One markdown file per article, with its Medium URL |
+| `public/hologram/` | Hologram portrait and particle data |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The design handoff is kept locally in `handoff/` and is never committed.
 
-## Learn More
+## Content rules
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+All copy is first person, as Kachi describing his own work. No em dashes, no invented numbers or links, and AWS account IDs, instance IDs and keys are masked in lab content.

@@ -1,0 +1,221 @@
+/*
+  KB Orbit design tokens.
+  Source: handoff/design-system/tokens.json, checked against the approved
+  boards in handoff/designs. Where the two disagree the boards win, and the
+  line says so. Night is the only theme the boards define.
+
+  Everything in @theme becomes a Tailwind utility (bg-bg, text-ink-muted,
+  rounded-lg, text-display-l, ease-kb...) and a CSS variable (--color-mint).
+*/
+
+@theme {
+  /* Token names only: drop Tailwind's default palette so raw colours stand out. */
+  --color-*: initial;
+  --color-white: #fff;
+  --color-black: #000;
+
+  /* Ground */
+  --color-bg: #070f1c;
+  --color-bg-wash: #0b2229; /* boards use #0b2229; tokens.json says #0e2a33 */
+  --color-bg-raised: #0a1424;
+  --color-bg-card: #0d1828; /* card and tile fill on every board */
+  --color-bg-lift: #10202f; /* top of raised round buttons */
+  --color-bg-sheen: #0d1d2b; /* right end of the link capsule fill */
+  --color-bg-node: #0f2230; /* inside of the learning-path hex nodes */
+  --color-bg-medal: #141a33; /* inside of the badge medallions */
+  --color-code-bg: #050b14; /* code block ground (03) */
+  --color-code-str: #a5f3e4; /* JSON string values in code blocks */
+  --color-bg-overlay: rgb(5 10 19 / 0.86); /* page menu */
+  --color-surface: rgb(255 255 255 / 0.04);
+  --color-surface-strong: rgb(255 255 255 / 0.07);
+  --color-line: rgb(255 255 255 / 0.08);
+  --color-line-strong: rgb(255 255 255 / 0.26);
+
+  /* Ink ramp, brightest to faintest, as used on the boards */
+  --color-ink: #eaf2f4;
+  --color-ink-200: #d6e2e6;
+  --color-ink-250: #cfdbe0;
+  --color-ink-300: #c2d1d6;
+  --color-ink-350: #b6c6cc;
+  --color-ink-muted: #a3b5bd;
+  --color-ink-420: #9fb2ba; /* desktop nav links at rest */
+  --color-ink-450: #94a8b0;
+  --color-ink-500: #8ea3ab;
+  --color-ink-550: #7f949c;
+  --color-ink-600: #6f8790;
+  --color-ink-700: #5f7680;
+  --color-ink-750: #4f6670; /* lab row numbers (02) */
+  --color-ink-800: #3f5560;
+
+  /* Action */
+  --color-mint: #5eead4;
+  --color-mint-ink: #5eead4;
+  --color-mint-hi: #c9fbf2; /* top stop of the lit button disc */
+  --color-on-mint: #062a25;
+
+  /* Portrait field and gradient stops */
+  --color-violet: #8b5cf6;
+  --color-violet-strong: #7c3aed; /* glows and the hologram halo */
+  --color-violet-deep: #4c1d95;
+  --color-violet-night: #1e1446;
+  --color-lilac: #a78bfa;
+  --color-lilac-ink: #d6c9ff;
+
+  /* Skill hues: icon ink only */
+  --color-sky: #7dd3fc;
+  --color-blue: #60a5fa;
+  --color-periwinkle: #93c5fd;
+  --color-sand: #fde68a;
+  --color-coral: #fca5a5;
+  --color-amber: #fdba74;
+  --color-lavender: #c4b5fd;
+  --color-online: #22c55e;
+
+  /* Severity (HANDOFF 8b: High red, Medium amber, Low teal) */
+  --color-sev-high: #fca5a5;
+  --color-sev-medium: #fdba74;
+  --color-sev-low: #5eead4;
+
+  /* Footer ridges */
+  --color-mountain-far: #0c1a2a;
+  --color-mountain-near: #09121f;
+
+  /* Display. Boards set headings at 700, not the 800 in tokens.json. */
+  --text-display-hero: 84px; /* desktop hero name */
+  --text-display-hero--line-height: 0.94;
+  --text-display-hero--letter-spacing: -0.055em;
+  --text-display-hero--font-weight: 750;
+  --text-display-section: 56px; /* desktop section titles */
+  --text-display-section--line-height: 1.02;
+  --text-display-section--letter-spacing: -0.045em;
+  --text-display-section--font-weight: 700;
+  --text-display-xl: 46px; /* mobile hero name */
+  --text-display-xl--line-height: 0.98;
+  --text-display-xl--letter-spacing: -0.05em;
+  --text-display-xl--font-weight: 700;
+  --text-display-page: 42px; /* inner page h1 */
+  --text-display-page--line-height: 1.02;
+  --text-display-page--letter-spacing: -0.045em;
+  --text-display-page--font-weight: 700;
+  --text-display-l: 34px; /* mobile section titles */
+  --text-display-l--line-height: 1.05;
+  --text-display-l--letter-spacing: -0.04em;
+  --text-display-l--font-weight: 700;
+  --text-heading: 26px; /* inner page h2, desktop role line */
+  --text-heading--line-height: 1.1;
+  --text-heading--letter-spacing: -0.03em;
+  --text-heading--font-weight: 700;
+  --text-title-l: 23px;
+  --text-title-l--line-height: 1.12;
+  --text-title-l--letter-spacing: -0.03em;
+  --text-title-l--font-weight: 700;
+  --text-title: 17px;
+  --text-title--line-height: 1.28;
+  --text-title--letter-spacing: -0.015em;
+  --text-title--font-weight: 700;
+
+  /* Text */
+  --text-body-xl: 18px; /* desktop section lede */
+  --text-body-xl--line-height: 1.6;
+  --text-body-l: 16px;
+  --text-body-l--line-height: 1.6;
+  --text-prose: 15.5px; /* article and case study paragraphs */
+  --text-prose--line-height: 1.7;
+  --text-body: 15px;
+  --text-body--line-height: 1.55;
+  --text-body-s: 14.5px;
+  --text-body-s--line-height: 1.6;
+  --text-card: 13.5px;
+  --text-card--line-height: 1.5;
+  --text-button: 15px;
+  --text-button--line-height: 1;
+  --text-caption: 13px;
+  --text-caption--line-height: 1.45;
+  --text-eyebrow: 10.5px;
+  --text-eyebrow--line-height: 1.4;
+  --text-eyebrow--letter-spacing: 0.22em;
+  --text-eyebrow--font-weight: 600;
+
+  /* Mono utility sizes */
+  --text-index: 11px;
+  --text-index--line-height: 1;
+  --text-meta: 10px;
+  --text-meta--line-height: 1;
+  --text-micro: 9.5px;
+  --text-micro--line-height: 1;
+
+  --tracking-mono: 0.12em;
+  --tracking-mono-wide: 0.16em;
+
+  --text-signature: 31px;
+  --text-signature--line-height: 1;
+
+  /* Spacing: Tailwind's 4px base already gives p-2 = 8px, p-5 = 20px. */
+  --spacing-gutter: 20px;
+  --spacing-section: 76px;
+  --spacing-section-desktop: 150px;
+  --spacing-page-top: 92px; /* inner page hero, clears the header */
+
+  --container-read: 720px; /* reading pages on desktop (HANDOFF 3) */
+  --container-page: 1200px; /* desktop content width */
+
+  /* Radii: tokens.json, plus the steps the boards use most */
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-chip: 12px;
+  --radius-md: 14px;
+  --radius-tile: 16px;
+  --radius-panel: 18px;
+  --radius-lg: 20px;
+  --radius-card: 22px;
+  --radius-feature: 24px;
+  --radius-xl: 26px;
+  --radius-2xl: 30px;
+  --radius-pill: 999px;
+
+  /* Shadows */
+  --shadow-portrait: 0 30px 60px rgb(76 29 149 / 0.45);
+  --shadow-cta: 0 10px 30px rgb(94 234 212 / 0.22);
+  --shadow-cta-press: 0 4px 12px rgb(94 234 212 / 0.28);
+  --shadow-halo: 0 0 0 6px rgb(94 234 212 / 0.14);
+  --shadow-card: inset 0 1px 0 rgb(255 255 255 / 0.06), 0 18px 30px -20px rgb(0 0 0 / 0.9);
+  --shadow-panel: inset 0 1px 0 rgb(255 255 255 / 0.06), 0 26px 40px -26px rgb(0 0 0 / 0.95);
+
+  /* Motion */
+  --ease-kb: cubic-bezier(0.32, 0.72, 0, 1); /* reveals, fills, the lens */
+  --ease-spring: cubic-bezier(0.3, 1.35, 0.5, 1); /* presses, pills */
+  --ease-swift: cubic-bezier(0.7, 0, 0.2, 1); /* arrow swaps, sheens */
+  --ease-soft: cubic-bezier(0.2, 0.8, 0.2, 1); /* accordions, card swipes */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1); /* UI enter and exit (Emil Kowalski's strong ease-out) */
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1); /* on-screen movement: rail indicator */
+}
+
+/* Type: Geist + Geist Mono, Caveat for the motto. Inline, because next/font
+   sets --font-geist on <html>, below :root. */
+@theme inline {
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+  --font-script: var(--font-caveat), "Segoe Script", cursive;
+}
+
+/* Values that are not utilities: gradients and the shared edge borders. */
+:root {
+  /* Channels for alpha tints: rgb(var(--mint-rgb) / 0.4) */
+  --mint-rgb: 94 234 212;
+  --violet-rgb: 139 92 246;
+  --lilac-rgb: 167 139 250;
+  --white-rgb: 255 255 255;
+  --bg-rgb: 7 15 28;
+  --raised-rgb: 10 20 36;
+  --on-mint-rgb: 6 42 37;
+
+  --grad-brand: linear-gradient(90deg, #5eead4, #8b5cf6 70%, #a78bfa);
+  --grad-brand-short: linear-gradient(90deg, #5eead4, #a78bfa);
+  --grad-edge: linear-gradient(200deg, rgb(94 234 212 / 0.5), rgb(255 255 255 / 0.06) 40%, rgb(139 92 246 / 0.34));
+  --grad-edge-strong: linear-gradient(200deg, rgb(94 234 212 / 0.7), rgb(94 234 212 / 0.16) 40%, rgb(139 92 246 / 0.3) 75%, rgb(139 92 246 / 0.55));
+  --grad-capsule: linear-gradient(90deg, #0a1424, #0b1a2a 60%, #0d2230);
+  --grad-hero-wash: radial-gradient(120% 30% at 50% 0%, #0b2229 0%, #070f1c 60%);
+  --grad-hero-wash-desktop: radial-gradient(70% 900px at 75% 0%, #0b2229 0%, #070f1c 70%);
+  --hologram-halo: radial-gradient(closest-side, rgb(20 184 166 / 0.07), rgb(124 58 237 / 0.06) 55%, transparent);
+  --focus-ring: 2px solid var(--color-mint-ink);
+}

@@ -1,0 +1,340 @@
+# GOALS: Kachi Portfolio Build Tracker
+
+This file is the single plan for the build. Claude Code reads it at the start of every run and updates it at the end of every run. Daniel decides when the next phase starts.
+
+## How to work (read every run)
+
+1. **One phase per run.** Do the first unchecked phase and nothing else. Never start the next phase, even if it looks small or you have time left.
+2. **Stop at the gate.** Each phase ends with a gate. When every box in the phase is ticked, push `redesign`, then stop and report. Do not carry on.
+3. **Report format.** At the end of a run send: what was built, the preview link, a compare checklist (what to look at against which board and at which widths), anything where board and handoff disagreed, and new TODOs. Keep it short.
+4. **Update this file.** Tick boxes only when the work is done and checked (type-check, lint and build pass, and you have looked at the result in a browser at 390 and 1440). Change the phase status line. Add dated notes under "Run log".
+5. **Do not mark a phase complete on Daniel's behalf.** Set it to `READY FOR REVIEW`. Only Daniel sets `APPROVED`. If a phase is not `APPROVED`, do not build anything that depends on it.
+6. **Board wins.** The boards in `handoff/designs/` are the visual truth. When a board and HANDOFF.md disagree, follow the board and log it under "Conflicts".
+7. **Copy rules, every phase.** First person as Kachi, no em dashes, no invented stats or links, nothing ported from the old site. Missing facts become a TODO in `src/lib/site.ts`, not made-up text.
+8. **Small commits** on `redesign`. Never touch `main`.
+
+Status values: `NOT STARTED` | `IN PROGRESS` | `READY FOR REVIEW` | `APPROVED`
+
+---
+
+## Phase 0: Cleanup and shell
+Status: APPROVED (Daniel, 2026-10-18: "move on to the next")
+Board: none
+- [x] Branch `redesign` exists; old UI, old content and unused packages removed per the approved deletion list
+- [x] Redirects in `next.config.ts` (all return 308); `/certifications` goes to `/#credentials`; `/projects/:slug` goes to `/work`
+- [x] README replaced with a short real one; `handoff/` gitignored
+- [x] `layout.tsx` wired with fonts, tokens and the empty header and footer shell; dark only
+- [x] Open Graph and Twitter metadata point to a real, resolving banner image
+- [x] Type-check, lint and production build pass; branch pushed
+Gate: Daniel opens the preview. Routes load on the dark ground in Geist, no old UI visible, old links redirect.
+
+## Phase 1: Design tokens, header and footer
+Status: APPROVED (Daniel, 2026-10-18: "looks good carry on")
+Boards: 00-home-desktop, 01-home-mobile, 08-type-geist
+- [x] Tokens (color, type, spacing, radii, shadows, motion) match the boards
+- [x] Header, mobile (390): logo with satellite, resume pill, pages menu
+- [x] Header, desktop (1440): pill nav with sliding lens
+- [x] Footer: ridge, nav list, social icons, WAT clock, base line
+- [x] Menu opens and closes by touch, mouse and keyboard; focus rings; reduced motion respected
+Gate: header and footer compared side by side with the boards at 390 and 1440.
+
+## Phase 2: Shared pieces
+Status: APPROVED (Daniel, 2026-10-18: "alright. lets go.")
+Boards: 09-button-pairs, 03-case-study, 00-home-desktop
+- [x] Lens button pair (primary and secondary) moves like one piece of glass by mouse, touch and keyboard
+- [x] Capsule, section heading, chips, glass card, rim and grain
+- [x] Scroll reveal helper with reduced-motion fallback
+- [x] Shown on a hidden temporary page, `/_kit`, removed before merge
+Gate: Daniel tries the buttons on a phone and a laptop.
+
+## Phase 3: Homepage sections (one section per run, mobile first, then desktop)
+Boards: 01-home-mobile, 00-home-desktop
+Each section below is its own run. Tick it, set it `READY FOR REVIEW`, stop. (Overridden by Daniel on 2026-10-18 for this phase: all sections in one run.)
+
+- 3.1 Hero with the hologram portrait. Status: APPROVED (Daniel, 2026-10-18: "go ahead, finish phase three")
+  - [x] Hologram assembles once on load, matches board colour grade, seed and timing
+  - [x] Hero text, buttons (no "Remote" tile or motto in either hero board; see Conflicts)
+  - [x] Low-tier fallback works; desktop hero hierarchy matches. Smooth on a mid-range phone: Daniel to confirm on a real device
+- 3.2 The Record. Status: APPROVED (Daniel, 2026-10-18: "alright. On to the next phase")
+  - [x] Matches board at 390 and 1440
+- 3.3 Three Orbits. Status: APPROVED (Daniel, 2026-10-18: "alright. On to the next phase")
+  - [x] Matches board; animation respects reduced motion
+- 3.4 Case Studies strip. Status: APPROVED (Daniel, 2026-10-18: "alright. On to the next phase")
+  - [x] Cards use real slugs (unimported labs open the work hub until their case study exists); desktop pinned horizontal strip works
+- 3.5 Skills. Status: APPROVED (Daniel, 2026-10-18: "alright. On to the next phase")
+  - [x] Matches board
+- 3.6 Writeups preview. Status: APPROVED (Daniel, 2026-10-18: "alright. On to the next phase")
+  - [x] Matches board; real Medium links only (dates and read times verified on Medium)
+- 3.7 About and credentials. Status: APPROVED (Daniel, 2026-10-18: "alright. On to the next phase")
+  - [x] Matches board; element with `id="credentials"` exists; badges and certificates from the TryHackMe records (board icons, each links to its verify page)
+- 3.8 Contact block. Status: APPROVED (Daniel, 2026-10-18: "alright. On to the next phase")
+  - [x] Matches board; real contact details from `site.ts`
+- 3.9 Homepage section nav (added: on both boards, not listed above). Status: APPROVED (Daniel, 2026-10-18: "alright. On to the next phase")
+  - [x] Mobile orbit dial, desktop progress rail, header lens follows the section in view
+- 3.8 Contact block v3 + Footer v3 per F1/F2 (added by Daniel, 2026-10-20). Status: READY FOR REVIEW
+  - [x] Contact (homepage only): kicker, headline, lede, availability, email with copy, "Email me" (mailto), link to /contact; two columns on desktop, one gradient card on phones; no social links, no reply-time claim
+  - [x] Footer (every page): KB mark and name, GitHub / LinkedIn / Medium / TryHackMe, back to top, copyright (current year) and "BUILT BY DANIEL" credit; no page links, email or status
+  - [x] Divider: hairline split by the KB orbit node, satellite laps every 12s, still under reduced motion
+  - [x] Old horizon/planet divider, footer card, wordmark, spotlight, status line, page and social link lists, desktop beacon and their CSS removed
+Gate for the whole homepage: every section `APPROVED`, then the full page is checked top to bottom at 360, 390, 768, 1024, 1440.
+
+## Phase 4: Case study template (one lab)
+Status: APPROVED (Daniel, 2026-10-18: "also phase 5")
+Boards: 03-case-study. Content: `content/case-studies/the-overpowered-role.md`
+- [x] Hero, meta, result strip, Objective, What I found, What I did, Before and after, lesson quote, skills, repo button, previous and next
+- [x] Extra sections from the reference file (Scenario, Validation, Recommendations, Tools) in the same section style
+- [x] Handles missing sections without gaps (DevSecOps labs have a shorter template)
+- [x] Code blocks and tables render cleanly at 390
+Gate: The Overpowered Role side by side with board 03.
+
+## Phase 5: Work hub
+Status: APPROVED (Daniel, 2026-10-18: "go ahead with the next phase")
+Board: 02-work
+- [x] All / Cloud / DevSecOps filters over grouped sections
+- [x] Cards link to `/work/[slug]`; works with only one lab present
+Gate: filters and grouping match the board.
+
+## Phase 6: Notion import, cloud track (15 labs)
+Status: APPROVED (Daniel, 2026-10-19: "yes, approved")
+Source: Notion "CYBER-SECURITY GITHUB PROJECT DOCUMENTATION"
+- [x] Import in batches of 4 (one folder per run), first person, identifiers masked
+- [x] Batch A: Access Identity Management (3): The Over-Privileged User and AWS IAM Compromise Investigation imported; The Overpowered Role was the reference file
+- [x] Batch B: Network and Perimeter Defense (4): The Wide-Open Security Group, Exposed AWS Private Network, The Forgotten NACL, VPC Flow Logs Visibility Assessment
+- [x] Batch C: Secure Compute (4): Exposed EC2 Management Port, Unpatched EC2 Instance, IMDSv1 Exposure and IMDSv2 Remediation, ECS Container IAM Least Privilege
+- [x] Batch D: Storage and Data Security (4): Public S3 Bucket Remediation, S3 SSE-KMS Encryption and Validation, S3 Activity Monitoring Audit, Public EBS Snapshot Remediation
+- [ ] Real GitHub repo URLs added or left as logged TODOs (all left as TODOs)
+Gate: Daniel reads each batch and approves wording before the next.
+
+## Phase 7: Notion import, DevSecOps track (17 labs)
+Status: APPROVED (Daniel, 2026-10-19: "yes, approved"; per-finding severities still marked TODO-confirm for Kachi)
+Source: Notion "DevSecOp Website Portfolio"
+- [x] Batches of 4 to 5, same rules, plus mask internal IPs, hostnames, usernames, flags and keys
+- [x] Batch A: Build and pipeline (6): Securing the Build Process, Build Process Security, Build Server Security, Pipeline Access Gate Hardening, Environment Segregation for Build Runners, CI/CD Build Secret Segregation
+- [x] Batch B: Supply chain, Kubernetes (3): External Dependency Supply Chain Risk, Python Dependency Confusion Defence, Kubernetes Secrets and RBAC Hardening
+- [x] Batch C: Docker (5): Container Isolation cgroups, Docker Socket Exposure, Docker Engine TCP Socket Exposure, Container Isolation Namespaces, Docker Hardening and Security Controls
+- [x] Batch D: Infrastructure as Code (3): IaC Pipeline Provisioning, On-Prem IaC Pipeline Assessment, Terraform Cloud IaC Hardening
+Note: DevSecOps source labs are offensive-security training material; every lab is written as a defensive case study (findings, risk, controls, validation) with no exploitation steps, payloads, credentials or attack commands reproduced. Internal IPs, hostnames, usernames, flags and keys masked.
+Gate: same as Phase 6.
+
+## Phase 8: Writeups list and article
+Status: READY FOR REVIEW (Daniel, 2026-10-19: "Lets finish up with his writeups"; hold lifted)
+Boards: 04-writeups, 05-article
+- [x] List page and article template
+- [x] Real titles, dates, read times and links from Medium; cover images or a designed fallback (designed covers; 5 read times estimated, see TODOs)
+Gate: compared against boards 04 and 05.
+
+## Phase 9: About page
+Status: APPROVED (Daniel, 2026-10-19: "Good to go")
+Board: 06-about
+- [x] Hologram, lede, credentials, How I work orbit loop (3400ms per step, 9000ms hold after a tap)
+Gate: compared against board 06.
+
+## Phase 10: Contact page
+Status: READY FOR REVIEW (gate: Daniel's real test message)
+Board: 07-contact
+- [x] Form posts to Formspree, shows success, resets, handles errors (checked against mocked Formspree responses; the real delivery is the gate)
+- [x] Real email and social links
+Gate: Daniel sends a real test message and it arrives.
+
+## Phase 10b: Desktop layouts for inner pages (added by Daniel, 2026-10-19)
+Status: READY FOR REVIEW
+Boards: none at desktop (02, 03, 06 and 07 are mobile only). Visual language from 00-home-desktop; motion bar from Emil Kowalski's skills (github.com/emilkowalski/skills: emil-design-eng, animate, animation-performance, review-animations).
+- [x] Work hub: sticky side column (title, filters, domain rail) beside the lab list
+- [x] Case study: two-column hero; sticky contents rail with active section and scroll-linked reading progress
+- [x] About: copy beside the hologram, orbit loop beside its step detail, three-column disciplines, two-column credentials
+- [x] Contact: intro, status and direct links beside the form panel
+- [x] Scroll motion: one-time reveals on desktop only, transform/opacity only, reduced motion and hover gating; mobile and tablet (below 1024) unchanged
+Gate: Daniel checks each page at 1280 and 1440 and confirms 390 still matches the approved mobile pages.
+
+## Phase 10c: Homepage desktop polish and desktop header (added by Daniel, 2026-10-19)
+Status: READY FOR REVIEW
+Boards: 00-home-desktop (improvements, not a redesign). Motion bar: Emil Kowalski's skills.
+- [x] Desktop nav links open their pages from the homepage too (they scrolled within the homepage)
+- [x] Desktop header redesign: no bar at the top of the page; a floating glass bar once scrolled, opaque enough without blur
+- [x] Homepage motion fixes from the skill review: no per-frame React renders, no layout-property animation, hover motion gated to fine pointers, press feedback on cards
+Gate: Daniel checks the homepage and header at 1280 and 1440.
+
+## Phase 10d: Footer redesign (added by Daniel, 2026-10-19)
+Status: READY FOR REVIEW (second pass: Daniel found the first pass "too cheap" and lacking detail)
+Boards: 00-home-desktop, 01-home-mobile (footer). Motion bar: Emil Kowalski's skills.
+- [x] Lighter than the board's footer: no ridge art, no looping glow or satellite, one grain layer instead of six
+- [x] Detail and interaction: lit planet on a gradient horizon, glass panel with gradient edge and pointer spotlight, copy-email with a blurred icon swap, back-to-top ring that fills with page scroll, drawn underline and current-page dot on the nav, social links with labels, press feedback throughout
+- [x] Scroll-linked, not looping: horizon draw, one satellite orbit, wordmark rise (CSS scroll timelines); reduced motion keeps only the progress ring
+- [x] Homepage section rail steps aside when the footer arrives (it overlapped the footer)
+Gate: Daniel checks the footer on any page at 390 and 1440.
+
+## Phase 10e: Three Orbits redesign (added by Daniel, 2026-10-19)
+Status: SUPERSEDED by Phase 10f (Daniel asked for a simpler concept)
+Boards: 00-home-desktop, 01-home-mobile (section 02). Motion bar: Emil Kowalski's skills.
+- [x] Precise selection: labels (at least 44px hit area) and tabs select; the overlapping rings no longer do
+- [x] No idle cost while scrolling: no looping beads, spinning ticks, SVG blur filter, backdrop blur or looping glyphs
+- [x] Tool chips wrap at their natural width (no clipped names); faster card swap; flick-to-swipe
+Gate: Daniel checks section 02 on a phone and at 1440.
+
+## Phase 10f: Three Orbits as an orbit dial (added by Daniel, 2026-10-19)
+Status: READY FOR REVIEW
+Boards: 00-home-desktop, 01-home-mobile (section 02), concept replaced. Motion bar: Emil Kowalski's skills.
+- [x] One orbit, three planets; picking one turns the orbit the short way round into a lit dock at the top, labels upright
+- [x] Accurate motion: one transform, strong ease-in-out, interruptible (retargets mid-turn); the card slides in the direction of the turn
+- [x] Planets are the only control (about 52px hit areas, radio group with arrow keys); nothing loops; reduced motion turns instantly
+Gate: Daniel checks section 02 on a phone and at 1440.
+
+## Phase 10g: Contact section and footer de-duplication (added by Daniel, 2026-10-19)
+Status: READY FOR REVIEW
+- [x] Homepage contact section keeps one call to action ("Contact me", opening the /contact form); its email row and social tiles are gone because the footer below carries both
+- [x] Footer unchanged as the single global home for email, socials and page links; /contact keeps its direct links (it is the dedicated destination)
+Gate: Daniel checks the end of the homepage at 390 and 1440.
+
+## Phase 11: 404, SEO and share previews
+Status: NOT STARTED
+- [ ] Designed 404, page titles and descriptions, sitemap, robots
+- [ ] Open Graph and Twitter cards checked on LinkedIn and X
+- [ ] Analytics only if Daniel asks
+
+## Phase 12: QA and launch
+Status: NOT STARTED
+- [ ] Widths 360 to 1440, reduced motion on and off, a low-end Android
+- [ ] Lighthouse: performance 85 or more, accessibility 95 or more
+- [ ] Temporary `/_kit` page removed; all TODOs in `site.ts` resolved or accepted
+- [ ] Daniel approves the preview, then merge `redesign` into `main`
+
+---
+
+## Open TODOs (mirror of `site.ts` todos)
+- Resume PDF
+- Real GitHub repo URL per lab
+- Writeups: Medium read times for the 5 newest imports are estimates (265 wpm, the same formula reproduces all 5 verified ones); confirm on Medium
+- Writeups: confirm there are no Medium posts older than the RSS feed's 10 (the profile and JSON listing return 403 to scripts; LinkedIn returns 999)
+- Writeups: Kachi to confirm the Diffie-Hellman masking and that the two non-technical pieces (Project Glasswing, AI as a Collaborator) belong on the site
+- New Open Graph image check (og:image is absolute to the production domain, so previews only resolve after merge)
+- TryHackMe badge links: check in a browser (scripted requests get 429); certificate PDFs return 200
+- Copy to confirm with Kachi: "Works remote" (board copy). ("I usually reply within a day" was removed with the Phase 10g contact trim.)
+- Copy to confirm with Kachi: "Your details are only used to reply to you." (contact form note, board copy; Formspree also stores submissions)
+- Featured card blurbs (board copy) to check against the Notion labs when they are imported (Phase 6 and 7). Checked so far: "IAM Compromise Investigation" and "The Overpowered Role" blurbs match their labs.
+- Severity per finding (HANDOFF 8b: judgment call, confirm with Kachi): Over-Privileged User F01 High, F02 Low; IAM Compromise F01 High, F02 High, F03 Medium; Wide-Open Security Group F01 High (SSH), F02 High (MySQL); Exposed Private Network F01 High (IGW route), F02 Medium (auto public IP); Forgotten NACL F01 Medium; VPC Flow Logs F01 Medium
+
+## Conflicts (board vs handoff, log every one)
+- Severity Medium colour: board shows red, handoff says amber. Decision: amber.
+- Work hub filters: board chips win over the handoff's four categories plus tab.
+- Homepage sections: board wins over the handoff's list.
+- Heading weight: boards set display type at 700 (desktop hero 750); tokens.json says 800. Board wins.
+- Hero wash: boards use #0b2229; tokens.json says #0e2a33. Board wins.
+- Desktop nav: board tabs are Work, Writeups, About, Contact; the Navbar README says Home, About, Work, Contact. Board wins.
+- Footer credit: HANDOFF allows an "Engineered by Daniel" link to deecrypthub. Left out for now; Daniel has not decided whether to add it.
+- Desktop header: the Navbar README describes a transparent bar that fills on scroll, a gradient progress line and a Home tab. Board 00 has a constant blurred bar, no progress line, and Work, Writeups, About, Contact. Board wins.
+- Desktop nav lens: on the homepage board it follows the section in view; site-wide it marks the current page. Homepage section tracking comes with Phase 3.
+- Mobile header scrolls away with the page (absolute, as on every board); the desktop header is fixed.
+- Breakpoint: desktop header and footer from 1024px. No tablet board, so 768 to 1023 uses the mobile header.
+- Rim light, grain and the primary glass button (`btn-p`) were built in Phase 1 because the header and footer use them. Phase 2 turns them into the full kit.
+- Button pair: board 09 recommends "A · Split capsule" (golden-ratio split, lens always visible). The homepage boards (00, 01) use a later version: lens hidden at rest, 58/42 split, lit discs, tap fires then navigates. Built the homepage version.
+- Lens motion: HANDOFF suggests Framer Motion or animating the board's own variables. Used the board's variables and data attributes in CSS, so timings match exactly.
+- Lens active state: Daniel found the board's lens (white top sheen, bright bottom edge, heavy glow) off from the rest of the system. Changed on both capsules to a soft tint, 1px hairline and a faint glow, matching the active filter chip and cards. Daniel's call overrides the board here.
+- Button scaling: boards scale with a preview zoom. Built fluid sizes instead: capsules, link capsule and glass button scale from 80% at 312px to the board size at 390px and up.
+- 3.1 hero contents: GOALS lists a "Remote" tile and the motto in the hero. Neither hero board has them: the mobile hero is hologram, eyebrow, name, lede and the button pair; the desktop hero adds the role line, stats and scroll cue. The motto lives in section 06 About (3.7) and "Based in Nigeria" is a Record tile (3.2). Board wins.
+- Hologram start: the board starts the build clock at mount, even while assets are still loading. The site starts it once the particles and portrait are ready (or after 1.2s), so visitors always see the build from the first frame. Seed, timings and look are unchanged.
+- Hero links: "View my work" and "Get in touch" point to #work and #contact as on the board; until 3.4 and 3.8 add those sections they open /work and /contact.
+- Desktop hero stats: 08 domains and 09 credentials are computed from the data; 32 labs is `site.labCount` until every lab is imported (lab count TODO).
+- Header nav at 1024: tabs are 108px on the board; they now shrink to 88px at 1024 so the pill never touches the résumé pill. Unchanged at 1440.
+- Location: Daniel's rule (2026-10-18), applies to every page: never mention Kachi's location or show his local time; describe his work mode as remote or hybrid. Overrides the boards: the Record "Based in" tile is now "Works · Remote · Or hybrid", the About line drops "based in Nigeria", the footer clock is a "Remote · Hybrid" pill, the footer base line is "Secure by design", the desktop contact pill reads "Open to remote · hybrid". Board 06 (About page) says "based in Nigeria" too: leave it out in Phase 9.
+- Run scope: Daniel asked for all of Phase 3 in one run ("finish phase three and report back"), overriding one section per run for this phase.
+- Writeups header: the board says "READ ON SITE"; until the on-site articles exist (Phase 8) the cards open Medium, so the label reads "READ ON MEDIUM". Restore with Phase 8.
+- Credentials: the board shows them as icons only; each now links to its TryHackMe verify page so every claim can be checked.
+- Motto: the desktop board makes it a replay button; HANDOFF says it writes once and is not tappable. HANDOFF wins here (it records the client decision).
+- Record tiles: the board nests links inside a <dl>, which is invalid HTML; built as a grid of links with the same look.
+- Email row: at a true 390px the board's own email row overflows (its preview was zoomed to 1.15). Text now scales to fit from 360px up; at 320px it truncates with the full address in the tooltip and the Copy button.
+- Desktop content width: with the progress rail showing (1280px and up), content starts at least 180px in so the rail's label never covers copy. Below 1280 the rail is hidden. 1920 keeps the board's 1200px column.
+- Tablet (768 to 1023, no board): sections keep a 720px column, the orbit map caps at 546px and the hero button pair at 430px.
+- Overflow bug found and fixed: the hologram halo (118% of the stage, as on the board) widened the mobile layout viewport to 425px, zooming the page out. main now clips horizontal overflow. This also affected the approved 3.1 hero.
+- Case study section order: HANDOFF 8b says both "body headings as the section order" and "add extras after What I did". Followed the content file's heading order (Objective, Scenario, What I found, What I did, Validation, Before and after, What I recommend), so the story reads in sequence. Evidence snippets sit inside What I did. The "What I learned" prose is shown once, as the quote.
+- Finding code: the board shows the offending policy above the finding cards; each finding's code block now sits directly above its own card. The board's file name and WILDCARD flag come from the fence info (```json file=... flag=...).
+- Finding body: the board shortens Finding 02; the page uses the full text from the content file (content wins over the mockup).
+- Severity badges: board shows both in red; HANDOFF colours apply (High red, Medium amber).
+- Repo button: until a lab's repo URL is known it opens the GitHub profile (as on the board) and reads "View my labs on GitHub" so it does not promise a specific repo.
+- Previous and next: titles come from a 32-lab registry built from the work board (`src/lib/labs.ts`); a lab not imported yet links to the work hub.
+- Case study desktop: no board, so the page keeps the mobile column centred at 720px under the desktop header (HANDOFF 3).
+- Work hub rows: the board links every row. Labs not imported yet are listed but not linked and show a quiet "SOON" tag, so nothing 404s; each becomes a link as Phases 6 and 7 import it.
+- Lab slugs: settled on the kebab-cased work-board titles (`src/lib/labs.ts`), which match the reference file's previous/next. Homepage featured cards now use `aws-iam-compromise-investigation` and `terraform-cloud-iac-hardening`.
+- Work hub filter follows the URL (`?d=cloud`, `?d=devsecops`), as the homepage links expect; `?c=<category>` scrolls to that group (case study breadcrumb).
+- Workflow (Daniel, 2026-10-18): build and test on the local dev server; commit and push only when Daniel says.
+- IAM Compromise status: the Notion page says the test event "was expected to" trigger the alert but does not record the email arriving, so the status reads "Remediated · Detection added", not "Verified".
+- Code fences: `json clean` marks a remediated policy, so required wildcards (EC2 describe calls need `"Resource": "*"`) are not flagged red.
+- Masking (Batch B): Notion evidence contains public IPs, an instance ID and VPC, NACL and flow log IDs. Public IPs became `<PUBLIC_IP>` or were dropped; resource IDs were left out. Private 10.x addresses stay (not routable).
+- Notion has a second "NETWORK AND PERIMETER DEFENSE" folder under "CYBERSECURITY WEBSITE PORTFOLIO"; the import uses the HANDOFF root ("CYBER-SECURITY GITHUB PROJECT DOCUMENTATION").
+- Scrollbar: boards hide it. Daniel asked for a themed one instead: thin mint glass pill on the night track, native CSS only so scroll-linked motion keeps native scrolling.
+- OG banner: Daniel chose to keep the original banner as the share image. Renamed to `public/og-banner.png` (1672x941).
+- About lede: board 06 says "based in Nigeria". Replaced with "working remote or hybrid" (location rule).
+- About orbit examples: the board's Find and Prove mono lines describe an exposure ("s3:* granted on every bucket", "finance bucket readable from the app"). Daniel's rule (2026-10-19): only short defensive phrases. Now each line is a control or a validation result taken from a real lab: Block Public Access checked on every layer (Public S3 Bucket), CloudTrail rule matching 13 high-risk IAM calls (IAM Compromise), IMDSv2 required with hop limit 1 and AccessDenied on the finance bucket (The Overpowered Role).
+- About orbit: the board only pauses on a tap. Mouse hover and keyboard focus also pause auto-advance, nodes work with Enter and Space, and only taps are announced to screen readers (an auto-changing live region every 3.4s would be noisy).
+- About disciplines: the board links both lab rows to /work; they now open the filtered hub (/work?d=cloud, /work?d=devsecops). Counts come from `site.ts`.
+- About desktop: no desktop board, so the page keeps the 720px reading column like the case study and work hub; from 768px the hologram is 440 wide and the orbit 420 wide, centred.
+- About credentials: reuses the homepage component (each item links to its TryHackMe verify page), so `/about#credentials` from the footer now resolves.
+- Contact GitHub row: the board's subline "All 32 labs, documented" claims every lab is on GitHub, but the repo URLs are still TODOs. Shows the handle "@OnyedikachiO" instead, like the Medium row.
+- Contact success: the board only changes the button label ("Sent. Talk soon"). The page also shows the board's `.sent` box ("Message sent. Thanks for reaching out.") in a status region so screen readers hear it, clears the fields, and returns to "Send message" when a new message is started.
+- Contact errors: no board state. Field errors show under the field in the severity red; form and network errors show one line with the email address as a fallback. Typed text is kept on error.
+- Contact form extras: the chosen topic and a "Portfolio contact: <topic>" subject are sent with the message; a hidden Formspree honeypot field filters bots. Fields are required, with length limits.
+- Contact fields: 16px text on touch screens (the board's 15px makes iOS zoom in on focus); the message box can be resized vertically (board: no resize).
+- Contact status line: the travelling light runs the full width of the line instead of the board's fixed 300px, so it ends at the edge at every width.
+- Contact row icons: the site's shared icon set (as in the footer) instead of the board's slightly different LinkedIn, GitHub and Medium glyphs.
+- Contact desktop: no desktop board, so the page keeps the 720px reading column like the other inner pages.
+- Inner pages on desktop (Phase 10b, Daniel's request): the boards for /work, /work/[slug], /about and /contact are mobile only, and HANDOFF 3 said to keep a centred 720px column. Daniel asked for real desktop layouts instead. From 1024px they use the homepage's 1200px column and two-column grids; below 1024px the approved mobile and tablet layouts are unchanged.
+- Motion bar: Emil Kowalski's skills (emilkowalski/skills), chosen by Daniel. Added two tokens, `--ease-out` (0.23, 1, 0.32, 1) and `--ease-in-out` (0.77, 0, 0.175, 1). Scroll reveals reuse the homepage's `.rv-lg` (0.9s on the KB curve) for cohesion; the skill allows longer motion on marketing surfaces. The About orbit halo keeps the board's 0.6s.
+- `transition: all` removed where the skill flags it on these pages (filter chips, work rows, About orbit nodes): each now names its properties. Filter chips also gained a 0.97 press scale. The homepage rail dots still use `transition: all` (out of scope here).
+- Work hub filter: groups a filter brings back appear at once with no transition (a filter is a frequent action); only first-view reveals animate. The hub now prerenders in full (title and lab list are in the static HTML) by using the plain hub as the Suspense fallback; before, the list only rendered in the browser.
+- Case study rail: section anchors moved from the h2 to the section (`cs-objective` etc.; h2 ids are now `cs-objective-h`). Reading progress uses a CSS scroll timeline; browsers without it (Firefox today) show the rail without the progress line.
+- Desktop nav on the homepage (Phase 10c, Daniel 2026-10-19): the links scrolled to homepage sections (board 00) and read as broken. They now open /work, /writeups, /about and /contact from every page. On the homepage no tab is lit; the section rail (1280px and up) still tracks the homepage. Supersedes the "Desktop nav lens" entry above.
+- Desktop header surface (Phase 10c, Daniel asked for a redesign): replaces board 00's constant full-width blurred bar (see the "Desktop header" entry above). No bar at the top of a page; from 0 to 72px of scroll a floating glass bar, inset 8px by 16px with 22px corners, fades in through a CSS scroll timeline (always shown where scroll timelines are missing). The old bar was 55 to 85% transparent and relied on backdrop blur, which low-tier devices (`lite`) switch off, so page content showed through it. The new fill is 86 to 90% opaque, and 97% in `lite`.
+- Homepage motion fixes from the skill review (Phase 10c): rail progress and the mobile dial ring are written to the DOM instead of React state (no re-render per scroll frame); the record count-up writes its digits directly; the rail marker moves with transform (was `top`, 0.7s) in 300ms; the record tile sweep moves with transform (was `left`); the nav lens moves with transform (was `left`); rail dots name their transitions (was `transition: all`); hover lifts on buttons, arrow swaps, featured cards, badges and the footer top button only apply to fine pointers; featured cards lift 6px (was 8px) in 300ms and press to 0.98. Not changed: the 0.9s section reveals (marketing surface, cohesive with the inner pages) and the orbit panel's dot width transition (mobile dots, tiny).
+- Inner-page hero wash: on desktop it now spans the window, not the 1200px column, so its gradients no longer show a cut edge beside the content (found while checking the header).
+- Writeups source (Phase 8): article bodies come from Kachi's Medium RSS feed (all 10 posts, full text). HANDOFF says not to port the old site's article summaries; the old build was used only to cross-check which articles exist (its 4 Medium links are all in the feed). LinkedIn could not be read (signed-out requests get status 999).
+- Writeups bodies: kept as published. Editorial changes only: the repeated title and the Medium cover image at the top of each body dropped (the page draws its own title and cover); sub-sections demoted from ## to ### so "In this article" lists main sections only; three tables pasted into Medium as run-on paragraphs rebuilt as tables (IAM access control models; threat modeling metrics and STRIDE) with the words unchanged; raw LaTeX (Medium shows it unrendered) written as plain formulas; two em dashes replaced (a semicolon in FGSM, a colon in Diffie-Hellman); Medium code-language labels removed and terminal sessions labelled bash.
+- Writeups masking: the Diffie-Hellman article is a TryHackMe room walkthrough. Following the Phase 7 rule (internal hostnames, keys and lab answers masked), the lab hostname, the room's HMAC key and the cracked password read <REDACTED>. The other nine articles had nothing to mask (scanned for flags, keys, IPs and hashes).
+- Writeups covers: the board's designed covers instead of Medium's images (no image rights to check): the wave cover on the lead card (04) and a tile cover per article (05) built from the article's own terms (IAAA from the board; FGSM/BIM/PGD; KHOOR, the article's Caesar example; G/R/C; and so on), coloured by topic.
+- Writeups list: board 04 shows 5 articles; all 10 are listed. Topics follow the board's chips (AI security, Identity, Cryptography, Risk); the lead card is the newest in the current filter and "LATEST" marks the newest overall. Rows reveal once on desktop; rows a filter brings in appear at once.
+- Article page: board 05's "In this article" is ".ar-toc" (".toc" is the desktop contents rail). It is collapsed by default as on the board and closes after a jump; from 1024px the rail with reading progress replaces it. The board's top reading bar is a CSS scroll timeline (hidden where unsupported). "ALSO ON MEDIUM" in the meta line is a link. Read next picks the next article in the same topic.
+- Article canonical: each article's canonical URL points at the Medium original, so search engines do not treat the site copy as duplicate content. Remove the `alternates.canonical` line in `src/app/writeups/[slug]/page.tsx` if Daniel wants the site copies to rank instead.
+- Writeups header on the homepage: restored to the board's "READ ON SITE"; the cards now open the on-site articles (supersedes the "Writeups header" entry above).
+- Contents rail (kit SectionRail): now picks the last section whose top has passed 30% of the screen, measured once per frame while scrolling. The thin intersection band it used before could be skipped by a fast scroll; this also applies to the case study and work hub rails.
+- Footer (Phase 10d, Daniel 2026-10-19): replaces boards 00/01's footer (ridge art 170/300px tall, a planet, an endlessly breathing glow, a looping SVG satellite, a glass card with rim light and six grain layers, and a scroll observer that re-rendered it). Kept from the board: KB mark, name and tagline, numbered page links, socials, work mode, "SECURE BY DESIGN", and the mobile board's large wordmark ("Bernard" in the brand gradient, one of the places HANDOFF allows it). New: a lit planet with atmosphere and a tilted orbit on a gradient horizon; one glass panel (gradient edge, one grain layer) with a pointer spotlight (fine pointers, transform only); "Open to new opportunities" status (the contact page's copy); copy-email with a blurred icon-to-tick swap; social links with labels; back-to-top ring filling with page scroll; drawn underline and a mint dot on the current page. The horizon draw, a single satellite orbit and the wordmark rise are CSS scroll timelines; nothing loops (the work-mode orbit glyph is static here). Only the spotlight, copy button and nav are client components. On phones narrower than 400px the copy button shows its icon only so the full address fits; 108px of bottom space stays for the homepage section dial. The homepage rail fades out once the footer is in view, and the desktop header bar is slightly more opaque (0.94/0.92) so text no longer shows through.
+- Class clash: the writeups lead card's footer row was ".ft", the same class as the site footer, so footer spacing leaked into the card. Renamed ".wl-ft".
+- Three Orbits (Phase 10e, Daniel 2026-10-19: imprecise ring selection, slow scrolling on mobile, clipped tool pills): the rings are now a picture of the selection, not targets. The board's 22px invisible hit bands overlapped, so taps near a crossing picked the top ring. The three map labels (34px tall, 50px hit area) and the tab capsule select; the labels are pointer shortcuts (not focusable), the tabs are the keyboard and screen reader control. Removed everything that repainted the section continuously: three looping SVG beads, the 60s spinning tick ring, the feGaussianBlur glow filter, backdrop blur on the labels, and looping orbit glyphs in the labels and tabs. Selecting a ring now draws it in once from its label (450ms ease-out, stroke-dashoffset) and crossfades the core; a wide faint stroke replaces the blur filter. Tool chips wrap at natural width instead of a 3-column grid (names were cut at 1280 to 1440). The card swap is 220ms with a 30ms stagger and a 2px blur bridge (was 500ms, 55ms). Swiping the card accepts a quick flick (velocity above 0.11 px/ms, Emil Kowalski's rule) as well as a 44px drag. Lede copy changed from "Tap a ring or a label" to "Tap a label or a tab" to match.
+- Three Orbits concept (Phase 10f, Daniel 2026-10-19: "a lot more simpler with a more accurate motion"): the board's three tilted, overlapping rings, their labels and the tab capsule are replaced by an orbit dial. One circle carries three planets 120 degrees apart; a lit arc at the top is the dock. Picking a planet turns the whole orbit the short way round (always 120 degrees) until that planet rests in the dock, and each planet counter-turns on the same curve so labels stay upright. Motion: one CSS transform transition, 480ms, strong ease-in-out (movement on screen, Emil Kowalski's curve); a second pick mid-turn retargets from the current angle. The centre crossfades the discipline icon and its lab count (2px blur bridge). The card's content slides in from the side the orbit turned towards. The planets are a radio group (roving tab index, arrow keys) and the only control, so the tabs are gone; hit areas are about 52px. Nothing loops. Lede copy now reads "Tap a planet, or swipe the card" (mobile) and "Pick a planet to bring it round" (desktop).
+- Contact section (Phase 10g, Daniel agreed 2026-10-19): boards 00/01 put the email row (with Copy) and GitHub, LinkedIn and Medium tiles in the contact card, and the redesigned footer repeats them a few hundred pixels below. The section is now the conversion moment only: phones keep the gradient card with headline, availability line and "Contact me"; desktop keeps the big headline, the lede and availability pill on the left and the "Contact me" button on the right (the card held only the email and tiles there). "Contact me" opens /contact instead of mailto: (the email stays one tap away in the footer). The desktop lede drops "The quickest way to reach me is email, and I usually reply within a day": it pointed at the removed email row, and the reply time was never confirmed by Kachi (TODO closed).
+- Footer socials (Phase 10d follow-up, Daniel 2026-10-20: "remove the sub social section"): the GitHub / LinkedIn / Medium pill row under the email is gone. The footer is now the only global place for those profiles (the contact section dropped them in 10g), so they stay as an "ELSEWHERE" group under "EXPLORE": plain outbound text links with an icon and a small arrow, same type and hover underline as the page links, one row at every width. On desktop the brand column pins status and email to the bottom, so identity lines up with EXPLORE and the email row with ELSEWHERE.
+
+- Contact v3 + Footer v3 (F1/F2, Daniel 2026-10-20) supersede the Phase 10d footer and the Phase 10g contact section. Decisions: (1) the boards' own section padding (64/120px) is the board frame; the section keeps the homepage rhythm (70px phones, 150px desktop) like every other section. (2) The site's primary button (`.btn-p`) and desktop kicker (`.sh-k`) differ from the board (0.5s KB-ease transitions, lift on hover, 42px gradient rule, grey label), so "Email me" and the kicker follow the board instead. (3) "Numbered circle in the corner": read as both the mobile orbit index ("07 / 07" ring, removed with `SectionIndex`) and the homepage section dial, which sat over the new credit at bottom right; the dial now fades out once the footer is in view, as the desktop rail already did. If the dial should go entirely, say so. (4) The board's email is plain text, not a link; kept that way (the button is the mailto). (5) The copy button keeps the board's 40px disc; its hit area is padded to 52px. (6) The credit link is new and allowed: the "no deecrypthub links" rule still stands.
+
+## Run log
+(Claude Code adds a dated line per run: what was done, what is ready for review.)
+- 2026-10-17, Phase 0 (IN PROGRESS): added GOALS.md; committed site config, content loader, tokens, fonts, `/work` and `/writeups` skeletons, hologram assets; redirects verified (all 308, `/projects/:slug` to `/work`); README replaced; TryHackMe records moved to `src/lib/credentials.ts`; new share banner and KB favicon. BLOCKED: the removal of the old UI was stopped by the auto-mode safety check and needs Daniel's explicit approval, so layout wiring and the push wait. Branch not pushed yet.
+- 2026-10-18, Phase 0 (READY FOR REVIEW): Daniel kept the original banner as the share image (renamed to `og-banner.png`) and approved the deletions. Removed the old UI, content, three unused photos and the packages `react-tsparticles`, `tsparticles-slim`, `react-icons`, `next-themes`. Wired `globals.css` and `layout.tsx` (tokens, Geist, header and footer shell, dark only); placeholders on `/`, `/about`, `/contact` and the 404. Checked every route at 390 and 1440 in headless Chrome. Branch pushed.
+- 2026-10-18, Phase 0 review feedback: themed scrollbar added; body uses `overflow-x: clip` so sticky scroll effects work; footer credit stays out until Daniel decides; missing pages stay as placeholders. Still READY FOR REVIEW.
+- 2026-10-18, Phase 0 approved by Daniel. Phase 1 (READY FOR REVIEW): tokens extended (alpha channels, nav and lift colours); grain and rim light; mobile header (orbiting KB logo, résumé pill, pages menu) and desktop header (pill nav with lens, résumé, Get in touch); footer with mobile and desktop ridge art, card, socials, live WAT clock and base line; motion pauses off screen and stops under reduced motion. Checked in Chrome at 360, 390 and 1440: no horizontal overflow, menu opens by click and closes by Escape with focus returned, scroll locks while open, focus ring 2px mint. Branch pushed.
+- 2026-10-18, Phase 1 approved by Daniel. Phase 2 (READY FOR REVIEW): kit in `src/components/kit` and `src/styles/kit.css`: split capsule (hero pair), segmented capsule (topic picker and ring switch, arrow keys), link capsule, arrow link, section headings (mobile orbit index, desktop rule, page kicker, case study head), skill chips, orbit and mono tags, filter chips, glass card, panel, quote, scroll reveal. Demo at `/_kit` (noindex, folder `src/app/%5Fkit`). Checked in Chrome at 390 and 1440: hover, keyboard focus and touch tap on the capsule (fires, then navigates), arrow keys and lens direction on the segmented capsule, reveal on scroll, no overflow, reduced motion shows final states. Branch pushed.
+- 2026-10-18, Phase 2 review feedback: buttons and capsules now scale fluidly on small phones; quieter lens active state on both capsules. Checked at 320, 360, 390 and 1440: no label overflows its segment, no page overflow. Still READY FOR REVIEW.
+- 2026-10-18, Phase 2 approved by Daniel. 3.1 Hero (READY FOR REVIEW): hologram engine ported from the board (seed 7, same decode, timings, grade, scanlines, scan band, glitches, puck), assets from `public/hologram`, scales to any width (1.5x on desktop as on the board), pauses off screen, low tier at 4 or fewer cores, 3GB memory or slow frames (adds `lite` site-wide), reduced motion draws the settled frame once. Mobile hero from 01, desktop hero from 00 with desktop-only reveals and the parallax. Checked in Chrome: final frame identical to the board side by side; 0 draws off screen; 1 draw under reduced motion; low tier at 4 cores; no overflow at 360, 390, 1024, 1440. Branch pushed.
+- 2026-10-18, 3.1 approved by Daniel; Phase 3 finished in one run at his request. 3.2 to 3.8 and the added 3.9 section nav set to READY FOR REVIEW. Writeups metadata added as content files (dates and read times verified on Medium). Fixed a horizontal overflow from the hologram halo that also affected 3.1. Checked in Chrome at 320, 360, 390, 768, 1024, 1280, 1440 and 1920: no overflow; count-ups, motto, reveals, orbit switching by ring, label, tab and swipe, panel jump to the right slide, copy email, dial (open, Escape, focus), rail and header lens, pinned strip, contact fill; reduced motion stops loops and shows final states. Branch pushed.
+- 2026-10-18, Phase 3 feedback: removed every mention of Kachi's location and the live local-time clocks (Record tile, About line, footer pill and base line, desktop contact pill); work mode reads remote or hybrid. Checked: no page renders location text; build, lint and type-check pass. Phase 3 still READY FOR REVIEW.
+- 2026-10-18, Phase 3 approved by Daniel. Phase 4 (READY FOR REVIEW): case study template at /work/[slug] from board 03, fed by the content file. Markdown rendered to React (marked tokens, no raw HTML); JSON highlighting with true wildcards flagged; findings as severity cards; numbered steps with evidence; tables scroll inside their card. Lab registry for previous and next. Checked with the reference lab at 360, 390 and 1440 (no overflow, tables fit, long code scrolls in its card) and with a temporary fixture missing most sections (numbering closes up, nothing empty renders; fixture deleted). Fixed a class clash that hid the result strip. Branch pushed.
+- 2026-10-18, Phase 4 approved by Daniel. Phase 5 (READY FOR REVIEW): work hub at /work from board 02, all 32 labs from the registry in 8 groups, All / Cloud / DevSecOps filters (counts 32 / 15 / 17) synced to ?d=, featured dots, unimported labs listed without links. Checked on the dev server at 390 and 1440 (filters, URL, rows, no overflow). Not committed (Daniel commits on request).
+- 2026-10-18, Phase 5 approved by Daniel. Phase 6 Batch A (READY FOR REVIEW, wording sign-off needed): imported The Over-Privileged User and AWS IAM Compromise Investigation from Notion, rewritten in first person, account ID masked (it appears unmasked in the Notion evidence), commands trimmed, no claims beyond the pages. Result-strip numbers counted from the pages (10 actions over 3 services; 13 IAM events). Work hub, homepage cards and previous/next now link the three Identity labs. Content cache is production-only so content edits show in dev. Checked on the dev server at 390. Not committed.
+- 2026-10-18, Phase 6 Batch B (READY FOR REVIEW, wording sign-off needed, Daniel asked to continue after Batch A): imported the four Network and Perimeter labs, first person, public IPs and resource IDs masked, no claims beyond the pages (no Logs Insights counts were recorded, so none are stated). Code fence flags accept underscores for spaces. Work hub now links 7 labs; previous/next chain runs 01 to 07. Checked on the dev server at 390. Not committed.
+- 2026-10-18, Phase 6 Batches C and D (READY FOR REVIEW, wording sign-off needed): imported the four Secure Compute and four Storage and Data labs, first person, account/instance/VPC/NACL/snapshot IDs, public IPs and key values masked, no claims beyond the pages. Phase 6 now complete: all 15 cloud labs on disk. Not committed.
+- 2026-10-19, Phase 7 (READY FOR REVIEW, wording and severities sign-off needed): imported all 17 DevSecOps labs from the "DevSecOp Website Portfolio" Notion in four batches (Build and pipeline 6, Supply chain + Kubernetes 3, Docker 5, Infrastructure as Code 3). The source labs are offensive-security training material; each is written strictly as a defensive case study (findings, risk, controls, validation) with no exploitation steps, payloads, credentials or attack commands. Masked internal IPs, hostnames, usernames, flags and keys (hostnames/usernames/key values shown as <REDACTED>). Per-finding severities carry TODO-confirm notes for Kachi. Audit across all 32 case studies: 0 em dashes, 0 third-person pronouns or name in body copy, 0 leaked public IPs or lab flags. A crashed dev server had left a corrupted .next cache that made every /work/[slug] 404; clearing .next and restarting fixed it. All 17 DevSecOps slugs plus a cloud control return 200 on the dev server. Not committed (Daniel commits on request).
+- 2026-10-19, Phase 9 (READY FOR REVIEW): About page from board 06 at /about: breadcrumb and kicker, lede (no location; work mode remote or hybrid), hologram reused at 390x400, intro, How I work orbit loop (`src/components/about/HowLoop.tsx`), three disciplines, credentials reused from the homepage, résumé and contact buttons. Styles in `src/styles/about.css`. Checked in headless Chrome on the dev server: no horizontal overflow at 390 or 1440; steps advance every 3400ms (measured 3392 to 3455); a tap jumps to the node and the next advance comes 9.2 to 10.8s later; touch tap and keyboard Enter work; reduced motion stops auto-advance and the trail transition while taps still work; no location text or em dashes on the page. Type-check and lint pass. The running dev server had not picked up the new stylesheet import until restarted and the file was edited again (Turbopack import cache). Not committed (Daniel commits on request).
+- 2026-10-19, Phase 9 approved by Daniel. Phase 10 (READY FOR REVIEW, gate needs a real test message): Contact page from board 07 at /contact: breadcrumb and kicker, lede, status readout (travelling light, orbit glyph with pinging core, heartbeat), topic capsule (kit SegmentedCapsule: Hiring, Project, Speaking, Other) that changes the message prompt, Formspree form via `@formspree/react` (form ID from `site.ts`), direct links from `site.ts`. Code in `src/components/contact/` and `src/styles/contact.css`. Checked in headless Chrome on the dev server with every formspree.io request intercepted (nothing sent): no overflow at 390 or 1440; topic switches by click and arrow keys and the prompt follows; an empty submit sends nothing; the posted data carries name, email, message, topic and subject; success clears the fields and shows the confirmation; editing afterwards starts a fresh message; field (422), form (404) and network errors each show the right message and keep the typed text; reduced motion stops all three status animations. No location text or em dashes. Type-check and lint pass. The dev server again needed a restart plus an edit before it served the new stylesheet. Not committed.
+- 2026-10-19, Phase 10b (READY FOR REVIEW), added by Daniel: desktop layouts for the inner pages, using Emil Kowalski's skills (four installed to ~/.claude/skills after reading them: emil-design-eng, animate, animation-performance, review-animations). Work hub: sticky filters and a domain rail beside the list. Case study: two-column hero, sticky contents rail (active section, scroll-linked reading progress, anchors land under the header). About: copy beside the hologram, orbit beside its step detail, three discipline cards, two-column credentials, side-by-side buttons. Contact: intro, status and direct links beside a glass form panel. New `SectionRail` kit component and `src/styles/inner-desktop.css`. Checked in headless Chrome at 1440, 1280, 1024 and 390: no page overflow; every reveal fires after a scroll-through; the rail tracks all 8 case sections in order and progress runs 0 to 1; sticky columns hold at 118px; filter deep links (?d=) and group links (?c=) work; filtered groups appear without a transition; reduced motion shows every reveal at once with no transitions; the rail is hidden below 1024; the About page at 390 matches the approved capture. Type-check and lint pass. Not committed. Phase 10 still waits on Daniel's real test message.
+- 2026-10-19, Phase 10b review: Daniel moved on to Phase 10c. Phase 10c (READY FOR REVIEW): desktop nav links open their pages from the homepage; new floating desktop header surface; homepage motion fixes from the Emil Kowalski skill review; inner-page hero wash made full-bleed. Checked in headless Chrome at 1440, 1280 and 1024: nav hrefs are the pages and clicking Work on the homepage opens /work with the lens on Work; the lens moves by transform (0 on Work, 324px on Contact); the header surface reads opacity 0 at the top, 0.5 at 36px and 1 from 72px; `lite` fill 97% with no blur; rail progress and marker follow the scroll with no React state; count-up lands on 32, 8, 9; no overflow and every reveal fires at all three widths; reduced motion keeps only the header fade. Type-check and lint pass. The dev server served a stale rule from home-sections.css until the file was saved again. Not committed. Phase 10 still waits on Daniel's real test message.
+- 2026-10-19, Phase 8 (READY FOR REVIEW), hold lifted by Daniel: imported all 10 Medium articles from the RSS feed into content/writeups (5 existing files gained bodies, 5 new files), converted HTML to Markdown with formatting repairs only, masked the Diffie-Hellman lab values. Built the writeups list (04) and article template (05) with mobile layouts from the boards and desktop layouts in the Phase 10b language; homepage writeup cards now open the on-site articles. Checked in headless Chrome: no overflow on the list at 390, 1024, 1280 and 1440 or on any of the 10 articles at 1440 (plus 390, 1024, 1280 spot checks); filters switch lead and rows with counts 10/5/1/2/2; every article has a Medium canonical, a same-topic read next, no em dashes, stray asterisks or raw LaTeX; the mobile contents list opens, jumps and closes; the desktop rail hits every section and the reading bar fills with scroll; reduced motion shows every reveal at once. Type-check and lint pass. LinkedIn and the Medium profile could not be read by script. Not committed.
+- 2026-10-19, Phase 10d (READY FOR REVIEW): footer redesigned, lighter and with no looping motion (see Conflicts). Checked in headless Chrome at 360, 390, 1024, 1280 and 1440 on the homepage, work, about, contact and an article: no overflow; the line and satellite progress with scroll and finish at the page bottom; zero time-based animations and zero SVG animations inside the footer; reduced motion shows the rest state. Desktop footer height 354px. Type-check and lint pass. Not committed.
+- 2026-10-19, Phase 10d second pass (READY FOR REVIEW): footer rebuilt with more detail and interaction after Daniel's feedback (see Conflicts). Checked in headless Chrome at 360, 390, 1024, 1280 and 1440: no overflow; the wordmark fits at every width; the current-page dot marks the right link; the back-to-top ring reads 44% mid-homepage and full at the bottom; the satellite completes its orbit; the homepage rail fades out at the footer; the spotlight follows the mouse; copy puts the address on the clipboard, swaps to the tick and resets after 1.6s; no time-based or SVG animations in the footer; reduced motion leaves only the progress ring. Fixed a class clash with the writeups lead card. The dev server again dropped chrome.css until it was re-saved. Not committed.
+- 2026-10-19, Phase 10e (READY FOR REVIEW): Three Orbits redesigned (see Conflicts). Checked in headless Chrome at 390, 1024, 1280 and 1440: every label selects its own ring at its centre and both edges (9 of 9 taps per width, touch on mobile, mouse on desktop); taps on ring crossings change nothing; no clipped tool chips; zero running animations and zero SVG animations in the section at rest; a 30px flick changes ring; arrow keys work on the tabs; reduced motion draws the ring instantly; no overflow. Type-check and lint pass. Not committed.
+- 2026-10-19, Phase 10f (READY FOR REVIEW): Three Orbits rebuilt as an orbit dial (see Conflicts); Phase 10e superseded. Checked in headless Chrome at 360, 390, 1024 and 1440: 36 of 36 picks by planet centre, hit-area edge and label landed on the right planet (touch on mobile, mouse on desktop); every turn is plus or minus 120 degrees; labels stay upright; a second pick mid-turn returns from the current angle; the card slides in the direction of the turn; arrow keys move selection and focus; no running animations at rest; no clipped chips or off-screen planet parts; reduced motion turns instantly; no overflow. Type-check and lint pass. Not committed.
+- 2026-10-19, Phase 10f follow-up (Daniel: "scale the content container on the right smaller"): from 1024px the orbit section grid is now dial `1fr` and card `400px` (was dial 560px and card `1fr`), 56px gap, card centred vertically on the dial; card padding 26px, title 30px, body 15.5px. Measured at 1024, 1280 and 1440: card 400px wide, centres within 4px, no clipped chips, no overflow. Not committed. Note: SiteHeader.tsx and chrome.css were changed outside this session at 23:32 (new header nav); left untouched here.
+- 2026-10-19, Phase 10g (READY FOR REVIEW): homepage contact section reduced to one call to action (see Conflicts). Checked at 390 and 1440: the section's only link is "Contact me" to /contact, no email in the section, the footer still shows the email and 3 social links, no overflow. Type-check and lint pass. Not committed.
+- 2026-10-20, Phase 10d follow-up: footer social pills replaced by an ELSEWHERE link group (see Conflicts). Checked at 360, 390, 1024 and 1440: no pill elements left; GitHub, LinkedIn and Medium open in a new tab and sit on one row; panel height 451px (360) to 354px (desktop); no overflow. Edits to chrome.css were limited to footer rules (the header rules there were changed outside this session). Type-check and lint pass. Not committed.
+- 2026-10-20, Phase 10h (Daniel: mobile Featured Case Studies carousel janky and "stuck" in dead space): root cause found by reproducing the old rules on the live page at 360px: `.snap` was `overflow-x: auto`, which also makes the vertical axis scrollable, and the fanned cards' rotated corners reached past the 40px bottom padding, giving the strip a 42px vertical scroll range that swallowed swipes starting on it. Fixes: `overflow-y: hidden` (now 0px vertical range), `overscroll-behavior-x: contain`, `scroll-snap-stop: always` (one card per flick), smaller padding and shadows (50px-blur shadows replaced with 30px at -18px spread). The fan (tilt, drop, dimming) is now a CSS scroll timeline (`animation-timeline: view(inline)`), so it follows the finger frame by frame on the compositor; browsers without scroll timelines get a lighter state-driven fallback (300ms, set from CSS variables, not inline transforms). React tracks only the nearest slide, read once per frame with a passive native listener, and re-renders only when it changes. Checked at 360 (touch emulation, DPR 2): vertical swipes starting on the carousel move the page; mid-drag the cards sit partway through their tilt; a hard 260px flick moves exactly one card; no long tasks across 6 swipes. NOT confirmed: behaviour on a real phone; synthetic 120px flicks did not advance a card (CDP touch input has no fling velocity, so this needs a real-device check); frame times are from software-rendered headless Chrome. A React hydration mismatch ("1 Issue" badge) appeared in two earlier touch-emulation runs and could not be reproduced in four later runs, including identical conditions; cause unknown, and it predates this change (it is visible in Daniel's screenshot). Type-check and lint pass. Not committed.
+- 2026-10-20, Phase 10i (Daniel: hologram "loads a bit late and keeps users waiting"): measured first. On a phone profile (4x CPU, slow 4G) in a production build, the canvas could not draw until React had hydrated the whole homepage (about 4 to 4.8s after the HTML), then the build took 2.3 to 2.5s to bring the portrait in; dev numbers are 2x worse (unminified scripts) and not representative. Changes: (1) the portrait preload is no longer high priority, so it stops taking bandwidth from the scripts that gate hydration (it is only drawn 1.75s into the build); (2) the build starts as soon as the particles are in instead of waiting for the portrait; if the portrait is still decoding at 1.7s the clock holds until it is ready, so the reveal is never cut short; the portrait decodes off the main thread (`img.decode()`); (3) a CSS stand-in of the projector puck and beam in the server HTML, at the canvas's exact puck position, holds the stage until the engine's first frame, then fades (300ms); (4) the full build plays once per tab session; later homepage visits start it 2.6s in (portrait in about 0.5s). Build timings themselves are unchanged. Measured with interleaved production builds (before/after, first visits, from HTML arrival): the stage shows the projector at first paint (about 3s) instead of blank until about 4.4s; canvas and portrait arrive roughly 0.4 to 0.6s earlier in the cleanest batch; return visits bring the portrait about 2s sooner. Machine load made the runs noisy, so the first-visit gain is approximate. Tried and reverted: per-section Suspense boundaries on the homepage (so the hero hydrates first). The gain was inconsistent across batches (0.6 to 1.6s, with slower first paint in one batch), and React streamed the sections as deferred blocks that only appear when a script runs, which would hide everything below the hero without JavaScript. Type-check and lint pass. Not committed.
+- 2026-10-20, 3.8 Contact block v3 + Footer v3 (READY FOR REVIEW): built from F1 (1440) and F2 (390); see Conflicts. Links, email and credit URL come from `site.ts` (`profiles`, `credit`; `footerNav` and `socials` removed). Checked in headless Chrome on the dev server at 360, 390, 768, 1024 and 1440 on Home, Work, a case study, Writeups, About and Contact: no horizontal overflow; footer rows lay out per board (desktop one row, phones name + back to top, then icons, then the bar); every footer and contact link or button is at least 44px; profiles open in a new tab with rel="noopener" and aria-labels; copy puts the address on the clipboard, swaps to the check, announces "Email address copied" and resets after 2s; the homepage dial is hidden at the footer; reduced motion renders the satellite still with no hydration error and back to top jumps instead of scrolling. Type-check, lint and production build pass. Known, not from this run: `OrbitGlyph` (used in chips and status lines) causes a hydration mismatch under reduced motion because `useReducedMotion` differs between server and first client render; the new footer orbit avoids it.
+- 2026-10-20, Phase 10j (READY FOR REVIEW), Daniel: first-visit loader, refined from the previous portfolio's PremiumLoader (main: `src/components/PremiumLoader.tsx`). Homepage only, once per tab session (`kb:boot`). Name in wide mono with letters resolving from blur, a typed role line cycling the three orbit names (CLOUD SECURITY, DEVSECOPS, AI SECURITY), a 1px progress line driven by real steps (painted, loaded, hologram drawn), a thin orbit ring with one planet and faint scanlines. Invisible for its first 350ms; held at least 1.5s once shown; closed by the hologram's first frame (`window.__boot.done()`), with a 6s fallback; page scroll locked while it shows. Rendered as raw HTML with an inline script in `src/components/home/BootLoader.tsx` (styles in `src/styles/boot.css`) so it types before hydration without React re-rendering it; hidden on client-side visits, where the script does not run. Checked on the dev server at 390 (4x CPU, slow 4G): typing at 3s, hologram building in its place by 4.6s; no console errors on a first or return visit. Not checked at 1440 in motion. Type-check and lint pass. Not committed.
+- 2026-10-20, Phase 10k (READY FOR REVIEW), Daniel approved: desktop hero stats row (labs, domains, certificates) removed because The Record repeats the same numbers one scroll below and its count-up only lands when the numbers are new (board 00 conflict, see the comment in Hero.tsx). Mobile unchanged (its hero never showed the row). Checked at 1440. Type-check and lint pass. Not committed.
+- 2026-10-20, Phase 10l (READY FOR REVIEW), Daniel: link sharing and metadata audit. Found: the share image was the previous portfolio's banner (pure black and green, "Okoh Onyedikachi Bernard", "SECURITY ENGINEER", a Penetration Testing chip and "system status" decoration), and inner pages only set a title and description, so their link previews used the homepage's title and URL (case studies and writeups also lost the image). Fixed: new share image generated at build (`src/app/opengraph-image.tsx`, 1200 x 630, Geist fonts and a PNG copy of the hologram portrait in `src/app/_og`) in the current look; `pageMeta` (`src/lib/meta.ts`) gives every page its own title, description, canonical, og and twitter tags with the image; root layout no longer points at og-banner.png (file left in public, now unused); added `sitemap.ts` (pages and case studies; writeups left out because their canonical is Medium) and `robots.ts` (disallows /_kit). Checked on the dev server: tags on /, /about, a case study and a writeup; the image renders 200 image/png; robots and sitemap serve. Domain is `site.url` (okoh-bernard-portfolio.vercel.app), still to confirm with Kachi. Type-check and lint pass. Not committed.

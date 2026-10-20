@@ -1,0 +1,215 @@
+/*
+  Desktop layouts for the inner pages (Phase 10b). The boards for these pages
+  (02, 03, 06, 07) are mobile only, so from 1024px they take the homepage's
+  desktop language (00-home-desktop: 1200px column, two-column grids, mono
+  kickers) instead of a centred phone column. Below 1024px nothing here
+  applies except the hidden rail and the wrappers that dissolve.
+
+  Motion follows Emil Kowalski's rules (emilkowalski/skills): one-time scroll
+  reveals (kit .rv-lg), transform and opacity only, strong ease-out for
+  entering, strong ease-in-out for the rail marker, hover motion gated to fine
+  pointers, and a gentler fallback under reduced motion.
+*/
+
+@layer components {
+  /* ---------- Contents rail (kit SectionRail) ---------- */
+  .toc { display: none; }
+
+  /* Case study hero wrappers: one column below 1024px, in the board's order. */
+  .cs-ha,
+  .cs-hb,
+  .cs-hc { display: contents; }
+  .cs-aside { display: none; }
+  .cs-s { scroll-margin-top: 24px; }
+  /* Reveal with `instant`: shown by a frequent action, so no transition at all. */
+  .rv-now { transition: none !important; }
+
+  @media (min-width: 64rem) {
+    /* ---------- Shared page frame ---------- */
+    .wk-page,
+    .cs-page,
+    .ab-page,
+    .co-page { width: min(1200px, calc(100% - 80px)); max-width: none; }
+    :is(.wk-page, .cs-page, .ab-page, .co-page) :is(.pg-hero, .pg-sec) { padding-left: 0; padding-right: 0; }
+    :is(.wk-page, .ab-page, .co-page) .pg-h1 { font-size: 64px; }
+    .pg-lede { max-width: 560px; font-size: 17px; }
+    .pg-h2 { font-size: 40px; letter-spacing: -0.04em; }
+    /* The hero wash spans the window, not the 1200px column, so its gradients never show a cut edge. */
+    :is(.wk-page, .cs-page, .ab-page, .co-page) .pg-hero::before { left: calc(50% - 50vw); right: calc(50% - 50vw); }
+
+    /* ---------- Rail ---------- */
+    .toc { display: block; position: relative; }
+    .toc-track { position: relative; padding-left: 18px; }
+    .toc-track::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: rgb(var(--white-rgb) / 0.08); }
+    .toc-bar {
+      position: absolute;
+      left: -0.5px;
+      top: 0;
+      width: 2px;
+      height: 20px;
+      border-radius: 2px;
+      background: linear-gradient(180deg, var(--color-mint), var(--color-lilac));
+      box-shadow: 0 0 10px rgb(var(--mint-rgb) / 0.6);
+      transition: transform 220ms var(--ease-in-out);
+    }
+    .toc ol { display: grid; gap: 2px; margin: 0; padding: 0; list-style: none; }
+    .toc a { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; padding: 7px 0; font: 500 13.5px/1.35 var(--font-sans); color: var(--color-ink-550); transition: color 200ms ease; }
+    .toc a small { flex: 0 0 auto; font: 500 10px/1 var(--font-mono); letter-spacing: 0.1em; color: var(--color-ink-750); transition: color 200ms ease; }
+    .toc a[aria-current] { color: var(--color-ink); }
+    .toc a[aria-current] small { color: var(--c, var(--color-mint-ink)); }
+    @media (hover: hover) and (pointer: fine) {
+      .toc a:hover { color: var(--color-ink-200); }
+    }
+    /* Reading progress: fills the track as the article is read (scroll timeline, off the main thread). */
+    .toc-prog { display: none; }
+    @supports (animation-timeline: view()) {
+      .toc-prog {
+        display: block;
+        position: absolute;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 1px;
+        transform-origin: top;
+        background: linear-gradient(180deg, rgb(var(--mint-rgb) / 0.7), rgb(var(--lilac-rgb) / 0.7));
+        animation: toc-read linear both;
+        animation-timeline: --read;
+        animation-range: contain 0% contain 100%;
+      }
+      .cs-body { timeline-scope: --read; }
+      .cs-main { view-timeline-name: --read; }
+    }
+    @keyframes toc-read {
+      from { transform: scaleY(0); }
+      to { transform: scaleY(1); }
+    }
+    .toc-k { margin: 0 0 14px; font: 500 10px/1 var(--font-mono); letter-spacing: 0.16em; color: var(--color-ink-600); }
+
+    /* ---------- Work hub ---------- */
+    .wk-lay { display: grid; grid-template-columns: 360px minmax(0, 1fr); column-gap: clamp(56px, 7vw, 104px); align-items: stretch; }
+    .wk-hero .pg-h1 { font-size: 52px; }
+    .wk-hero .pg-lede { font-size: 16px; }
+    .wk-stick { position: sticky; top: 118px; margin-top: 30px; }
+    .wk-page .pch { flex-wrap: wrap; margin: 0; padding: 0; overflow: visible; }
+    .wk-stick .toc { margin-top: 30px; }
+    .wk { padding-top: 0; }
+    .wk-g { margin-top: 0; padding-bottom: 36px; scroll-margin-top: 110px; }
+    .wk-gh { padding-bottom: 14px; font-size: 10.5px; }
+    .wk-r { min-height: 60px; gap: 14px; padding: 8px 10px 8px 0; transition: background-color 200ms ease, padding 0s; }
+    .wk-r b { font-size: 16.5px; }
+    @media (hover: hover) and (pointer: fine) {
+      a.wk-r { border-radius: 12px; }
+      a.wk-r:hover { background-color: rgb(var(--white-rgb) / 0.025); }
+      a.wk-r .go { transition: transform 200ms var(--ease-out), background-color 0.35s var(--ease-kb), color 0.35s var(--ease-kb); }
+      a.wk-r:hover .go { transform: translateX(3px); }
+    }
+    .wk .wk-ft { margin-top: 0; }
+    .wk-page > .pg-sec { padding-left: calc(360px + clamp(56px, 7vw, 104px)); }
+
+    /* ---------- Case study: hero ---------- */
+    .cs-hero { display: grid; grid-template-columns: minmax(0, 1fr) 440px; column-gap: 64px; row-gap: 28px; align-items: end; }
+    .cs-ha { display: block; grid-column: 1; grid-row: 1; }
+    .cs-hb { display: block; grid-column: 2; grid-row: 1; }
+    .cs-hc { display: block; grid-column: 1; grid-row: 2; align-self: start; }
+    .cs-hero .cs-res { grid-column: 2; grid-row: 2; align-self: start; margin-top: 0; }
+    .cs-hero .pg-h1 { font-size: 56px; }
+    .cs-vis { height: 300px; margin-top: 0; }
+    .cs-vis .r1 { width: 380px; height: 380px; }
+    .cs-vis .r2 { width: 260px; height: 260px; }
+    .cs-meta { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 0; }
+    .cs-res .cs-rv s,
+    .cs-res .cs-rv i { font-size: 19px; }
+
+    /* ---------- Case study: body with contents rail ---------- */
+    .cs-body { display: grid; grid-template-columns: 220px minmax(0, 760px); column-gap: clamp(56px, 8vw, 120px); }
+    .cs-aside { display: block; padding-top: 64px; }
+    .cs-aside .toc { position: sticky; top: 118px; max-height: calc(100vh - 150px); overflow-y: auto; scrollbar-width: none; }
+    .cs-s { scroll-margin-top: 100px; }
+    .cs-main .pg-p { font-size: 16.5px; }
+    .cs-main .quote p { font-size: 22px; }
+
+    /* ---------- About ---------- */
+    .ab-hero { display: grid; grid-template-columns: minmax(0, 1fr) 460px; column-gap: 64px; align-items: center; }
+    .ab-hero > :not(.ab-holo) { grid-column: 1; }
+    .ab-hero .ab-holo { grid-column: 2; grid-row: 1 / span 5; width: 100%; max-width: none; margin: 0; }
+    .ab-hero .pg-h1 { font-size: 72px; }
+    .ab-intro { padding-top: 28px; max-width: 560px; }
+    .ab-intro .pg-p { font-size: 16.5px; }
+    .ab-page .pg-sec { padding-top: 120px; }
+    .ab-sub { font-size: 16px; }
+    .lp { display: grid; grid-template-columns: minmax(0, 480px) minmax(0, 1fr); column-gap: 72px; align-items: center; margin-top: 36px; }
+    .lp-stage { max-width: 480px; margin: 0; }
+    .how-d { margin-top: 0; padding: 4px 0 4px 40px; border-top: 0; border-left: 1px solid rgb(var(--white-rgb) / 0.08); }
+    .how-b { font-size: 26px; line-height: 1.35; letter-spacing: -0.02em; }
+    .how-e { margin-top: 18px; font-size: 12px; }
+    .dsc { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; border-top: 0; }
+    .dsc > div { display: flex; }
+    .dsc a {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 14px;
+      min-height: 200px;
+      padding: 24px;
+      border: 1px solid transparent;
+      border-radius: var(--radius-card);
+      background:
+        radial-gradient(110% 70% at 0% 0%, color-mix(in srgb, var(--c) 10%, transparent), transparent 60%) padding-box,
+        linear-gradient(var(--color-bg-card), var(--color-bg-card)) padding-box,
+        linear-gradient(200deg, color-mix(in srgb, var(--c) 45%, transparent), rgb(var(--white-rgb) / 0.06) 45%, rgb(var(--violet-rgb) / 0.22)) border-box;
+      box-shadow: var(--shadow-card);
+      transition: transform 300ms var(--ease-out);
+    }
+    .dsc b { font-size: 20px; letter-spacing: -0.02em; }
+    .dsc a > span span { font-size: 14px; }
+    .dsc em { margin-top: auto; }
+    @media (hover: hover) and (pointer: fine) {
+      .dsc a:hover { transform: translateY(-4px); }
+    }
+    .dsc a:active { transform: scale(0.98); transition-duration: 160ms; }
+    .ab-cred .cx { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); column-gap: 72px; }
+    .ab-cred .cx-h { grid-column: 1 / -1; }
+    .ab-cred .cx-h + .cx-sub { grid-column: 1; grid-row: 2; }
+    .ab-cred .cx-path { grid-column: 1; grid-row: 3; }
+    .ab-cred .cx-path + .cx-sub { grid-column: 2; grid-row: 2; }
+    .ab-cred .cx-badges { grid-column: 2; grid-row: 3; align-self: start; }
+    .ab-cta { flex-direction: row; gap: 14px; }
+    .ab-cta > * { flex: 1 1 0; min-width: 0; }
+
+    /* ---------- Contact ---------- */
+    .co-page { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 540px); grid-template-rows: auto 1fr; column-gap: clamp(56px, 7vw, 96px); align-items: start; }
+    .co-page > .pg-hero { grid-column: 1; grid-row: 1; }
+    .co-direct { grid-column: 1; grid-row: 2; padding-top: 56px !important; }
+    .co-form { grid-column: 2; grid-row: 1 / span 2; padding-top: 140px !important; }
+    .co-panel {
+      position: relative;
+      isolation: isolate;
+      padding: 28px;
+      border: 1px solid transparent;
+      border-radius: var(--radius-2xl);
+      background:
+        radial-gradient(90% 50% at 100% 0%, rgb(var(--violet-rgb) / 0.1), transparent 60%) padding-box,
+        linear-gradient(var(--color-bg-raised), var(--color-bg-raised)) padding-box,
+        linear-gradient(200deg, rgb(var(--mint-rgb) / 0.45), rgb(var(--white-rgb) / 0.06) 40%, rgb(var(--violet-rgb) / 0.35)) border-box;
+      box-shadow: var(--shadow-panel);
+    }
+    .co-panel .fl input,
+    .co-panel .fl textarea { background: var(--color-bg); }
+    .co-page .sig { max-width: 560px; }
+    .ct-row { padding: 16px 0; }
+    @media (hover: hover) and (pointer: fine) {
+      .ct-row .go { transition: transform 200ms var(--ease-out); }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .toc-bar,
+    .toc a,
+    .dsc a,
+    .wk-r,
+    .wk-r .go { transition: none !important; }
+    .dsc a:hover { transform: none !important; }
+  }
+}

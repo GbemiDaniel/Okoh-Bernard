@@ -47,3 +47,11 @@ next-env.d.ts
 .agent.json         
 .agent.md                   
 .agent/
+# design handoff (never commit)
+/handoff/
+
+# private build-in-public journal (never commit)
+/journal/
+
+# Playwright MCP session logs
+.playwright-mcp/
