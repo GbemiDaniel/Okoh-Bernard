@@ -9,6 +9,49 @@ import { Logo } from "./Logo";
 
 const isActive = (pathname: string, href: string) => pathname === href || pathname.startsWith(href + "/");
 
+// The desktop bar also carries Home (Daniel, 2026-10-19). "/" only matches itself.
+const deskNav = [{ label: "Home", href: "/" }, ...nav];
+const menuNav = [{ label: "Home", href: "/", hint: "START HERE" }, ...nav];
+const isCurrent = (pathname: string, href: string) => (href === "/" ? pathname === "/" : isActive(pathname, href));
+
+/*
+  The lens marks the current page. On navigation it stretches: the edge facing
+  the new tab leaves first and the far edge trails, so the lens reaches across
+  and gathers itself on the new tab. A lit copy of the labels is clipped to the
+  same edges, so the text brightens exactly where the lens is.
+*/
+function DeskNav({ pathname }: { pathname: string }) {
+  const active = deskNav.findIndex((n) => isCurrent(pathname, n.href));
+  // Direction of the last move, derived from the previous render's tab.
+  const [move, setMove] = useState({ from: active, dir: "r" });
+  if (move.from !== active) setMove({ from: active, dir: move.from >= 0 && active < move.from ? "l" : "r" });
+
+  return (
+    <nav
+      className="dn"
+      aria-label="Pages"
+      data-dir={move.dir}
+      style={
+        { "--li": Math.max(0, active), "--lo": active < 0 ? 0 : 1, "--dn-n": deskNav.length } as React.CSSProperties
+      }
+    >
+      <span className="dn-lens" aria-hidden="true">
+        <span className="grain" />
+      </span>
+      {deskNav.map((item, i) => (
+        <Link key={item.href} href={item.href} aria-current={i === active ? "page" : undefined}>
+          {item.label}
+        </Link>
+      ))}
+      <span className="dn-lit" aria-hidden="true">
+        {deskNav.map((item) => (
+          <span key={item.href}>{item.label}</span>
+        ))}
+      </span>
+    </nav>
+  );
+}
+
 function ResumePill() {
   return (
     <a className="hd-cv" href={site.resume} aria-label="Download résumé">
@@ -59,19 +102,6 @@ export function SiteHeader() {
     };
   }, [open, close]);
 
-  // On the homepage the desktop lens follows the section in view and the links
-  // scroll within the page (00: Work, Writeups, About, Contact map to sections 3, 5, 6, 7).
-  const home = pathname === "/";
-  const [homeSec, setHomeSec] = useState(-1);
-  useEffect(() => {
-    const on = (e: Event) => setHomeSec((e as CustomEvent<number>).detail);
-    window.addEventListener("kb:section", on);
-    return () => window.removeEventListener("kb:section", on);
-  }, []);
-  const HOME_MAP: Record<number, number> = { 3: 0, 5: 1, 6: 2, 7: 3 };
-  const HOME_ANCHOR = ["#work", "#writeups", "#about", "#contact"];
-  const activeIndex = home ? (HOME_MAP[homeSec] ?? -1) : nav.findIndex((n) => isActive(pathname, n.href));
-
   return (
     <>
       {/* Mobile and tablet (01-home-mobile) */}
@@ -97,13 +127,13 @@ export function SiteHeader() {
       </header>
       <div id="pages-menu" ref={menuRef} className="pm" data-open={open} inert={!open}>
         <nav aria-label="Pages">
-          {nav.map((item, i) => (
+          {menuNav.map((item, i) => (
             <Link
               key={item.href}
               href={item.href}
               className="pm-l"
               style={{ "--n": i } as React.CSSProperties}
-              aria-current={isActive(pathname, item.href) ? "page" : undefined}
+              aria-current={isCurrent(pathname, item.href) ? "page" : undefined}
               onClick={() => setOpen(false)}
             >
               <span className="grain" aria-hidden="true" />
@@ -121,29 +151,11 @@ export function SiteHeader() {
 
       {/* Desktop (00-home-desktop) */}
       <header className="dh">
+        <span className="dh-fog" aria-hidden="true" />
         <Link className="dh-logo" href="/" aria-label={`${site.shortName}, home`}>
           <Logo />
         </Link>
-        <nav
-          className="dn"
-          aria-label="Pages"
-          style={{ "--li": Math.max(0, activeIndex), "--lo": activeIndex < 0 ? 0 : 1 } as React.CSSProperties}
-        >
-          <span className="dn-lens" aria-hidden="true">
-            <span className="grain" />
-          </span>
-          {nav.map((item, i) => (
-            home ? (
-              <a key={item.href} href={HOME_ANCHOR[i]} aria-current={i === activeIndex ? "location" : undefined}>
-                {item.label}
-              </a>
-            ) : (
-              <Link key={item.href} href={item.href} aria-current={i === activeIndex ? "page" : undefined}>
-                {item.label}
-              </Link>
-            )
-          ))}
-        </nav>
+        <DeskNav pathname={pathname} />
         <div className="dh-r">
           <ResumePill />
           <Link className="btn-p rim dh-cta" href="/contact">

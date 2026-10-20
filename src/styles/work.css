@@ -1,0 +1,42 @@
+/*
+  Work hub (Phase 5). Values from 02-work (.wk-*, .pch). No desktop board:
+  the column stays centred at reading width (HANDOFF 3).
+*/
+
+@layer components {
+  .wk-page { width: 100%; max-width: var(--container-read); margin: 0 auto; padding-bottom: 8px; }
+  .wk-page .pch { margin-top: 14px; }
+  .wk { padding-top: 6px; }
+  .wk-g { margin-top: 28px; }
+  .wk-g ul { margin: 0; padding: 0; list-style: none; }
+  .wk-gh { display: flex; align-items: center; gap: 10px; margin: 0; padding-bottom: 10px; font: 500 10px/1 var(--font-mono); letter-spacing: 0.16em; }
+  .wk-gh span:first-child { color: var(--c); }
+  .wk-gh i { flex: 1; height: 1px; background: linear-gradient(90deg, color-mix(in srgb, var(--c) 40%, transparent), rgb(var(--white-rgb) / 0.05)); }
+  .wk-gh span:last-child { color: var(--color-ink-700); }
+  .wk-r {
+    display: grid;
+    grid-template-columns: 30px 1fr auto;
+    align-items: center;
+    gap: 10px;
+    min-height: 52px;
+    padding: 6px 0;
+    border-top: 1px solid rgb(var(--white-rgb) / 0.06);
+    color: var(--color-ink);
+  }
+  .wk-r .no { font: 500 10px/1 var(--font-mono); color: var(--color-ink-750); }
+  .wk-r b { font: 500 15px/1.3 var(--font-sans); letter-spacing: -0.005em; }
+  .wk-r .go { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; color: var(--color-ink-700); transition: color 0.35s var(--ease-kb), background-color 0.35s var(--ease-kb); }
+  a.wk-r:hover .go,
+  a.wk-r:active .go,
+  a.wk-r:focus-visible .go { color: var(--color-on-mint); background: var(--color-mint); }
+  a.wk-r:hover b { color: var(--color-white); }
+  .wk-r[data-star="true"] b { font-weight: 600; }
+  .wk-r[data-star="true"] .no { color: var(--c); }
+  .wk-r[data-star="true"] b::after { content: ""; display: inline-block; width: 6px; height: 6px; margin-left: 8px; border-radius: 50%; background: var(--c); box-shadow: 0 0 8px var(--c); vertical-align: 2px; }
+  /* Labs not imported yet: listed, not linked. */
+  .wk-off b { color: var(--color-ink-500); }
+  .wk-off .soon { font: 500 9px/1 var(--font-mono); letter-spacing: 0.14em; color: var(--color-ink-700); padding-right: 4px; }
+  .wk-ft { display: flex; gap: 16px; margin-top: 18px; font: 500 10px/1 var(--font-mono); letter-spacing: 0.1em; color: var(--color-ink-600); }
+  .wk-ft span { display: inline-flex; align-items: center; gap: 7px; }
+  .wk-ft i { width: 6px; height: 6px; border-radius: 50%; background: var(--color-mint); box-shadow: 0 0 8px var(--color-mint); }
+}

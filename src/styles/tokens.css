@@ -44,6 +44,7 @@
   --color-ink-550: #7f949c;
   --color-ink-600: #6f8790;
   --color-ink-700: #5f7680;
+  --color-ink-750: #4f6670; /* lab row numbers (02) */
   --color-ink-800: #3f5560;
 
   /* Action */
@@ -185,6 +186,8 @@
   --ease-spring: cubic-bezier(0.3, 1.35, 0.5, 1); /* presses, pills */
   --ease-swift: cubic-bezier(0.7, 0, 0.2, 1); /* arrow swaps, sheens */
   --ease-soft: cubic-bezier(0.2, 0.8, 0.2, 1); /* accordions, card swipes */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1); /* UI enter and exit (Emil Kowalski's strong ease-out) */
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1); /* on-screen movement: rail indicator */
 }
 
 /* Type: Geist + Geist Mono, Caveat for the motto. Inline, because next/font
@@ -208,7 +211,6 @@
 
   --grad-brand: linear-gradient(90deg, #5eead4, #8b5cf6 70%, #a78bfa);
   --grad-brand-short: linear-gradient(90deg, #5eead4, #a78bfa);
-  --grad-contact-border: linear-gradient(135deg, rgb(94 234 212 / 0.65), rgb(167 139 250 / 0.65));
   --grad-edge: linear-gradient(200deg, rgb(94 234 212 / 0.5), rgb(255 255 255 / 0.06) 40%, rgb(139 92 246 / 0.34));
   --grad-edge-strong: linear-gradient(200deg, rgb(94 234 212 / 0.7), rgb(94 234 212 / 0.16) 40%, rgb(139 92 246 / 0.3) 75%, rgb(139 92 246 / 0.55));
   --grad-capsule: linear-gradient(90deg, #0a1424, #0b1a2a 60%, #0d2230);

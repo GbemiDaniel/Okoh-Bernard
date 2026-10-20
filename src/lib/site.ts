@@ -33,18 +33,16 @@ export const nav = [
   { label: "Contact", href: "/contact", hint: "SAY HELLO" },
 ] as const;
 
-export const footerNav = [
-  ...nav.map(({ label, href }) => ({ label, href })),
-  { label: "Certificates & Badges", href: "/about#credentials" },
-  { label: "Résumé", href: site.resume },
-] as const;
-
-export const socials = [
+// Footer profile icons (F1/F2), in board order.
+export const profiles = [
   { label: "GitHub", href: site.github },
   { label: "LinkedIn", href: site.linkedin },
   { label: "Medium", href: site.medium },
-  { label: "Email", href: `mailto:${site.email}` },
+  { label: "TryHackMe", href: site.tryhackme },
 ] as const;
+
+// Footer credit (F1/F2). Daniel set this link on 2026-10-20.
+export const credit = { label: "Daniel", href: "https://gbemidaniel.vercel.app" } as const;
 
 // Every open placeholder on the site, so nothing ships by accident.
 // Remove an entry once the real value is in place.
@@ -52,11 +50,13 @@ export const todos = [
   "resume: add /public/Onyedikachi_Bernard_Okoh_CV.pdf (missing from the old repo)",
   "case studies: real GitHub repo URL per lab (designs link to the profile for now)",
   "case studies: bodies for every lab except the-overpowered-role (Notion import pending)",
-  "writeups: article bodies and cover images (Medium import pending)",
+  "writeups: confirm the Medium read times for the 5 newest imports (estimated at 265 wpm; marked in their frontmatter)",
+  "writeups: confirm Medium has no posts older than the RSS feed's 10 (profile and API block scripted access)",
+  "writeups: Kachi to confirm masking in Diffie-Hellman (lab hostname, HMAC key, cracked password) and including the two opinion pieces",
   "lab count: confirm 15 cloud + 17 DevSecOps = 32, and de-duplicate the two build-process pages",
   "share preview: og:image is absolute to the production domain, so previews resolve only after merge",
   "credentials: check the TryHackMe badge links in a browser (scripted requests get 429)",
-  "slugs: confirm iam-compromise-investigation vs aws-iam-compromise-investigation, and the Terraform lab slug",
-  "copy: Kachi to confirm \"I usually reply within a day\" (desktop contact)",
+  "copy: Kachi to confirm \"Your details are only used to reply to you.\" (contact form note)",
   "featured cards: check the board blurbs against the Notion labs on import",
+  "severity: Kachi to confirm per-finding severities on imported labs (listed in GOALS.md)",
 ] as const;

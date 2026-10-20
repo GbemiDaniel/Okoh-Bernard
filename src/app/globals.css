@@ -3,9 +3,15 @@
 @import "../styles/surfaces.css";
 @import "../styles/chrome.css";
 @import "../styles/kit.css";
+@import "../styles/boot.css";
 @import "../styles/home.css";
 @import "../styles/home-sections.css";
 @import "../styles/case.css";
+@import "../styles/work.css";
+@import "../styles/about.css";
+@import "../styles/contact.css";
+@import "../styles/inner-desktop.css";
+@import "../styles/writeups.css";
 
 /* Base, from the shared rules at the top of every board. Night only. */
 @layer base {

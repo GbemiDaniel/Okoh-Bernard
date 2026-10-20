@@ -16,15 +16,30 @@ const SECTIONS = [
 const N = SECTIONS.length;
 const pad = (n: number) => String(n).padStart(2, "0");
 
+/**
+ * Current section (state: changes a few times per page) and scroll progress
+ * (written straight to the rail fill and the dial ring, so scrolling never
+ * re-renders React).
+ */
 function useScrollState() {
   const [sec, setSec] = useState(0);
-  const [progress, setProgress] = useState(0);
   useEffect(() => {
-    let raf = 0, last = -2;
+    let raf = 0;
+    const fill = document.querySelector<HTMLElement>(".rail-f");
+    const ring = document.querySelector<SVGCircleElement>(".dial-prog");
+    const rail = document.querySelector<HTMLElement>(".rail");
+    const dial = document.querySelector<HTMLElement>(".dial");
+    const footer = document.querySelector<HTMLElement>(".ft");
     const apply = () => {
       raf = 0;
       const y = window.scrollY, max = document.documentElement.scrollHeight - window.innerHeight;
-      setProgress(max > 0 ? Math.min(1, y / max) : 0);
+      const progress = max > 0 ? Math.min(1, y / max) : 0;
+      if (fill) fill.style.transform = `scaleY(${progress.toFixed(4)})`;
+      ring?.setAttribute("stroke-dasharray", `${(progress * 169.6).toFixed(1)} 170`);
+      // The rail and the dial step aside once the footer is well into view, so neither sits on footer copy.
+      const away = String(!!footer && footer.getBoundingClientRect().top < window.innerHeight * 0.75);
+      if (rail) rail.dataset.away = away;
+      if (dial) dial.dataset.away = away;
       const line = window.innerHeight * (window.innerWidth >= 1024 ? 0.5 : 0.45);
       let a = 0;
       SECTIONS.forEach((s, i) => {
@@ -32,10 +47,6 @@ function useScrollState() {
         if (el && el.getBoundingClientRect().top < line) a = i;
       });
       setSec(a);
-      if (a !== last) {
-        last = a;
-        window.dispatchEvent(new CustomEvent("kb:section", { detail: a }));
-      }
     };
     const on = () => {
       if (!raf) raf = requestAnimationFrame(apply);
@@ -47,10 +58,9 @@ function useScrollState() {
       cancelAnimationFrame(raf);
       window.removeEventListener("scroll", on);
       window.removeEventListener("resize", on);
-      window.dispatchEvent(new CustomEvent("kb:section", { detail: -1 }));
     };
   }, []);
-  return { sec, progress };
+  return sec;
 }
 
 const jump = (id: string) => (e: React.MouseEvent) => {
@@ -62,7 +72,7 @@ const jump = (id: string) => (e: React.MouseEvent) => {
 };
 
 /** Mobile orbit dial (01): progress ring, section number, a fan of section links. */
-function Dial({ sec, progress }: { sec: number; progress: number }) {
+function Dial({ sec }: { sec: number }) {
   const [open, setOpen] = useState(false);
   const btn = useRef<HTMLButtonElement>(null);
 
@@ -112,7 +122,7 @@ function Dial({ sec, progress }: { sec: number; progress: number }) {
         <button ref={btn} type="button" className="dial-b" aria-expanded={open} aria-label="Sections menu" onClick={() => setOpen((o) => !o)}>
           <svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true">
             <circle cx="32" cy="32" r="27" fill="none" stroke="rgb(255 255 255 / .1)" strokeWidth="2" />
-            <circle cx="32" cy="32" r="27" fill="none" stroke="var(--color-mint)" strokeWidth="2" strokeLinecap="round" strokeDasharray={`${(progress * 169.6).toFixed(1)} 170`} />
+            <circle className="dial-prog" cx="32" cy="32" r="27" fill="none" stroke="var(--color-mint)" strokeWidth="2" strokeLinecap="round" strokeDasharray="0 170" />
             {SECTIONS.map((_, i) => {
               const a = (i / N) * Math.PI * 2;
               return <circle key={i} cx={(32 + 27 * Math.cos(a)).toFixed(1)} cy={(32 + 27 * Math.sin(a)).toFixed(1)} r="2" fill={i <= sec ? "var(--color-mint)" : "rgb(255 255 255 / .35)"} />;
@@ -130,7 +140,7 @@ function Dial({ sec, progress }: { sec: number; progress: number }) {
 }
 
 /** Desktop progress rail (00): nodes per section, a fill line, the current label. */
-function Rail({ sec, progress }: { sec: number; progress: number }) {
+function Rail({ sec }: { sec: number }) {
   const [ring, setRing] = useState("#5eead4");
   useEffect(() => {
     const on = (e: Event) => setRing((e as CustomEvent<string>).detail);
@@ -141,7 +151,7 @@ function Rail({ sec, progress }: { sec: number; progress: number }) {
   return (
     <nav className="rail" aria-label="Sections" data-hero={sec === 0} style={{ "--ri": sec, "--rc": c } as React.CSSProperties}>
       <span className="rail-tr" aria-hidden="true">
-        <span className="rail-f" style={{ transform: `scaleY(${progress.toFixed(4)})` }} />
+        <span className="rail-f" style={{ transform: "scaleY(0)" }} />
       </span>
       {SECTIONS.map((s, i) => (
         <a key={s.id} href={`#${s.id}`} className="rail-i" aria-current={sec === i ? "true" : undefined} data-past={i < sec} aria-label={s.label} onClick={jump(s.id)}>
@@ -163,11 +173,11 @@ function Rail({ sec, progress }: { sec: number; progress: number }) {
 }
 
 export function SectionNav() {
-  const { sec, progress } = useScrollState();
+  const sec = useScrollState();
   return (
     <>
-      <Dial sec={sec} progress={progress} />
-      <Rail sec={sec} progress={progress} />
+      <Dial sec={sec} />
+      <Rail sec={sec} />
     </>
   );
 }

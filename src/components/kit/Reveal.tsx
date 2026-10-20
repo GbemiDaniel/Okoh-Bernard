@@ -13,6 +13,7 @@ export function Reveal({
   as: Tag = "div",
   className = "",
   desktopOnly = false,
+  instant = false,
 }: {
   children: React.ReactNode;
   delay?: number;
@@ -20,12 +21,14 @@ export function Reveal({
   className?: string;
   /** Animate only at lg and up (the mobile hero board has no entrance motion). */
   desktopOnly?: boolean;
+  /** Start in the final state: for content shown by a frequent action (a filter), which should not animate. */
+  instant?: boolean;
 }) {
   const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
+    if (!el || instant) return;
     const io = new IntersectionObserver(
       ([e]) => {
         if (e.isIntersecting) {
@@ -37,12 +40,12 @@ export function Reveal({
     );
     io.observe(el);
     return () => io.disconnect();
-  }, []);
+  }, [instant]);
 
   return (
     <Tag
       ref={ref as React.Ref<never>}
-      className={`${desktopOnly ? "rv-lg" : "rv"} ${className}`}
+      className={`${desktopOnly ? "rv-lg" : "rv"}${instant ? " in rv-now" : ""} ${className}`}
       style={delay ? ({ "--d": `${delay}ms` } as React.CSSProperties) : undefined}
     >
       {children}

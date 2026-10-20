@@ -8,6 +8,10 @@
   - The artboard is 390 wide; the canvas can be any CSS width and the
     drawing scales to it (the desktop board renders the same art at 1.5x).
   - Reduced motion draws the settled final frame once instead of looping.
+  - Load path (Phase 10i): the build starts when the particles are in and no
+    longer waits for the portrait; if the portrait is still decoding at 1.7s
+    the clock holds there until it is ready. `skipTo` starts the clock part
+    way in (return visits in a session). Build timings themselves are unchanged.
 */
 
 type Particles = {
@@ -85,12 +89,22 @@ export class HologramEngine {
   private scale = 1;
   private destroyed = false;
   private onTier?: (tier: "low") => void;
+  private onFirstDraw?: () => void;
+  private drewOnce = false;
+  // Portrait state: "wait" holds the build just before the reveal; "fail" lets it run on without the portrait.
+  private imgState: "wait" | "ok" | "fail" = "wait";
+  private skip: number;
 
-  constructor(canvas: HTMLCanvasElement, opts: { height: number; reduced: boolean; onLowTier?: () => void }) {
+  constructor(
+    canvas: HTMLCanvasElement,
+    opts: { height: number; reduced: boolean; onLowTier?: () => void; onFirstDraw?: () => void; skipTo?: number },
+  ) {
     this.cv = canvas;
     this.H = opts.height;
     this.still = opts.reduced;
     this.onTier = opts.onLowTier;
+    this.onFirstDraw = opts.onFirstDraw;
+    this.skip = opts.skipTo ?? 0;
     const nav = navigator as Navigator & { deviceMemory?: number };
     const hc = nav.hardwareConcurrency || 8, dm = nav.deviceMemory || 8;
     this.tier = hc <= 4 || dm <= 3 ? "low" : "high";
@@ -99,25 +113,26 @@ export class HologramEngine {
   }
 
   start() {
-    this.img.decoding = "async";
-    const imgReady = new Promise<void>((res) => {
-      this.img.onload = () => {
-        this.imgOk = true;
-        res();
-        if (this.still) this.drawOnce();
-      };
-      this.img.onerror = () => res();
-    });
+    // Decode off the main thread, so the first frame that draws the portrait never stalls on a sync decode.
     this.img.src = PORTRAIT_SRC;
+    this.img
+      .decode()
+      .then(() => {
+        this.imgOk = true;
+        this.imgState = "ok";
+        if (this.still) this.drawOnce();
+      })
+      .catch(() => {
+        this.imgState = "fail";
+      });
+    // The build starts as soon as the particles are in. It does not wait for the
+    // portrait, which is not drawn until 1.75s into the build (see `hold` in loop).
     loadParticles()
-      .then(async (P) => {
+      .then((P) => {
         if (this.destroyed) return;
         this.P = P;
-        // Start the build once the portrait is in, or after 1.2s so a slow image never holds the particles back.
-        await Promise.race([imgReady, new Promise((r) => setTimeout(r, 1200))]);
-        if (this.destroyed) return;
-        this.born = performance.now();
-        this.last = this.born;
+        this.born = performance.now() - this.skip * 1000;
+        this.last = performance.now();
         this.glitchAt = this.born + 4000;
         if (this.still) this.drawOnce();
         else this.raf = requestAnimationFrame(this.loop);
@@ -157,6 +172,9 @@ export class HologramEngine {
       this.onTier?.("low");
     }
     this.hdt += dt;
+    // Hold the build clock just before the portrait reveal (1.75s) while the
+    // portrait is still decoding, so a slow image never cuts the reveal short.
+    if (this.imgState === "wait" && now - this.born > 1700) this.born = now - 1700;
     if (this.on && (this.tier !== "low" || (this.frames & 1) === 0)) {
       this.draw(now, this.hdt);
       this.hdt = 0;
@@ -204,6 +222,11 @@ export class HologramEngine {
   private draw(now: number, dt: number) {
     const ctx = this.ensureCtx();
     if (!ctx || !this.P || !this.grads) return;
+    if (!this.drewOnce) {
+      this.drewOnce = true;
+      // After this frame paints: the server-rendered stand-in can step aside.
+      requestAnimationFrame(() => this.onFirstDraw?.());
+    }
     const still = this.still, low = this.tier === "low", H = this.H, cx = CX, G = this.grads, PI = Math.PI;
     const RX = 64, RY = 11.5, HH = 12;
     const t = still ? 99 : this.born ? (now - this.born) / 1000 : 99, tn = now / 1000;

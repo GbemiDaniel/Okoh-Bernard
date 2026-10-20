@@ -1,113 +1,92 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useReducedMotion } from "framer-motion";
-import { Reveal, SectionHeading, SegmentedCapsule, Arrow } from "@/components/kit";
-import { OrbitGlyph } from "@/components/site/OrbitGlyph";
+import { useEffect, useRef, useState } from "react";
+import { Arrow, Reveal, SectionHeading } from "@/components/kit";
 import { disciplines, HUE, type Discipline } from "@/lib/home";
+import { site } from "@/lib/site";
 import { ICON } from "./icons";
 
-// Ring geometry from 01-home-mobile renderVals (OM): radii, tilt, label angle, bead period.
-const OM = [
-  { rx: 158, ry: 34, tilt: -8, la: 3.35, dur: "13s" },
-  { rx: 124, ry: 54, tilt: 24, la: -0.62, dur: "17s" },
-  { rx: 88, ry: 74, tilt: -52, la: 1.95, dur: "10s" },
-];
-const CORE_ICON = [ICON.aws, ICON.pipe, ICON.ai];
-const HEX = ["#7dd3fc", "#5eead4", "#c4b5fd"]; // SVG stop colours need literal values
+const N = disciplines.length;
+const STEP = 360 / N;
+const CORE_ICON: Record<Discipline, string> = { cloud: ICON.aws, devsecops: ICON.pipe, ai: ICON.ai };
+const CORE_META: Record<Discipline, string> = { cloud: `${site.cloudLabs} LABS`, devsecops: `${site.devsecopsLabs} LABS`, ai: "WRITEUPS" };
 
-function ringPath(i: number) {
-  const o = OM[i], tt = (o.tilt * Math.PI) / 180;
-  const P = (a: number): [number, number] => {
-    const x = o.rx * Math.cos(a), y = o.ry * Math.sin(a);
-    return [195 + x * Math.cos(tt) - y * Math.sin(tt), 104 + x * Math.sin(tt) + y * Math.cos(tt)];
+/** Signed shortest turn from one planet to another, in degrees. */
+const shortest = (from: number, to: number) => {
+  const d = (((to - from) % N) + N) % N;
+  return (d > N / 2 ? d - N : d) * -STEP;
+};
+
+/**
+ * The orbit dial (Phase 10f; replaces the board's three tilted rings).
+ * One orbit, three planets. Picking a planet turns the orbit the short way
+ * round until that planet sits in the lit dock at the top, while the labels
+ * stay upright. One transform, strong ease-in-out (movement on screen), and a
+ * CSS transition so a second pick mid-turn retargets from where it is.
+ */
+function OrbitDial({ index, rot, onPick }: { index: number; rot: number; onPick: (i: number) => void }) {
+  const refs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  // A radio group: arrow keys move the selection and focus (no animation is skipped; it is the same turn).
+  const onKey = (e: React.KeyboardEvent) => {
+    const step = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+    if (!step) return;
+    e.preventDefault();
+    const n = (index + step + N) % N;
+    onPick(n);
+    refs.current[n]?.focus();
   };
-  let d = "";
-  for (let k = 0; k <= 72; k++) {
-    const q = P((k / 72) * Math.PI * 2);
-    d += (k ? "L" : "M") + q[0].toFixed(1) + " " + q[1].toFixed(1);
-  }
-  const lp = P(o.la);
-  return { d: d + "Z", lx: Math.max(52, Math.min(338, lp[0])), ly: Math.max(14, Math.min(196, lp[1])) };
-}
 
-const TICKS = Array.from({ length: 36 }, (_, k) => {
-  const a = (k / 36) * Math.PI * 2, r1 = k % 3 ? 33 : 31, r2 = 36;
-  return { x1: 195 + r1 * Math.cos(a), y1: 104 + r1 * Math.sin(a), x2: 195 + r2 * Math.cos(a), y2: 104 + r2 * Math.sin(a) };
-});
-
-function OrbitMap({ index, onPick }: { index: number; onPick: (i: number) => void }) {
-  const wrap = useRef<HTMLDivElement>(null);
-  const [scale, setScale] = useState(1);
-  const rings = useMemo(() => disciplines.map((_, i) => ringPath(i)), []);
-  const still = useReducedMotion() ?? false;
-
-  // The map is drawn on the 390 x 210 artboard and scaled to its container.
-  useEffect(() => {
-    const el = wrap.current;
-    if (!el) return;
-    const ro = new ResizeObserver(([e]) => setScale(e.contentRect.width / 390));
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, []);
-
-  const hex = HEX[index];
+  const d = disciplines[index];
   return (
-    <div ref={wrap} className="om-wrap" style={{ height: 210 * scale }}>
-      <div className="om" style={{ transform: `scale(${scale})` }}>
-        <svg width="390" height="210" viewBox="0 0 390 210" aria-hidden="true">
-          <defs>
-            <radialGradient id="omCore" cx="50%" cy="40%" r="60%">
-              <stop offset="0" stopColor={hex} stopOpacity=".55" />
-              <stop offset="1" stopColor={hex} stopOpacity="0" />
-            </radialGradient>
-            <filter id="omGlow" x="-30%" y="-30%" width="160%" height="160%">
-              <feGaussianBlur stdDeviation="2.4" result="b" />
-              <feMerge>
-                <feMergeNode in="b" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-          </defs>
-          <circle cx="195" cy="104" r="96" fill="url(#omCore)" opacity=".35" />
-          <g className="om-ticks">
-            {TICKS.map((k, i) => (
-              <line key={i} x1={k.x1.toFixed(1)} y1={k.y1.toFixed(1)} x2={k.x2.toFixed(1)} y2={k.y2.toFixed(1)} />
-            ))}
-          </g>
-          {rings.map((r, i) => (
-            <g key={i} className="om-ring" data-on={i === index} style={{ "--c": HEX[i] } as React.CSSProperties}>
-              <path className="om-base" d={r.d} />
-              <path className="om-lit" d={r.d} filter="url(#omGlow)" />
-              {still ? (
-                <circle className="om-bead" r={i === index ? 4 : 2.4} cx={r.lx} cy={r.ly} />
-              ) : (
-                <circle className="om-bead" r={i === index ? 4 : 2.4}>
-                  <animateMotion dur={OM[i].dur} repeatCount="indefinite" path={r.d} />
-                </circle>
-              )}
-              <path className="om-hit" d={r.d} onClick={() => onPick(i)} />
-            </g>
-          ))}
-          <circle cx="195" cy="104" r="25" className="om-core" />
-          <circle cx="195" cy="104" r="25" fill="none" stroke={hex} strokeOpacity=".5" />
-          <g transform="translate(183 92)">
-            <path d={CORE_ICON[index]} stroke={hex} strokeWidth="1.6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-          </g>
-        </svg>
-        {rings.map((r, i) => (
+    <div className="od" style={{ "--c": HUE[d.id].c, "--rgb": HUE[d.id].rgb } as React.CSSProperties}>
+      <svg className="od-art" viewBox="0 0 400 400" aria-hidden="true">
+        <defs>
+          <linearGradient id="odDock" x1="0" x2="1">
+            <stop offset="0" stopColor="currentColor" stopOpacity="0" />
+            <stop offset=".5" stopColor="currentColor" />
+            <stop offset="1" stopColor="currentColor" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+        <circle cx="200" cy="200" r="150" className="od-orbit" />
+        <circle cx="200" cy="200" r="118" className="od-inner" />
+        {/* The dock: a lit arc at the top where the selected planet comes to rest. */}
+        <path className="od-dock" d="M136.6 64.1 A150 150 0 0 1 263.4 64.1" stroke="url(#odDock)" />
+        <path className="od-dock-g" d="M136.6 64.1 A150 150 0 0 1 263.4 64.1" />
+      </svg>
+
+      <div className="od-core" aria-hidden="true">
+        {disciplines.map((x) => (
+          <span key={x.id} className="od-core-i" data-on={x.id === d.id} style={{ color: HUE[x.id].c }}>
+            <svg width="26" height="26" viewBox="0 0 24 24">
+              <path d={CORE_ICON[x.id]} stroke="currentColor" strokeWidth="1.6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            <small>{CORE_META[x.id]}</small>
+          </span>
+        ))}
+      </div>
+
+      <div className="od-sys" role="radiogroup" aria-label="Disciplines" onKeyDown={onKey} style={{ transform: `rotate(${rot}deg)` }}>
+        {disciplines.map((x, i) => (
           <button
-            key={i}
+            key={x.id}
+            ref={(el) => {
+              refs.current[i] = el;
+            }}
             type="button"
-            className="om-tag"
+            role="radio"
+            aria-checked={i === index}
+            tabIndex={i === index ? 0 : -1}
+            className="od-p"
             data-on={i === index}
             onClick={() => onPick(i)}
-            style={{ left: r.lx, top: r.ly, "--c": HEX[i] } as React.CSSProperties}
-            aria-label={`${disciplines[i].label} ring`}
-            aria-pressed={i === index}
+            style={{ "--a": `${i * STEP}deg`, "--pc": HUE[x.id].c, "--prgb": HUE[x.id].rgb } as React.CSSProperties}
           >
-            <OrbitGlyph dur="3.6s" />
-            {`0${i + 1} ${disciplines[i].label.toUpperCase()}`}
+            {/* Counter-turns with the orbit, so the planet and its label stay upright. */}
+            <span className="od-p-in" style={{ transform: `rotate(${-rot - i * STEP}deg)` }}>
+              <span className="od-dot" aria-hidden="true" />
+              <span className="od-lb">{x.label === "AI" ? "AI security" : x.label}</span>
+            </span>
           </button>
         ))}
       </div>
@@ -117,21 +96,27 @@ function OrbitMap({ index, onPick }: { index: number; onPick: (i: number) => voi
 
 export function Orbits() {
   const [index, setIndex] = useState(1); // DevSecOps first, as on the boards
+  const [rot, setRot] = useState(-STEP); // its planet starts in the dock
+  const [dir, setDir] = useState<1 | -1>(1);
   const [swap, setSwap] = useState(0);
-  const downX = useRef<number | null>(null);
+  const down = useRef<{ x: number; t: number } | null>(null);
   const d = disciplines[index];
   const hue = HUE[d.id];
 
   const pick = (i: number) => {
-    const n = (i + disciplines.length) % disciplines.length;
+    const n = ((i % N) + N) % N;
     if (n === index) return;
+    const turn = shortest(index, n);
+    setRot((r) => r + turn);
+    // The card slides the way the orbit turned (spatial consistency).
+    setDir(turn < 0 ? 1 : -1);
     setIndex(n);
     setSwap((s) => s + 1);
   };
 
-  // Tell the section rail which colour this ring is.
+  // Tell the section rail which colour this discipline is.
   useEffect(() => {
-    window.dispatchEvent(new CustomEvent("kb:ring", { detail: HEX[index] }));
+    window.dispatchEvent(new CustomEvent("kb:ring", { detail: ["#7dd3fc", "#5eead4", "#c4b5fd"][index] }));
   }, [index]);
 
   // The panel link: cloud and DevSecOps jump to their case studies, AI to the writeups.
@@ -153,38 +138,32 @@ export function Orbits() {
             <SectionHeading id="orbits-title" index={2} total={7} label="Disciplines" lead="Three" accent="Orbits" />
           </Reveal>
           <Reveal desktopOnly delay={120} as="p" className="hs-lede">
-            <span className="lg:hidden">Cloud security, DevSecOps and AI security. Tap a ring or a label, or swipe the card, to move between them.</span>
-            <span className="hidden lg:inline">Cloud security, DevSecOps and AI security. Pick a ring, a label or a tab to move between them.</span>
+            <span className="lg:hidden">Cloud security, DevSecOps and AI security. Tap a planet, or swipe the card, to move between them.</span>
+            <span className="hidden lg:inline">Cloud security, DevSecOps and AI security. Pick a planet to bring it round.</span>
           </Reveal>
         </div>
         <div className="hs-2 hs-orbits">
           <Reveal desktopOnly delay={120}>
-            <OrbitMap index={index} onPick={pick} />
-            <SegmentedCapsule
-              label="Disciplines"
-              variant="row"
-              className="om-seg"
-              value={d.id}
-              onChange={(v) => pick(disciplines.findIndex((x) => x.id === v))}
-              options={disciplines.map((x) => ({ value: x.id, label: x.label, rgb: HUE[x.id].rgb, icon: <OrbitGlyph dur="3s" /> }))}
-            />
+            <OrbitDial index={index} rot={rot} onPick={pick} />
           </Reveal>
           <Reveal desktopOnly delay={220}>
             <div
               className="op"
               aria-live="polite"
               style={{ "--rgb": hue.rgb } as React.CSSProperties}
-              onPointerDown={(e) => (downX.current = e.clientX)}
-              onPointerCancel={() => (downX.current = null)}
+              onPointerDown={(e) => (down.current = { x: e.clientX, t: e.timeStamp })}
+              onPointerCancel={() => (down.current = null)}
               onPointerUp={(e) => {
-                if (downX.current == null) return;
-                const dx = e.clientX - downX.current;
-                downX.current = null;
-                if (Math.abs(dx) > 44) pick(index + (dx < 0 ? 1 : -1));
+                if (!down.current) return;
+                const dx = e.clientX - down.current.x;
+                const v = Math.abs(dx) / Math.max(1, e.timeStamp - down.current.t);
+                down.current = null;
+                // A long drag or a quick flick (velocity above 0.11 px/ms) both turn the orbit.
+                if (Math.abs(dx) > 44 || (Math.abs(dx) > 16 && v > 0.11)) pick(index + (dx < 0 ? 1 : -1));
               }}
             >
               <span className="grain" aria-hidden="true" />
-              <div key={swap} className="op-in">
+              <div key={swap} className="op-in" data-dir={swap ? dir : 0}>
                 <div className="op-hd" style={{ "--n": 0 } as React.CSSProperties}>
                   <span style={{ color: hue.c }}>{d.kicker}</span>
                   <span className="op-count">{String(d.tools.length).padStart(2, "0")} TOOLS</span>

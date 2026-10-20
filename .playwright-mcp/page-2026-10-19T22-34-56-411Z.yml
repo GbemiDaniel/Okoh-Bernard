@@ -1,0 +1,471 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - link "Kachi Bernard, home" [ref=e3] [cursor=pointer]:
+      - /url: /
+      - img [aria-hidden] [ref=e4]:
+        - generic [ref=e9]: KB
+    - navigation "Pages" [ref=e14]:
+      - link "Home" [ref=e15] [cursor=pointer]:
+        - /url: /
+      - link "Work" [ref=e17] [cursor=pointer]:
+        - /url: /work
+      - link "Writeups" [ref=e19] [cursor=pointer]:
+        - /url: /writeups
+      - link "About" [ref=e21] [cursor=pointer]:
+        - /url: /about
+      - link "Contact" [ref=e23] [cursor=pointer]:
+        - /url: /contact
+      - generic [aria-hidden]:
+        - generic: Home
+        - generic: Work
+        - generic: Writeups
+        - generic: About
+        - generic: Contact
+    - generic [ref=e25]:
+      - link "Download résumé" [ref=e26] [cursor=pointer]:
+        - /url: /Onyedikachi_Bernard_Okoh_CV.pdf
+        - text: Résumé
+      - link "Get in touch" [ref=e29] [cursor=pointer]:
+        - /url: /contact
+  - main [ref=e30]:
+    - generic [ref=e31]:
+      - region [ref=e32]:
+        - generic [ref=e35]:
+          - img "Hologram portrait of Onyedikachi Bernard, projected from a glowing base"
+        - generic [ref=e36]:
+          - paragraph [ref=e37]: HELLO, I'M
+          - heading "Onyedikachi Bernard" [level=1] [ref=e40]
+          - paragraph [ref=e41]: Cloud Security & DevSecOps Engineer
+          - paragraph [ref=e42]: I find the misconfiguration, prove the risk, fix it and validate the fix.
+          - generic [ref=e44]:
+            - link "View my work" [ref=e48] [cursor=pointer]:
+              - /url: "#work"
+            - link "Get in touch" [ref=e52] [cursor=pointer]:
+              - /url: "#contact"
+          - generic [ref=e57]:
+            - generic [ref=e58]:
+              - term [ref=e59]: documented labs
+              - definition [ref=e60]: "32"
+            - generic [ref=e61]:
+              - term [ref=e62]: security domains
+              - definition [ref=e63]: "08"
+            - generic [ref=e64]:
+              - term [ref=e65]: certificates & badges
+              - definition [ref=e66]: "09"
+        - link "Scroll down" [ref=e67] [cursor=pointer]:
+          - /url: "#record"
+          - generic [ref=e70]: SCROLL
+      - region [ref=e71]:
+        - generic [ref=e72]:
+          - generic [ref=e74]:
+            - generic [ref=e75]:
+              - generic [ref=e76]: "01"
+              - generic [ref=e78]: THE RECORD
+            - heading [level=2] [ref=e79]:
+              - text: The
+              - emphasis [ref=e80]: Record
+            - paragraph [ref=e81]: Every lab is written up end to end, from the first finding to the validated fix, so the work can be checked rather than taken on trust.
+          - generic [ref=e83]:
+            - link "DOCUMENTED LABS 32 Cloud + DevSecOps" [ref=e84] [cursor=pointer]:
+              - /url: "#work"
+              - generic [ref=e85]: DOCUMENTED LABS
+              - generic [ref=e89]:
+                - generic [ref=e90]: "32"
+                - generic [ref=e91]: Cloud + DevSecOps
+            - link "SECURITY DOMAINS 8 From IAM to IaC" [ref=e92] [cursor=pointer]:
+              - /url: "#work"
+              - generic [ref=e93]: SECURITY DOMAINS
+              - generic [ref=e97]:
+                - generic [ref=e98]: "8"
+                - generic [ref=e99]: From IAM to IaC
+            - link "CERTIFICATES & BADGES 9 Issued by TryHackMe" [ref=e100] [cursor=pointer]:
+              - /url: "#about"
+              - generic [ref=e101]: CERTIFICATES & BADGES
+              - generic [ref=e105]:
+                - generic [ref=e106]: "9"
+                - generic [ref=e107]: Issued by TryHackMe
+            - generic [ref=e108]:
+              - generic [ref=e109]: WORKS
+              - generic [ref=e113]:
+                - generic [ref=e114]: Remote
+                - generic [ref=e115]: Or hybrid
+      - region [ref=e122]:
+        - generic [ref=e123]:
+          - generic [ref=e124]:
+            - generic [ref=e126]:
+              - generic [ref=e127]:
+                - generic [ref=e128]: "02"
+                - generic [ref=e130]: DISCIPLINES
+              - heading [level=2] [ref=e131]:
+                - text: Three
+                - emphasis [ref=e132]: Orbits
+            - paragraph [ref=e133]: Cloud security, DevSecOps and AI security. Pick a planet to bring it round.
+          - generic [ref=e134]:
+            - generic [ref=e136]:
+              - generic [aria-hidden] [ref=e142]:
+                - generic [ref=e143]: 15 LABS
+                - generic [ref=e147]: 17 LABS
+                - generic [ref=e151]: WRITEUPS
+              - radiogroup "Disciplines" [ref=e155]:
+                - radio "Cloud":
+                  - generic:
+                    - generic [aria-hidden] [ref=e156] [cursor=pointer]
+                    - generic [ref=e157] [cursor=pointer]: Cloud
+                - radio "DevSecOps" [checked]:
+                  - generic:
+                    - generic [aria-hidden] [ref=e158] [cursor=pointer]
+                    - generic [ref=e159] [cursor=pointer]: DevSecOps
+                - radio "AI security":
+                  - generic:
+                    - generic [aria-hidden] [ref=e160] [cursor=pointer]
+                    - generic [ref=e161] [cursor=pointer]: AI security
+            - generic [ref=e164]:
+              - generic [ref=e165]:
+                - generic [ref=e166]: RING 02 · DEVSECOPS
+                - generic [ref=e167]: 06 TOOLS
+              - heading "DevSecOps" [level=3] [ref=e168]
+              - paragraph [ref=e169]: "Seventeen labs securing the path from commit to production: CI/CD pipelines, the software supply chain, containers and infrastructure as code."
+              - generic [ref=e170]:
+                - generic [ref=e171]: GitLab CI
+                - generic [ref=e175]: Docker
+                - generic [ref=e179]: Kubernetes
+                - generic [ref=e183]: Terraform
+                - generic [ref=e187]: Python
+                - generic [ref=e191]: CI/CD
+              - link "Browse 17 DevSecOps labs" [ref=e196] [cursor=pointer]:
+                - /url: /work?d=devsecops
+      - region "Featured Case Studies" [ref=e206]:
+        - generic [ref=e208]:
+          - generic [ref=e209]:
+            - generic [ref=e211]:
+              - generic [ref=e212]:
+                - generic [ref=e213]: "03"
+                - generic [ref=e215]: FEATURED WORK
+              - heading [level=2] [ref=e216]:
+                - text: Featured
+                - emphasis [ref=e217]: Case Studies
+            - generic [ref=e219]: 01 / 04
+          - generic [ref=e221]:
+            - link "CLOUD · IDENTITY IAM Compromise Investigation Rogue admin access traced, removed and put under alerting. CASE STUDY · 01" [ref=e222] [cursor=pointer]:
+              - /url: /work/aws-iam-compromise-investigation
+              - generic [ref=e223]: CLOUD · IDENTITY
+              - generic [ref=e236]: IAM Compromise Investigation
+              - generic [ref=e237]: Rogue admin access traced, removed and put under alerting.
+              - generic [ref=e238]: CASE STUDY · 01
+            - link "CLOUD · IDENTITY The Overpowered Role An app role scoped back to only what it needs. CASE STUDY · 02" [ref=e243] [cursor=pointer]:
+              - /url: /work/the-overpowered-role
+              - generic [ref=e244]: CLOUD · IDENTITY
+              - generic [ref=e257]: The Overpowered Role
+              - generic [ref=e258]: An app role scoped back to only what it needs.
+              - generic [ref=e259]: CASE STUDY · 02
+            - link "DEVSECOPS · IAC Terraform IaC Hardening Infrastructure code reviewed and hardened before deploy. CASE STUDY · 03" [ref=e264] [cursor=pointer]:
+              - /url: /work/terraform-cloud-iac-hardening
+              - generic [ref=e265]: DEVSECOPS · IAC
+              - generic [ref=e278]: Terraform IaC Hardening
+              - generic [ref=e279]: Infrastructure code reviewed and hardened before deploy.
+              - generic [ref=e280]: CASE STUDY · 03
+            - link "DEVSECOPS · CI/CD Securing the Build Process Exposed source code and a committed secret, found and flagged. CASE STUDY · 04" [ref=e285] [cursor=pointer]:
+              - /url: /work/securing-the-build-process
+              - generic [ref=e286]: DEVSECOPS · CI/CD
+              - generic [ref=e299]: Securing the Build Process
+              - generic [ref=e300]: Exposed source code and a committed secret, found and flagged.
+              - generic [ref=e301]: CASE STUDY · 04
+            - link "THE FULL RECORD 32 labs. 8 domains. Every project, filterable by discipline and domain. View all projects" [ref=e306] [cursor=pointer]:
+              - /url: /work
+              - generic [ref=e307]: THE FULL RECORD
+              - generic [ref=e308]: 32 labs.8 domains.
+              - generic [ref=e309]: Every project, filterable by discipline and domain.
+              - generic [ref=e310]: View all projects
+      - region [ref=e315]:
+        - generic [ref=e316]:
+          - generic [ref=e317]:
+            - generic [ref=e319]:
+              - generic [ref=e320]:
+                - generic [ref=e321]: "04"
+                - generic [ref=e323]: TOOLKIT
+              - heading [level=2] [ref=e324]:
+                - text: Skills &
+                - emphasis [ref=e325]: Technologies
+            - paragraph [ref=e326]: My core skills and the technologies behind them, across cloud security, DevSecOps and AI security.
+          - generic [ref=e328]:
+            - generic [ref=e329]:
+              - generic [ref=e330]:
+                - generic [ref=e331]: DEVSECOPS
+                - generic [ref=e337]: Pipelines, containers, IaC
+              - list "DEVSECOPS tools" [ref=e338]:
+                - listitem [ref=e339]: GitLab
+                - listitem [ref=e343]: CI/CD
+                - listitem [ref=e347]: Docker
+                - listitem [ref=e351]: Kubernetes
+                - listitem [ref=e355]: Terraform
+                - listitem [ref=e359]: Ansible
+                - listitem [ref=e363]: Bash
+                - listitem [ref=e367]: Linux
+                - listitem [ref=e371]: OpenSSL
+            - generic [ref=e375]:
+              - generic [ref=e376]:
+                - generic [ref=e377]: CLOUD
+                - generic [ref=e383]: AWS identity, network, data
+              - list "CLOUD tools" [ref=e384]:
+                - listitem [ref=e385]: AWS
+                - listitem [ref=e389]: IAM
+                - listitem [ref=e393]: VPC
+                - listitem [ref=e397]: EC2
+                - listitem [ref=e401]: S3
+                - listitem [ref=e405]: KMS
+                - listitem [ref=e409]: CloudTrail
+                - listitem [ref=e413]: CloudWatch
+                - listitem [ref=e417]: Systems Manager
+                - listitem [ref=e421]: EventBridge
+            - generic [ref=e425]:
+              - generic [ref=e426]:
+                - generic [ref=e427]: AI & RISK
+                - generic [ref=e433]: Models, frameworks, risk
+              - list "AI & RISK tools" [ref=e434]:
+                - listitem [ref=e435]: Python
+                - listitem [ref=e439]: LLM Security
+                - listitem [ref=e443]: Prompt Injection
+                - listitem [ref=e447]: Adversarial ML
+                - listitem [ref=e451]: MITRE ATLAS
+                - listitem [ref=e455]: MITRE ATT&CK
+                - listitem [ref=e459]: STRIDE
+                - listitem [ref=e463]: OWASP LLM
+                - listitem [ref=e467]: NIST AI RMF
+      - region [ref=e471]:
+        - generic [ref=e472]:
+          - generic [ref=e473]:
+            - generic [ref=e475]:
+              - generic [ref=e476]:
+                - generic [ref=e477]: "05"
+                - generic [ref=e479]: WRITING
+              - heading [level=2] [ref=e480]:
+                - text: Latest
+                - emphasis [ref=e481]: Writeups
+            - link "All writeups FULL ARTICLES · ALSO ON MEDIUM" [ref=e483] [cursor=pointer]:
+              - /url: /writeups
+              - generic [ref=e484]:
+                - text: All writeups
+                - generic [ref=e485]: FULL ARTICLES · ALSO ON MEDIUM
+          - generic [ref=e489]:
+            - link "AI · ADVERSARIAL ML JUL 2026 Why Every AI Security Professional Should Understand FGSM, BIM and PGD How gradient-based attacks nudge a model's input just enough to flip its prediction, how the three methods differ in cost and strength, and why defenders should use them to test robustness. Read article 5 MIN READ" [ref=e491] [cursor=pointer]:
+              - /url: /writeups/fgsm-bim-pgd
+              - generic [ref=e492]:
+                - generic [ref=e493]: AI · ADVERSARIAL ML
+                - generic [ref=e494]: JUL 2026
+              - heading "Why Every AI Security Professional Should Understand FGSM, BIM and PGD" [level=3] [ref=e495]
+              - paragraph [ref=e496]: How gradient-based attacks nudge a model's input just enough to flip its prediction, how the three methods differ in cost and strength, and why defenders should use them to test robustness.
+              - generic [ref=e497]:
+                - generic [ref=e498]: Read article
+                - generic [ref=e504]: 5 MIN READ
+            - link "AI · LLM SECURITY MAY 2026 Prompt Security and Context Window Integrity in LLMs What actually sits inside a model's context window, how prompt injection, prompt leakage and context poisoning abuse it, and the defences that help, with their honest limits. Read article 8 MIN READ" [ref=e506] [cursor=pointer]:
+              - /url: /writeups/prompt-security-context-window
+              - generic [ref=e507]:
+                - generic [ref=e508]: AI · LLM SECURITY
+                - generic [ref=e509]: MAY 2026
+              - heading "Prompt Security and Context Window Integrity in LLMs" [level=3] [ref=e510]
+              - paragraph [ref=e511]: What actually sits inside a model's context window, how prompt injection, prompt leakage and context poisoning abuse it, and the defences that help, with their honest limits.
+              - generic [ref=e512]:
+                - generic [ref=e513]: Read article
+                - generic [ref=e519]: 8 MIN READ
+            - link "IDENTITY · ACCESS JUN 2026 Understanding Identity and Access Management (IAM) Identification, authentication, authorisation and accountability explained, why home-made auth protocols fall to replay attacks, and how access control models and single sign-on compare. Read article 5 MIN READ" [ref=e521] [cursor=pointer]:
+              - /url: /writeups/identity-and-access-management
+              - generic [ref=e522]:
+                - generic [ref=e523]: IDENTITY · ACCESS
+                - generic [ref=e524]: JUN 2026
+              - heading "Understanding Identity and Access Management (IAM)" [level=3] [ref=e525]
+              - paragraph [ref=e526]: Identification, authentication, authorisation and accountability explained, why home-made auth protocols fall to replay attacks, and how access control models and single sign-on compare.
+              - generic [ref=e527]:
+                - generic [ref=e528]: Read article
+                - generic [ref=e534]: 5 MIN READ
+      - region [ref=e535]:
+        - generic [ref=e536]:
+          - generic [ref=e537]:
+            - generic [ref=e539]:
+              - generic [ref=e540]:
+                - generic [ref=e541]: "06"
+                - generic [ref=e543]: ABOUT
+              - heading [level=2] [ref=e544]:
+                - text: About
+                - emphasis [ref=e545]: Me
+            - paragraph [ref=e546]: "I'm Kachi, a security engineer working across cloud security, DevSecOps and AI security. I learn by doing: every misconfiguration I find gets fixed, verified and written up so someone else can follow the same path."
+            - img "Always learning, always building." [ref=e548]:
+              - img [aria-hidden] [ref=e549]:
+                - generic [ref=e550]:
+                  - generic [ref=e551]: Always learning, always building.
+                  - generic [ref=e552]: Always learning, always building.
+                  - generic [ref=e553]: Always learning, always building.
+                  - generic [ref=e554]: Always learning, always building.
+            - link "More about me" [ref=e560] [cursor=pointer]:
+              - /url: /about
+          - generic [ref=e567]:
+            - generic [ref=e568]:
+              - generic [ref=e569]: CERTIFICATES & BADGES
+              - generic [ref=e570]: ISSUED BY TRYHACKME
+            - generic [ref=e571]: LEARNING PATHS
+            - list [ref=e572]:
+              - listitem [ref=e573]:
+                - link "Pre-Security certificate, verify on TryHackMe" [ref=e574] [cursor=pointer]:
+                  - /url: https://tryhackme-certificates.s3-eu-west-1.amazonaws.com/THM-9M5XCYAEFN.pdf
+                  - generic [ref=e578]:
+                    - generic [ref=e579]: Pre-Security
+                    - generic [ref=e580]: FOUNDATIONS
+                  - generic [ref=e581]: "01"
+              - listitem [ref=e582]:
+                - link "Cyber Security 101 certificate, verify on TryHackMe" [ref=e583] [cursor=pointer]:
+                  - /url: https://tryhackme-certificates.s3-eu-west-1.amazonaws.com/THM-4AYVMHVUCS.pdf
+                  - generic [ref=e587]:
+                    - generic [ref=e588]: Cyber Security 101
+                    - generic [ref=e589]: CORE CONCEPTS
+                  - generic [ref=e590]: "02"
+              - listitem [ref=e591]:
+                - link "Jr. Penetration Tester certificate, verify on TryHackMe" [ref=e592] [cursor=pointer]:
+                  - /url: https://tryhackme-certificates.s3-eu-west-1.amazonaws.com/THM-1EWKAEDRRQ.pdf
+                  - generic [ref=e596]:
+                    - generic [ref=e597]: Jr. Penetration Tester
+                    - generic [ref=e598]: OFFENSIVE TESTING
+                  - generic [ref=e599]: "03"
+              - listitem [ref=e600]:
+                - link "Security Engineer certificate, verify on TryHackMe" [ref=e601] [cursor=pointer]:
+                  - /url: https://tryhackme-certificates.s3-eu-west-1.amazonaws.com/THM-GKYKNDUGUI.pdf
+                  - generic [ref=e605]:
+                    - generic [ref=e606]: Security Engineer
+                    - generic [ref=e607]: DEFENSIVE ENGINEERING
+                  - generic [ref=e608]: "04"
+              - listitem [ref=e609]:
+                - link "AI Security certificate, verify on TryHackMe" [ref=e610] [cursor=pointer]:
+                  - /url: https://tryhackme-certificates.s3-eu-west-1.amazonaws.com/THM-ILD2RSGBVA.pdf
+                  - generic [ref=e614]:
+                    - generic [ref=e615]: AI Security
+                    - generic [ref=e616]: AI & MODEL RISK
+                  - generic [ref=e617]: "05"
+            - generic [ref=e618]: SKILL BADGES
+            - list [ref=e619]:
+              - listitem [ref=e620]:
+                - link "Network & System Security badge, verify on TryHackMe" [ref=e621] [cursor=pointer]:
+                  - /url: https://tryhackme.com/Kachisicho/badges/network-and-system-security
+                  - generic [ref=e625]: Network & System Security
+              - listitem [ref=e626]:
+                - link "Software Security badge, verify on TryHackMe" [ref=e627] [cursor=pointer]:
+                  - /url: https://tryhackme.com/Kachisicho/badges/software-security
+                  - generic [ref=e631]: Software Security
+              - listitem [ref=e632]:
+                - link "AI Path badge, verify on TryHackMe" [ref=e633] [cursor=pointer]:
+                  - /url: https://tryhackme.com/Kachisicho/badges/ai-path-completion
+                  - generic [ref=e637]: AI Path
+              - listitem [ref=e638]:
+                - link "Model Compromise badge, verify on TryHackMe" [ref=e639] [cursor=pointer]:
+                  - /url: https://tryhackme.com/Kachisicho/badges/model-compromise
+                  - generic [ref=e643]: Model Compromise
+      - region "Let's Work Together" [ref=e644]:
+        - generic [ref=e646]:
+          - generic [ref=e648]:
+            - generic [ref=e649]: "07"
+            - generic [ref=e651]: CONTACT
+          - heading "Let's build something secure together." [level=2] [ref=e652]
+          - generic [ref=e653]:
+            - generic [ref=e654]:
+              - paragraph [ref=e655]: Open to security engineering roles, collaborations and meaningful projects. The quickest way to reach me is email, and I usually reply within a day.
+              - generic [ref=e656]: OPEN TO REMOTE · HYBRID
+            - generic [ref=e665]:
+              - generic [ref=e666]:
+                - generic "kachisichobernardokoh@gmail.com" [ref=e667]
+                - button "Copy" [ref=e668] [cursor=pointer]
+              - link "Contact me" [ref=e669] [cursor=pointer]:
+                - /url: mailto:kachisichobernardokoh@gmail.com
+              - generic [ref=e674]:
+                - link "GitHub" [ref=e675] [cursor=pointer]:
+                  - /url: https://github.com/OnyedikachiO
+                - link "LinkedIn" [ref=e678] [cursor=pointer]:
+                  - /url: https://www.linkedin.com/in/onyedikachi-bernard-okoh-405861262
+                - link "Medium" [ref=e681] [cursor=pointer]:
+                  - /url: https://medium.com/@kachisichobernardokoh
+      - navigation "Sections" [ref=e684]:
+        - link "Home" [ref=e686] [cursor=pointer]:
+          - /url: "#top"
+        - link "Record" [ref=e688] [cursor=pointer]:
+          - /url: "#record"
+        - link "Orbits" [ref=e690] [cursor=pointer]:
+          - /url: "#expertise"
+        - link "Work" [ref=e692] [cursor=pointer]:
+          - /url: "#work"
+        - link "Skills" [ref=e694] [cursor=pointer]:
+          - /url: "#skills"
+        - link "Writeups" [ref=e696] [cursor=pointer]:
+          - /url: "#writeups"
+        - link "About" [ref=e698] [cursor=pointer]:
+          - /url: "#about"
+        - link "Contact" [ref=e700] [cursor=pointer]:
+          - /url: "#contact"
+        - generic [aria-hidden]:
+          - generic:
+            - generic: "00"
+            - generic: Home
+  - contentinfo [ref=e702]:
+    - generic [ref=e716]:
+      - generic [ref=e717]:
+        - generic [ref=e718]:
+          - generic [ref=e719]:
+            - generic [aria-hidden] [ref=e720]:
+              - text: K
+              - generic [ref=e721]: B
+            - generic [ref=e722]:
+              - strong [ref=e723]: Onyedikachi Bernard
+              - generic [ref=e724]: SECURITY · CLOUD · AI
+            - link "Back to top" [ref=e725] [cursor=pointer]:
+              - /url: "#top"
+          - paragraph [ref=e731]:
+            - generic [ref=e737]: Open to new opportunities
+            - generic [ref=e739]: REMOTE · HYBRID
+          - generic [ref=e740]:
+            - link "kachisichobernardokoh@gmail.com" [ref=e741] [cursor=pointer]:
+              - /url: mailto:kachisichobernardokoh@gmail.com
+            - button "Copy email address" [ref=e742] [cursor=pointer]:
+              - generic [ref=e748]: Copy
+          - list "Elsewhere" [ref=e749]:
+            - listitem [ref=e750]:
+              - link "GitHub" [ref=e751] [cursor=pointer]:
+                - /url: https://github.com/OnyedikachiO
+            - listitem [ref=e757]:
+              - link "LinkedIn" [ref=e758] [cursor=pointer]:
+                - /url: https://www.linkedin.com/in/onyedikachi-bernard-okoh-405861262
+            - listitem [ref=e764]:
+              - link "Medium" [ref=e765] [cursor=pointer]:
+                - /url: https://medium.com/@kachisichobernardokoh
+        - navigation [ref=e771]:
+          - paragraph [ref=e772]: EXPLORE
+          - list [ref=e773]:
+            - listitem [ref=e774]:
+              - link "01 Work" [ref=e775] [cursor=pointer]:
+                - /url: /work
+                - generic [ref=e776]: "01"
+                - generic [ref=e777]: Work
+            - listitem [ref=e780]:
+              - link "02 Writeups" [ref=e781] [cursor=pointer]:
+                - /url: /writeups
+                - generic [ref=e782]: "02"
+                - generic [ref=e783]: Writeups
+            - listitem [ref=e786]:
+              - link "03 About" [ref=e787] [cursor=pointer]:
+                - /url: /about
+                - generic [ref=e788]: "03"
+                - generic [ref=e789]: About
+            - listitem [ref=e792]:
+              - link "04 Contact" [ref=e793] [cursor=pointer]:
+                - /url: /contact
+                - generic [ref=e794]: "04"
+                - generic [ref=e795]: Contact
+            - listitem [ref=e798]:
+              - link "05 Certificates & Badges" [ref=e799] [cursor=pointer]:
+                - /url: /about#credentials
+                - generic [ref=e800]: "05"
+                - generic [ref=e801]: Certificates & Badges
+            - listitem [ref=e804]:
+              - link "06 Résumé" [ref=e805] [cursor=pointer]:
+                - /url: /Onyedikachi_Bernard_Okoh_CV.pdf
+                - generic [ref=e806]: "06"
+                - generic [ref=e807]: Résumé
+      - paragraph [aria-hidden] [ref=e810]: Kachi Bernard
+      - generic [ref=e811]:
+        - generic [ref=e812]: © 2026 Onyedikachi Bernard. All rights reserved.
+        - generic [ref=e813]: SECURE BY DESIGN
+  - button "Open Next.js Dev Tools" [ref=e819] [cursor=pointer]

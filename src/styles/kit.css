@@ -264,8 +264,10 @@
   .arr { position: relative; display: inline-block; width: 14px; height: 14px; overflow: hidden; }
   .arr svg { position: absolute; inset: 0; transition: transform 0.4s var(--ease-swift); }
   .arr svg + svg { transform: translateX(-130%); }
-  :is(.lnk, .btn-p, .all):hover .arr svg:first-child { transform: translateX(130%); }
-  :is(.lnk, .btn-p, .all):hover .arr svg + svg { transform: none; }
+  @media (hover: hover) and (pointer: fine) {
+    :is(.lnk, .btn-p, .all):hover .arr svg:first-child { transform: translateX(130%); }
+    :is(.lnk, .btn-p, .all):hover .arr svg + svg { transform: none; }
+  }
 
   /* ---------- Section headings ---------- */
   .sh-idx { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
@@ -349,8 +351,9 @@
     color: var(--color-ink-muted);
     background: rgb(var(--white-rgb) / 0.03);
     box-shadow: inset 0 0 0 1px rgb(var(--white-rgb) / 0.08);
-    transition: all 0.35s var(--ease-kb);
+    transition: color 0.35s var(--ease-kb), box-shadow 0.35s var(--ease-kb), transform 160ms var(--ease-out);
   }
+  .pch button:active { transform: scale(0.97); }
   .pch button small { font: 500 10px/1 var(--font-mono); color: var(--color-ink-700); }
   .pch button[aria-pressed="true"] {
     color: var(--color-ink);

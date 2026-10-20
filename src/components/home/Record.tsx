@@ -21,23 +21,27 @@ function TileIcon({ d }: { d: string }) {
   );
 }
 
-/** Counts up from 0 once the tiles are seen (01 fxRun: 1100ms, ease-out cubic). */
-function useCountUp(target: number, delay: number, run: boolean) {
-  const [v, setV] = useState(target);
+/**
+ * Counts up from 0 once the tiles are seen (01 fxRun: 1100ms, ease-out cubic).
+ * Writes the digits straight to the element, so the count never re-renders React.
+ */
+function CountUp({ target, delay, run }: { target: number; delay: number; run: boolean }) {
+  const ref = useRef<HTMLElement>(null);
   useEffect(() => {
-    if (!run) return;
+    const el = ref.current;
+    if (!run || !el) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     let raf = 0;
     const t0 = performance.now() + delay;
     const step = (now: number) => {
       const k = Math.max(0, Math.min(1, (now - t0) / 1100));
-      setV(Math.round(target * (1 - Math.pow(1 - k, 3))));
+      el.textContent = String(Math.round(target * (1 - Math.pow(1 - k, 3))));
       if (k < 1) raf = requestAnimationFrame(step);
     };
     raf = requestAnimationFrame(step);
     return () => cancelAnimationFrame(raf);
   }, [run, target, delay]);
-  return v;
+  return <b ref={ref}>{target}</b>;
 }
 
 export function Record({ labs, domains, credentials }: { labs: number; domains: number; credentials: number }) {
@@ -59,10 +63,6 @@ export function Record({ labs, domains, credentials }: { labs: number; domains: 
     io.observe(el);
     return () => io.disconnect();
   }, []);
-
-  const n1 = useCountUp(labs, 380, seen);
-  const n2 = useCountUp(domains, 470, seen);
-  const n3 = useCountUp(credentials, 560, seen);
 
   return (
     <section id="record" className="hs hs-record" aria-labelledby="record-title">
@@ -87,7 +87,7 @@ export function Record({ labs, domains, credentials }: { labs: number; domains: 
                 DOCUMENTED LABS
               </span>
               <span className="fx-v">
-                <b>{n1}</b>
+                <CountUp target={labs} delay={380} run={seen} />
                 <span className="fx-sub">Cloud + DevSecOps</span>
               </span>
             </a>
@@ -98,7 +98,7 @@ export function Record({ labs, domains, credentials }: { labs: number; domains: 
                 SECURITY DOMAINS
               </span>
               <span className="fx-v">
-                <b>{n2}</b>
+                <CountUp target={domains} delay={470} run={seen} />
                 <span className="fx-sub">From IAM to IaC</span>
               </span>
             </a>
@@ -109,7 +109,7 @@ export function Record({ labs, domains, credentials }: { labs: number; domains: 
                 CERTIFICATES &amp; BADGES
               </span>
               <span className="fx-v">
-                <b>{n3}</b>
+                <CountUp target={credentials} delay={560} run={seen} />
                 <span className="fx-sub">Issued by TryHackMe</span>
               </span>
             </a>

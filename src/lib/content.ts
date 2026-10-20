@@ -2,6 +2,7 @@ import "server-only";
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
+import { writeupTopics, type WriteupTopic } from "./writeup-topics";
 
 // Reads the Notion exports in content/. Case study frontmatter follows
 // content/case-studies/the-overpowered-role.md, which is the schema reference.
@@ -53,6 +54,8 @@ export type CaseStudy = {
   sections: Record<string, string>;
 };
 
+export { writeupTopics, type WriteupTopic } from "./writeup-topics";
+
 export type Writeup = {
   slug: string;
   title: string;
@@ -66,7 +69,10 @@ export type Writeup = {
   readMinutes: number;
   mediumUrl: string;
   tags?: string[];
-  cover?: string;
+  /** Filter group on /writeups (04): see writeupTopics */
+  topic: WriteupTopic;
+  /** Designed cover (05 .ar-cv): short tiles and a mono caption, drawn from the article's own terms */
+  cover?: { keys: string[]; caption: string };
   /** Position on the homepage (1 is the lead card); omitted if not shown there */
   homeOrder?: number;
   body: string;
@@ -105,10 +111,12 @@ function need(file: string, data: Record<string, unknown>, keys: string[]) {
 // A value like https://github.com/OnyedikachiO/<lab-repo> is a placeholder, not a link.
 const realUrl = (v: unknown) => (typeof v === "string" && /^https?:\/\//.test(v) && !/[<>]/.test(v) ? v : null);
 
+// Cache in production builds only, so edits to content/ show up straight away in dev.
+const CACHE = process.env.NODE_ENV === "production";
 let caseCache: CaseStudy[] | null = null;
 
 export function getCaseStudies(): CaseStudy[] {
-  if (caseCache) return caseCache;
+  if (CACHE && caseCache) return caseCache;
   const items = readDir("case-studies").map(({ file, data, body }) => {
     need(file, data, ["slug", "title", "track", "category", "caseNumber", "kicker", "lede", "platformTags", "status", "meta", "result", "skills", "lesson"]);
     if (!tracks.includes(data.track as Track)) throw new Error(`${file}: unknown track "${data.track}"`);
@@ -127,9 +135,10 @@ export function getCaseStudy(slug: string) {
 let writeupCache: Writeup[] | null = null;
 
 export function getWriteups(): Writeup[] {
-  if (writeupCache) return writeupCache;
+  if (CACHE && writeupCache) return writeupCache;
   const items = readDir("writeups").map(({ file, data, body }) => {
-    need(file, data, ["slug", "title", "area", "hue", "summary", "date", "readMinutes", "mediumUrl"]);
+    need(file, data, ["slug", "title", "area", "hue", "summary", "date", "readMinutes", "mediumUrl", "topic"]);
+    if (!writeupTopics.some((t) => t.slug === data.topic)) throw new Error(`${file}: unknown topic "${data.topic}"`);
     return { ...(data as Omit<Writeup, "body" | "sections">), body, sections: splitSections(body) };
   });
   writeupCache = items.sort((a, b) => b.date.localeCompare(a.date));

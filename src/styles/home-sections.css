@@ -12,7 +12,7 @@
   /* Tablet (no board): keep the mobile column readable instead of stretching it. */
   @media (min-width: 48rem) and (max-width: 63.99rem) {
     .w { max-width: 720px; margin: 0 auto; }
-    .om-wrap { max-width: 546px; margin-left: auto; margin-right: auto; }
+    .od { width: min(100%, 400px); }
   }
   .hs-lede { margin: 6px 0 0; font: 400 15px/1.55 var(--font-sans); color: var(--color-ink-muted); }
 
@@ -53,7 +53,10 @@
     pointer-events: none;
   }
   .fx.in .fx-t::after { animation: fxsweep 1.4s var(--ease-kb) calc(var(--d) + 450ms) both; }
-  @keyframes fxsweep { from { left: -60%; } to { left: 130%; } }
+  @keyframes fxsweep {
+    from { transform: translateX(0) skewX(-18deg); }
+    to { transform: translateX(475%) skewX(-18deg); }
+  }
   a.fx-t { cursor: pointer; -webkit-tap-highlight-color: transparent; }
   a.fx-t:hover,
   a.fx-t:focus-visible { box-shadow: inset 0 1px 0 rgb(var(--white-rgb) / 0.1), 0 14px 22px -14px rgb(var(--mint-rgb) / 0.55); }
@@ -66,45 +69,109 @@
   .fx-v b { font: 700 24px/1 var(--font-sans); letter-spacing: -0.035em; font-variant-numeric: tabular-nums; }
   .fx-sub { display: flex; align-items: center; gap: 6px; font: 500 11.5px/1.2 var(--font-sans); color: var(--color-ink-550); }
 
-  /* ---------- 3.3 Three Orbits ---------- */
-  .om-wrap { position: relative; margin: 6px -20px 0; }
-  .om { position: absolute; left: 0; top: 0; width: 390px; height: 210px; transform-origin: 0 0; }
-  .om svg { position: absolute; inset: 0; overflow: visible; }
-  .om-ticks line { stroke: rgb(var(--white-rgb) / 0.1); stroke-width: 1; }
-  .om-ticks { transform-origin: 195px 104px; animation: spin 60s linear infinite; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .om-base { fill: none; stroke: var(--c); stroke-opacity: 0.18; stroke-dasharray: 2 5; transition: stroke-opacity 0.5s var(--ease-kb); }
-  .om-lit { fill: none; stroke: var(--c); stroke-width: 1.5; opacity: 0; transition: opacity 0.5s var(--ease-kb); }
-  .om-ring[data-on="true"] .om-lit { opacity: 1; }
-  .om-ring[data-on="true"] .om-base { stroke-opacity: 0; }
-  .om-bead { fill: var(--c); opacity: 0.45; transition: opacity 0.4s; }
-  .om-ring[data-on="true"] .om-bead { opacity: 1; filter: drop-shadow(0 0 4px var(--c)); }
-  .om-hit { fill: none; stroke: transparent; stroke-width: 22; cursor: pointer; pointer-events: stroke; }
-  .om-core { fill: var(--color-bg-raised); stroke: rgb(var(--white-rgb) / 0.1); }
-  .om-tag {
-    position: absolute;
-    transform: translate(-50%, -50%);
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    height: 28px;
-    padding: 0 10px;
-    border-radius: var(--radius-pill);
-    border: 0;
-    cursor: pointer;
-    white-space: nowrap;
-    font: 500 9.5px/1 var(--font-mono);
-    letter-spacing: 0.1em;
-    color: var(--color-ink-muted);
-    background: rgb(var(--raised-rgb) / 0.88);
-    box-shadow: inset 0 0 0 1px rgb(var(--white-rgb) / 0.12);
-    -webkit-backdrop-filter: blur(8px);
-    backdrop-filter: blur(8px);
-    transition: color 0.4s var(--ease-kb), box-shadow 0.4s var(--ease-kb), transform 0.4s var(--ease-kb);
+  /* ---------- 3.3 Three Orbits: the orbit dial (Phase 10f) ----------
+     One orbit, three planets. Picking a planet turns the orbit the short way
+     round until it rests in the lit dock at the top; each planet counter-turns
+     on the same curve, so labels stay upright. Strong ease-in-out (movement on
+     screen), a CSS transition so a second pick mid-turn retargets from the
+     current angle, transform only, nothing loops. */
+  .od {
+    --turn: 480ms;
+    position: relative;
+    container-type: inline-size;
+    width: min(100%, 330px);
+    aspect-ratio: 1;
+    margin: 4px auto 22px;
   }
-  .om-tag .og { color: var(--c); }
-  .om-tag[data-on="true"] { color: var(--color-ink); box-shadow: inset 0 0 0 1px var(--c), 0 8px 16px -10px var(--c); transform: translate(-50%, -50%) scale(1.06); }
-  .om-seg { margin-top: 4px; }
+  .od-art { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .od-orbit { fill: none; stroke: rgb(var(--white-rgb) / 0.1); stroke-width: 1; }
+  .od-inner { fill: none; stroke: rgb(var(--white-rgb) / 0.06); stroke-dasharray: 2 6; }
+  .od-dock { fill: none; stroke-width: 2.2; stroke-linecap: round; color: var(--c); transition: color 300ms ease; }
+  .od-dock-g { fill: none; stroke: var(--c); stroke-width: 12; stroke-opacity: 0.1; stroke-linecap: round; transition: stroke 300ms ease; }
+
+  .od-core {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 36%;
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: radial-gradient(circle at 50% 30%, rgb(var(--rgb) / 0.14), var(--color-bg-raised) 72%);
+    box-shadow: inset 0 0 0 1px rgb(var(--rgb) / 0.28), inset 0 1px 0 rgb(var(--white-rgb) / 0.08), 0 0 48px -14px rgb(var(--rgb) / 0.6);
+    transition: box-shadow 300ms ease;
+  }
+  .od-core-i {
+    grid-area: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    transform: scale(0.92);
+    filter: blur(2px);
+    transition: opacity 220ms ease, transform 220ms var(--ease-out), filter 220ms ease;
+  }
+  .od-core-i[data-on="true"] { opacity: 1; transform: none; filter: none; }
+  .od-core-i small { font: 500 9.5px/1 var(--font-mono); letter-spacing: 0.14em; color: var(--color-ink-muted); }
+
+  .od-sys { position: absolute; inset: 0; transition: transform var(--turn) var(--ease-in-out); }
+  /* Each planet: a zero-size anchor on the orbit (radius 37.5% of the dial, matching r=150 of 400). */
+  .od-p {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 0;
+    height: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transform: rotate(var(--a)) translateY(-37.5cqw);
+  }
+  .od-p:focus-visible { outline: none; }
+  .od-p-in { position: absolute; left: 0; top: 0; width: 0; height: 0; transition: transform var(--turn) var(--ease-in-out); }
+  .od-dot {
+    position: absolute;
+    left: -14px;
+    top: -14px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--pc) 55%, white), var(--pc) 45%, color-mix(in srgb, var(--pc) 30%, #070f1c));
+    /* A ring of page colour cuts the orbit line where the planet sits. */
+    box-shadow: 0 0 0 4px var(--color-bg), 0 0 0 5px rgb(var(--prgb) / 0.22);
+    opacity: 0.65;
+    transform: scale(0.7);
+    transition: transform 300ms var(--ease-out), opacity 200ms ease, box-shadow 300ms ease;
+  }
+  /* Hit area well beyond the planet: about 52px. */
+  .od-dot::before { content: ""; position: absolute; inset: -12px; border-radius: 50%; }
+  .od-lb {
+    position: absolute;
+    left: 0;
+    top: 22px;
+    transform: translateX(-50%);
+    padding: 6px 10px;
+    border-radius: var(--radius-pill);
+    white-space: nowrap;
+    font: 500 10.5px/1 var(--font-mono);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-ink-600);
+    transition: color 200ms ease, background-color 200ms ease, box-shadow 200ms ease;
+  }
+  .od-p[data-on="true"] .od-dot { opacity: 1; transform: none; box-shadow: 0 0 0 4px var(--color-bg), 0 0 0 5px rgb(var(--prgb) / 0.6), 0 0 24px rgb(var(--prgb) / 0.55); }
+  .od-p[data-on="true"] .od-lb { color: var(--color-ink); background: rgb(var(--prgb) / 0.12); box-shadow: inset 0 0 0 1px rgb(var(--prgb) / 0.35); }
+  .od-p:not([data-on="true"]):active .od-dot { transform: scale(0.62); transition-duration: 120ms; }
+  .od-p:focus-visible .od-dot { outline: 2px solid var(--color-mint); outline-offset: 5px; }
+  @media (hover: hover) and (pointer: fine) {
+    .od-p:not([data-on="true"]):hover .od-dot { opacity: 1; transform: scale(0.8); }
+    .od-p:not([data-on="true"]):hover .od-lb { color: var(--color-ink-250); }
+  }
 
   .op {
     --rgb: var(--mint-rgb);
@@ -125,27 +192,32 @@
   }
   .op > .grain { opacity: 0.12; }
   .op-in { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 10px; }
-  .op-in > * { animation: opswap 0.5s var(--ease-kb) both; animation-delay: calc(var(--n, 0) * 55ms); }
-  @keyframes opswap { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  /* Quick swap so rapid switching keeps up: 220ms, 30ms stagger, a 2px blur bridges the two states. */
+  .op-in > * { animation: opswap 220ms var(--ease-out) both; animation-delay: calc(var(--n, 0) * 30ms); }
+  @keyframes opswap { from { opacity: 0; transform: translateY(6px); filter: blur(2px); } to { opacity: 1; transform: none; filter: none; } }
+  .op-in[data-dir="1"] > * { animation-name: opswap-r; }
+  .op-in[data-dir="-1"] > * { animation-name: opswap-l; }
+  @keyframes opswap-r { from { opacity: 0; transform: translateX(12px); filter: blur(2px); } to { opacity: 1; transform: none; filter: none; } }
+  @keyframes opswap-l { from { opacity: 0; transform: translateX(-12px); filter: blur(2px); } to { opacity: 1; transform: none; filter: none; } }
   .op-hd { display: flex; justify-content: space-between; align-items: center; font: 500 10px/1 var(--font-mono); letter-spacing: 0.12em; }
   .op-count { color: var(--color-ink-550); }
   .op h3 { margin: 0; font: 700 23px/1.12 var(--font-sans); letter-spacing: -0.03em; }
   .op p { margin: 0; font: 400 14.5px/1.6 var(--font-sans); color: var(--color-ink-muted); }
-  .op-tools { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; margin-top: 4px; }
+  /* Chips take their natural width and wrap, so tool names are never cut. */
+  .op-tools { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
   .op-tool {
     display: flex;
     align-items: center;
     gap: 9px;
-    height: 42px;
-    padding: 0 10px 0 6px;
-    border-radius: var(--radius-md);
+    height: 38px;
+    padding: 0 12px 0 5px;
+    border-radius: var(--radius-pill);
     font: 600 13px/1 var(--font-sans);
     white-space: nowrap;
-    overflow: hidden;
     background: rgb(var(--white-rgb) / 0.035);
     box-shadow: inset 0 0 0 1px rgb(var(--white-rgb) / 0.07);
   }
-  .op-ti { flex: 0 0 28px; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; color: var(--c); box-shadow: inset 0 0 0 1px rgb(var(--white-rgb) / 0.12); }
+  .op-ti { flex: 0 0 28px; width: 28px; height: 28px; border-radius: 50%; background: color-mix(in srgb, var(--c) 10%, transparent); display: grid; place-items: center; color: var(--c); box-shadow: inset 0 0 0 1px rgb(var(--white-rgb) / 0.12); }
   .op-ft { display: flex; justify-content: space-between; align-items: center; margin-top: 2px; border-top: 1px dashed rgb(var(--white-rgb) / 0.08); }
   .op-ft .lnk { font-weight: 600; }
   .op-dots { display: flex; gap: 6px; }
@@ -158,19 +230,31 @@
   .cs-mhead .sh-title { font-size: 34px; }
   .cs-m { position: relative; }
   .cs-count { position: absolute; top: -26px; right: 20px; font: 500 11px/1 var(--font-mono); color: var(--color-ink-muted); }
+  /*
+    Phone carousel (Phase 10h). Horizontal only: `overflow-x: auto` alone makes
+    the vertical axis scrollable too, and the fanned cards' corners reach past
+    the bottom padding, so the strip grew its own small vertical scroll range
+    that swallowed a swipe starting on it (the "stuck" feeling). Vertical is now
+    hidden, so every up or down swipe goes to the page. One card per flick, and
+    no edge-swipe back navigation from overscroll.
+  */
   .snap {
     display: flex;
     gap: 14px;
     overflow-x: auto;
-    padding: 30px 45px 40px;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    padding: 28px 45px 32px;
     scroll-padding: 0 45px;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
   }
   .snap::-webkit-scrollbar { display: none; }
   .csm {
+    --o: 0;
     flex: 0 0 270px;
     scroll-snap-align: center;
+    scroll-snap-stop: always;
     display: flex;
     flex-direction: column;
     min-width: 0;
@@ -178,11 +262,48 @@
     border-radius: var(--radius-feature);
     color: var(--color-ink);
     background: var(--color-bg-card);
-    box-shadow: inset 0 0 0 1px rgb(var(--white-rgb) / 0.07), 0 24px 50px rgb(0 0 0 / 0.35);
+    box-shadow: inset 0 0 0 1px rgb(var(--white-rgb) / 0.07), 0 18px 30px -18px rgb(0 0 0 / 0.7);
     transform-origin: 50% 160%;
-    transition: transform 0.45s var(--ease-soft), opacity 0.45s;
+    /* Fallback fan (browsers without scroll timelines): follows the nearest slide. */
+    transform: rotate(calc(var(--o) * 7deg)) translateY(calc(min(abs(var(--o)), 2) * 10px));
+    opacity: calc(1 - min(abs(var(--o)), 1) * 0.45);
+    transition: transform 300ms var(--ease-out), opacity 300ms ease;
+    -webkit-tap-highlight-color: transparent;
   }
-  .csm[data-cur="true"] { box-shadow: inset 0 0 0 1px rgb(var(--white-rgb) / 0.16), 0 24px 50px rgb(0 0 0 / 0.35); }
+  .csm:active { transition-duration: 120ms; }
+  /*
+    Scroll-linked fan: each card's tilt, drop and dimming are a function of its
+    own position in the strip, so they follow the finger frame by frame on the
+    compositor (transform and opacity only) instead of jumping after the snap.
+    Progress 50% is the card centred in the strip; neighbours sit near 5% and 95%.
+  */
+  @supports (animation-timeline: view()) {
+    .csm {
+      transform: none;
+      opacity: 1;
+      transition: none;
+      animation: csm-fan linear both;
+      animation-timeline: view(inline);
+      animation-range: entry 0% exit 100%;
+    }
+  }
+  @keyframes csm-fan {
+    0% { transform: rotate(8deg) translateY(11px); opacity: 0.5; }
+    50% { transform: rotate(0deg) translateY(0); opacity: 1; }
+    100% { transform: rotate(-8deg) translateY(11px); opacity: 0.5; }
+  }
+  /* Reduced motion: no tilt or drop, only the dimming of the cards beside the current one. */
+  @media (prefers-reduced-motion: reduce) {
+    .csm { transform: none; transition: none; }
+    @supports (animation-timeline: view()) {
+      .csm { animation-name: csm-dim; }
+    }
+  }
+  @keyframes csm-dim {
+    0%, 100% { opacity: 0.55; }
+    50% { opacity: 1; }
+  }
+  .csm[data-cur="true"] { box-shadow: inset 0 0 0 1px rgb(var(--white-rgb) / 0.16), 0 18px 30px -18px rgb(0 0 0 / 0.7); }
   .csm-v,
   .dcs-v {
     position: relative;
@@ -334,39 +455,95 @@
   .cx-hex::after { content: ""; position: absolute; inset: 0; clip-path: inherit; background: linear-gradient(115deg, transparent 35%, rgb(var(--white-rgb) / 0.22) 50%, transparent 65%); background-size: 250% 100%; animation: cxshine 7s ease-in-out infinite; animation-delay: calc(var(--n) * 0.6s); }
   @keyframes cxshine { 0%, 70% { background-position: 120% 0; } 100% { background-position: -120% 0; } }
   .cx-hex svg { position: relative; z-index: 1; }
-  .cx-b:hover .cx-hex { transform: translateY(-3px); }
+  @media (hover: hover) and (pointer: fine) {
+    .cx-b:hover .cx-hex { transform: translateY(-3px); }
+  }
   .cx-bl { font: 500 11px/1.3 var(--font-sans); color: var(--color-ink-muted); }
   .lite .cx-path::after,
   .lite .cx-hex::after { animation: none; }
 
-  /* ---------- 3.8 Contact ---------- */
-  .ct-d { display: none; }
-  .ct-card { padding: 1px; border-radius: var(--radius-xl); background: var(--grad-contact-border); }
-  .ct-in { position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 12px; padding: 26px 20px 20px; border-radius: 25px; background: var(--color-bg-raised); }
-  .ct-in > * { position: relative; }
-  .ct-glow { position: absolute !important; right: -80px; top: -80px; width: 260px; height: 260px; border-radius: 50%; background: radial-gradient(closest-side, rgb(var(--mint-rgb) / 0.2), transparent); pointer-events: none; }
+  /* ---------- 3.8 Contact v3 (F2 mobile; F1 desktop below) ----------
+     One job: start a conversation. Values from the boards' CSS. */
+  .ct-k { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; font: 500 11px/1 var(--font-mono); letter-spacing: 0.12em; color: var(--color-mint); }
+  .ct-k i { width: 22px; height: 1px; background: rgb(var(--mint-rgb) / 0.5); }
+  /* Phones: the whole section is one gradient-bordered card. */
+  .ct {
+    position: relative;
+    overflow: hidden;
+    padding: 26px 20px 18px;
+    border: 1px solid transparent;
+    border-radius: var(--radius-xl);
+    background:
+      linear-gradient(var(--color-bg-raised), var(--color-bg-raised)) padding-box,
+      linear-gradient(135deg, rgb(var(--mint-rgb) / 0.6), rgb(var(--lilac-rgb) / 0.6)) border-box;
+  }
+  .ct::before,
+  .ct-card::before { content: ""; position: absolute; right: -90px; top: -90px; width: 280px; height: 280px; border-radius: 50%; background: radial-gradient(closest-side, rgb(var(--mint-rgb) / 0.16), transparent); pointer-events: none; }
+  .ct > * { position: relative; }
   .ct-h { margin: 0; font: 700 32px/1.05 var(--font-sans); letter-spacing: -0.04em; }
   .ct-h .grad { background: var(--grad-brand); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .ct-p { margin: 0; font: 400 15.5px/1.55 var(--font-sans); color: var(--color-ink-muted); }
-  .ct-mail { display: flex; align-items: center; gap: 8px; min-width: 0; padding: 6px 6px 6px 12px; border-radius: var(--radius-pill); box-shadow: inset 0 0 0 1px rgb(var(--white-rgb) / 0.1); font: 600 14px/1 var(--font-sans); }
-  /* The full address must stay readable: size it to the row, ellipsis only as a last resort. */
-  .ct-mail > span { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: clamp(11px, 3.05vw, 14px); letter-spacing: -0.01em; }
-  .ct-mail button {
-    flex: 0 0 auto;
-    min-height: 36px;
-    padding: 0 12px;
-    border-radius: var(--radius-pill);
+  .ct-h .ct-d { display: none; }
+  .ct-p { margin: 12px 0 0; font: 400 15.5px/1.55 var(--font-sans); color: var(--color-ink-muted); }
+  .ct-av { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; font: 500 10px/1 var(--font-mono); letter-spacing: 0.14em; color: var(--color-ink-muted); }
+  .ct-av b { width: 7px; height: 7px; border-radius: 50%; background: var(--color-mint); box-shadow: 0 0 0 3px rgb(var(--mint-rgb) / 0.16); }
+  .ct-cap { display: none; }
+
+  .ct-mail { display: flex; align-items: center; gap: 8px; height: 52px; margin-top: 24px; padding: 0 6px 0 14px; border-radius: var(--radius-pill); background: rgb(var(--white-rgb) / 0.025); box-shadow: inset 0 0 0 1px rgb(var(--white-rgb) / 0.09); }
+  .ct-mail > span:first-child { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 500 12.5px/1 var(--font-mono); letter-spacing: -0.01em; color: var(--color-ink); }
+  /* A 40px disc as drawn; the ::after pads its hit area to 52px. */
+  .ct-cpy {
+    position: relative;
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
     border: 0;
+    border-radius: 50%;
     cursor: pointer;
-    font: 600 12px/1 var(--font-sans);
     color: var(--color-mint);
     background: rgb(var(--mint-rgb) / 0.08);
-    box-shadow: inset 0 0 0 1px rgb(var(--mint-rgb) / 0.4);
-    transition: background 0.25s, color 0.25s;
+    box-shadow: inset 0 0 0 1px rgb(var(--mint-rgb) / 0.3);
+    transition: transform 160ms var(--ease-out), background-color 150ms var(--ease-out);
   }
-  .ct-mail button[data-copied="true"] { background: var(--color-mint); color: var(--color-on-mint); box-shadow: inset 0 0 0 1px var(--color-mint); }
-  .ct-btn { justify-content: flex-start; gap: 12px; margin-bottom: 8px; padding: 0 22px 0 8px !important; }
-  .ct-btn-l { flex: 1 1 auto; text-align: center; margin-right: 36px; }
+  .ct-cpy::after { content: ""; position: absolute; inset: -6px; border-radius: 50%; }
+  .ct-cpy:active { transform: scale(0.94); }
+  .ct-cpy svg { position: absolute; left: 50%; top: 50%; margin: -8px 0 0 -8px; transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out), filter 200ms var(--ease-out); }
+  .ct-cpy .ok { opacity: 0; transform: scale(0.5); filter: blur(4px); }
+  .ct-cpy[data-copied="true"] { background: rgb(var(--mint-rgb) / 0.16); }
+  .ct-cpy[data-copied="true"] .cp { opacity: 0; transform: scale(0.5); filter: blur(4px); }
+  .ct-cpy[data-copied="true"] .ok { opacity: 1; transform: none; filter: none; }
+
+  .ct-pri {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 56px;
+    margin-top: 10px;
+    padding: 0 22px 0 8px;
+    border: 1px solid transparent;
+    border-radius: var(--radius-pill);
+    font: 700 15px/1 var(--font-sans);
+    color: var(--color-ink);
+    background:
+      linear-gradient(180deg, #10273a, #0b1a2a) padding-box,
+      linear-gradient(180deg, rgb(var(--mint-rgb) / 0.75), rgb(var(--violet-rgb) / 0.45)) border-box;
+    box-shadow: inset 0 1px 0 rgb(var(--white-rgb) / 0.14);
+    transition: transform 160ms var(--ease-out), box-shadow 200ms var(--ease-out);
+  }
+  .ct-pri .d { flex: 0 0 40px; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; color: var(--color-mint); box-shadow: inset 0 0 0 1px rgb(var(--mint-rgb) / 0.45); transition: background 150ms var(--ease-out), color 150ms var(--ease-out); }
+  .ct-pri .lb { flex: 1 1 auto; text-align: center; margin-right: 40px; }
+  .ct-pri:active { transform: scale(0.97); }
+  .ct-sec { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; margin-top: 6px; font: 500 14px/1 var(--font-sans); color: var(--color-ink-muted); transition: color 150ms var(--ease-out); }
+  .ct-sec svg { transition: transform 200ms var(--ease-out); }
+  @media (hover: hover) {
+    .ct-cpy:hover { background-color: rgb(var(--mint-rgb) / 0.15); }
+    .ct-pri:hover { box-shadow: inset 0 1px 0 rgb(var(--white-rgb) / 0.2), 0 12px 22px -14px rgb(var(--mint-rgb) / 0.8); }
+    .ct-pri:hover .d { background: linear-gradient(180deg, var(--color-mint-hi), var(--color-mint)); color: var(--color-on-mint); }
+    .ct-sec:hover { color: var(--color-mint); }
+    .ct-sec:hover svg { transform: translateX(3px); }
+  }
+
+  /* Disc inside the primary buttons on the inner pages. */
   .pdisc {
     flex: 0 0 38px;
     width: 38px;
@@ -381,34 +558,12 @@
   .btn-p:hover .pdisc,
   .btn-p:focus-visible .pdisc,
   .btn-p:active .pdisc { background: linear-gradient(180deg, var(--color-mint-hi), var(--color-mint)); color: var(--color-on-mint); box-shadow: 0 0 0 3px rgb(var(--mint-rgb) / 0.14), inset 0 -2px 0 rgb(var(--on-mint-rgb) / 0.18); }
-  .ct-tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
-  .ct-t {
-    position: relative;
-    isolation: isolate;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
-    min-height: 72px;
-    border-radius: var(--radius-tile);
-    color: var(--color-ink-muted);
-    font: 600 12px/1 var(--font-sans);
-    background: linear-gradient(180deg, rgb(var(--white-rgb) / 0.06), rgb(var(--white-rgb) / 0.015));
-    box-shadow: inset 0 1px 0 rgb(var(--white-rgb) / 0.1), inset 0 0 0 1px rgb(var(--white-rgb) / 0.07);
-    transition: color 0.3s, box-shadow 0.4s, transform 0.3s;
-  }
-  .ct-t > .grain { opacity: 0.18; }
-  .ct-t > *:not(.grain) { position: relative; z-index: 2; }
-  .ct-t:hover,
-  .ct-t:active { color: var(--color-mint); box-shadow: inset 0 1px 0 rgb(var(--white-rgb) / 0.2), inset 0 0 0 1px rgb(var(--mint-rgb) / 0.4), inset 0 -1px 0 rgb(var(--mint-rgb) / 0.8), 0 8px 16px -10px rgb(var(--mint-rgb) / 0.7); }
-  .ct-t:active { transform: scale(0.95); }
 
   /* ---------- Section nav: mobile dial (01) ---------- */
   .dial-scrim { position: fixed; inset: 0; z-index: 40; border: 0; background: rgb(4 8 16 / 0.6); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); cursor: pointer; }
   .dial { position: fixed; right: 20px; bottom: 20px; z-index: 41; width: 64px; height: 64px; transition: opacity 0.3s; }
-  html[data-menu="open"] .dial { opacity: 0; pointer-events: none; }
+  html[data-menu="open"] .dial,
+  .dial[data-away="true"] { opacity: 0; pointer-events: none; }
   .dial-l {
     position: absolute;
     right: 8px;
@@ -476,13 +631,12 @@
     .fx-sub { font-size: 13px; }
 
     /* Orbits */
-    .hs-orbits { grid-template-columns: minmax(0, 560px) 1fr; align-items: start; }
-    .om-wrap { width: min(546px, 100%); margin: 0; }
-    .om-seg { width: min(546px, 100%); margin-top: 26px; }
-    .op { margin-top: 0; padding: 28px 28px 16px; border-radius: var(--radius-2xl); }
-    .op h3 { font-size: 34px; }
-    .op p { font-size: 16px; }
-    .op-tools { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    /* The dial takes the free width; the card keeps a fixed, narrower column and centres on the dial. */
+    .hs-orbits { grid-template-columns: minmax(0, 1fr) minmax(0, 400px); column-gap: 56px; align-items: center; }
+    .od { width: min(100%, 460px); margin: 0 auto; }
+    .op { margin-top: 0; padding: 26px 26px 14px; border-radius: var(--radius-2xl); }
+    .op h3 { font-size: 30px; }
+    .op p { font-size: 15.5px; }
 
     /* Case studies: pinned horizontal track */
     .hs-work { padding-top: 150px; }
@@ -510,9 +664,12 @@
         linear-gradient(var(--color-bg-card), var(--color-bg-card)) padding-box,
         linear-gradient(200deg, color-mix(in srgb, var(--c, var(--color-mint)) 45%, transparent), rgb(var(--white-rgb) / 0.06) 45%, rgb(var(--violet-rgb) / 0.24)) border-box;
       box-shadow: 0 30px 60px -30px rgb(0 0 0 / 0.9);
-      transition: transform 0.5s var(--ease-kb);
+      transition: transform 300ms var(--ease-out);
     }
-    .dcs:hover { transform: translateY(-8px); }
+    @media (hover: hover) and (pointer: fine) {
+      .dcs:hover { transform: translateY(-6px); }
+    }
+    .dcs:active { transform: scale(0.98); transition-duration: 160ms; }
     .dcs-v { height: 300px; border-radius: var(--radius-lg); perspective: 500px; }
     .dcs .cv-tag { left: 16px; top: 16px; }
     .dcs-t { display: block; margin-top: 22px; padding: 0 6px; font: 700 26px/1.15 var(--font-sans); letter-spacing: -0.03em; }
@@ -576,52 +733,47 @@
     .cx-hex { width: 76px; height: 86px; }
     .cx-bl { font-size: 12.5px; }
 
-    /* Contact */
-    .ct-m { display: none; }
-    .ct-d { display: block; }
-    .ct-d .sh-k { display: flex; }
-    .ct-big {
-      margin: 0;
-      font: 800 clamp(80px, 8.33vw, 120px)/0.94 var(--font-sans);
-      letter-spacing: -0.06em;
-      color: transparent;
-      background: linear-gradient(90deg, var(--color-ink) 0, var(--color-ink) var(--fill, 0%), rgb(var(--white-rgb) / 0.12) calc(var(--fill, 0%) + 12%));
-      -webkit-background-clip: text;
-      background-clip: text;
+    /* Contact (F1): copy on the left, the email card on the right, bottoms aligned. */
+    .ct-k-of { display: none; }
+    .ct { display: grid; grid-template-columns: minmax(0, 1fr) 460px; gap: 72px; align-items: end; overflow: visible; padding: 0; border: 0; border-radius: 0; background: none; }
+    .ct::before { content: none; }
+    .ct-h { font-size: 60px; line-height: 1.02; letter-spacing: -0.045em; max-width: 15ch; }
+    .ct-h .ct-m { display: none; }
+    .ct-h .ct-d { display: inline; }
+    .ct-p { max-width: 44ch; margin-top: 22px; font-size: 17px; }
+    .ct-card {
+      position: relative;
+      overflow: hidden;
+      padding: 28px;
+      border: 1px solid transparent;
+      border-radius: var(--radius-xl);
+      background:
+        linear-gradient(var(--color-bg-raised), var(--color-bg-raised)) padding-box,
+        linear-gradient(135deg, rgb(var(--mint-rgb) / 0.6), rgb(var(--lilac-rgb) / 0.6)) border-box;
     }
-    .ct-big span { background: var(--grad-brand-short); -webkit-background-clip: text; background-clip: text; opacity: calc(0.25 + var(--fillN, 0) * 0.75); }
-    .ct-cols { margin-top: 56px; align-items: start; }
-    .ct-lede { max-width: 460px; font-size: 18px; }
-    .ct-avail {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 28px;
-      height: 38px;
-      padding: 0 16px;
-      border-radius: var(--radius-pill);
-      font: 500 10.5px/1 var(--font-mono);
-      letter-spacing: 0.14em;
-      color: var(--color-ink-muted);
-      background: linear-gradient(90deg, rgb(var(--mint-rgb) / 0.1), rgb(var(--white-rgb) / 0.02) 75%);
-      box-shadow: inset 0 0 0 1px rgb(var(--mint-rgb) / 0.25);
-    }
+    .ct-card > * { position: relative; }
+    .ct-cap { display: block; margin-bottom: 12px; font: 500 10px/1 var(--font-mono); letter-spacing: 0.14em; color: var(--color-ink-600); }
+    .ct-mail { margin-top: 0; padding-left: 16px; }
+    .ct-mail > span:first-child { font-size: 13.5px; letter-spacing: 0; }
+    .ct-pri { margin-top: 12px; }
+    .ct-sec { margin-top: 8px; }
 
     /* Section nav: the dial gives way to the rail */
     .dial-wrap { display: none; }
     .rail { position: fixed; left: 26px; top: 50%; z-index: 39; transform: translateY(-50%); display: flex; flex-direction: column; width: 13px; transition: opacity 0.6s var(--ease-kb); }
     .rail[data-hero="true"] { opacity: 0.6; }
+    .rail[data-away="true"] { opacity: 0; pointer-events: none; }
     .rail-tr { position: absolute; left: 6px; top: 14px; bottom: 14px; width: 1px; background: linear-gradient(180deg, transparent, rgb(var(--white-rgb) / 0.1) 8%, rgb(var(--white-rgb) / 0.1) 92%, transparent); }
     .rail-f { position: absolute; left: 0; top: 0; width: 1px; height: 100%; transform-origin: top; background: linear-gradient(180deg, rgb(var(--mint-rgb) / 0.2), var(--color-mint) 60%, var(--rc, var(--color-lilac))); box-shadow: 0 0 6px rgb(var(--mint-rgb) / 0.45); }
     .rail-i { position: relative; display: flex; align-items: center; justify-content: center; width: 13px; height: 28px; }
-    .rail-i i { position: relative; width: 7px; height: 7px; border-radius: 50%; border: 1px solid rgb(var(--white-rgb) / 0.28); background: var(--color-bg); transition: all 0.5s var(--ease-kb); }
+    .rail-i i { position: relative; width: 7px; height: 7px; border-radius: 50%; border: 1px solid rgb(var(--white-rgb) / 0.28); background: var(--color-bg); transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease; }
     .rail-i[data-past="true"] i { border-color: rgb(var(--mint-rgb) / 0.6); background: rgb(var(--mint-rgb) / 0.35); }
     .rail-i[aria-current="true"] i { width: 13px; height: 13px; border: 1px solid var(--rc); background: var(--color-bg); box-shadow: 0 0 0 4px color-mix(in srgb, var(--rc) 12%, transparent), 0 0 14px -2px var(--rc); }
     .rail-i[aria-current="true"] i::after { content: ""; position: absolute; inset: 3px; border-radius: 50%; background: var(--rc); }
     .rail-i b { position: absolute; left: 24px; top: 50%; transform: translate(-4px, -50%); white-space: nowrap; padding: 5px 9px; border-radius: var(--radius-pill); font: 600 11px/1 var(--font-sans); color: var(--color-ink); background: rgb(var(--raised-rgb) / 0.95); box-shadow: inset 0 0 0 1px rgb(var(--white-rgb) / 0.1); opacity: 0; pointer-events: none; transition: opacity 0.3s, transform 0.3s var(--ease-kb); }
     .rail-i:not([aria-current="true"]):hover b,
     .rail-i:not([aria-current="true"]):focus-visible b { opacity: 1; transform: translate(0, -50%); }
-    .rail-cur { position: absolute; left: 13px; top: calc(var(--ri) * 28px + 14px); display: flex; align-items: center; transform: translateY(-50%); pointer-events: none; transition: top 0.7s var(--ease-kb); }
+    .rail-cur { position: absolute; left: 13px; top: 14px; display: flex; align-items: center; transform: translateY(calc(var(--ri) * 28px - 50%)); pointer-events: none; transition: transform 300ms var(--ease-in-out); }
     .rail-con { position: relative; display: block; width: 16px; height: 1px; background: linear-gradient(90deg, var(--rc), color-mix(in srgb, var(--rc) 35%, transparent)); }
     .rail-con i { position: absolute; right: -2px; top: -2px; width: 5px; height: 5px; border-radius: 50%; background: var(--rc); box-shadow: 0 0 6px var(--rc); }
     .rail-tx { display: flex; align-items: baseline; gap: 7px; margin-left: 8px; padding: 5px 10px 5px 8px; border-radius: var(--radius-sm); white-space: nowrap; background: linear-gradient(90deg, rgb(var(--bg-rgb) / 0.92), rgb(var(--bg-rgb) / 0.6)); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--rc) 22%, transparent); }
@@ -643,11 +795,23 @@
   @media (prefers-reduced-motion: reduce) {
     .fx-t { opacity: 1 !important; transform: none !important; transition: none !important; }
     .fx-t::after { animation: none !important; }
-    .om-ticks { animation: none; }
     .op-in > * { animation: none; }
+    .od-sys,
+    .od-p-in,
+    .od-dot,
+    .od-lb,
+    .od-core-i,
+    .od-dock,
+    .od-dock-g { transition: none !important; }
     .stk-t { opacity: 1 !important; transform: none !important; transition: none !important; }
     .cx-path::after,
     .cx-hex::after { animation: none; }
+    .ct-cpy,
+    .ct-cpy svg,
+    .ct-pri,
+    .ct-pri .d,
+    .ct-sec,
+    .ct-sec svg { transition: none !important; }
     .csm,
     .dial-l,
     .rail-cur,

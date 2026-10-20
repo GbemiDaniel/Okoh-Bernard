@@ -1,6 +1,5 @@
 import { ArrowLink, Reveal, SectionHeading } from "@/components/kit";
 import { learningPaths, skillBadges } from "@/lib/credentials";
-import { Motto } from "./Motto";
 
 // Board icon and mono sub-label per credential (01 section 06).
 const PATH_META: Record<string, { sub: string; icon: string }> = {
@@ -77,9 +76,6 @@ export function AboutBlock() {
           <Reveal desktopOnly delay={120} as="p" className="about-p">
             I&apos;m Kachi, a security engineer working across cloud security, DevSecOps and AI security. I learn by doing:
             every misconfiguration I find gets fixed, verified and written up so someone else can follow the same path.
-          </Reveal>
-          <Reveal desktopOnly delay={180}>
-            <Motto />
           </Reveal>
           <Reveal desktopOnly delay={240} className="about-more about-more-d">
             <ArrowLink href="/about">More about me</ArrowLink>

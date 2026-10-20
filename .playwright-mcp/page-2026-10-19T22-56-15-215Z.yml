@@ -1,0 +1,390 @@
+- generic [active] [ref=f3e1]:
+  - banner [ref=f3e2]:
+    - link "Kachi Bernard, home" [ref=f3e3] [cursor=pointer]:
+      - /url: /
+      - img [aria-hidden] [ref=f3e4]:
+        - generic [ref=f3e9]: KB
+    - navigation "Pages" [ref=f3e14]:
+      - link "Home" [ref=f3e16] [cursor=pointer]:
+        - /url: /
+      - link "Work" [ref=f3e17] [cursor=pointer]:
+        - /url: /work
+      - link "Writeups" [ref=f3e18] [cursor=pointer]:
+        - /url: /writeups
+      - link "About" [ref=f3e19] [cursor=pointer]:
+        - /url: /about
+      - link "Contact" [ref=f3e20] [cursor=pointer]:
+        - /url: /contact
+      - generic [aria-hidden]:
+        - generic: Home
+        - generic: Work
+        - generic: Writeups
+        - generic: About
+        - generic: Contact
+    - generic [ref=f3e21]:
+      - link "Download résumé" [ref=f3e22] [cursor=pointer]:
+        - /url: /Onyedikachi_Bernard_Okoh_CV.pdf
+        - text: Résumé
+      - link "Get in touch" [ref=f3e25] [cursor=pointer]:
+        - /url: /contact
+  - main [ref=f3e26]:
+    - generic [ref=f3e27]:
+      - generic [ref=f3e29]:
+        - generic [ref=f3e30]:
+          - navigation "Breadcrumb" [ref=f3e31]:
+            - link "Home" [ref=f3e33] [cursor=pointer]:
+              - /url: /
+            - generic [ref=f3e34]: Work
+          - generic [ref=f3e37]:
+            - generic [ref=f3e38]: "01"
+            - generic [ref=f3e40]: ALL PROJECTS
+          - heading [level=1] [ref=f3e41]:
+            - text: Thirty-two labs.
+            - emphasis [ref=f3e42]: Every fix proven.
+          - paragraph [ref=f3e43]: "Each lab follows the same arc: find the misconfiguration, prove the risk, fix it and confirm the fix held. Filter by discipline, then open any lab for the full case study."
+          - generic [ref=f3e44]:
+            - group "Filter projects" [ref=f3e45]:
+              - button "All 32" [pressed] [ref=f3e46] [cursor=pointer]:
+                - text: All
+                - generic [ref=f3e52]: "32"
+              - button "Cloud 15" [ref=f3e53] [cursor=pointer]:
+                - text: Cloud
+                - generic [ref=f3e59]: "15"
+              - button "DevSecOps 17" [ref=f3e60] [cursor=pointer]:
+                - text: DevSecOps
+                - generic [ref=f3e66]: "17"
+            - navigation "Domains" [ref=f3e67]:
+              - list [ref=f3e70]:
+                - listitem [ref=f3e71]:
+                  - link "Identity & access 03" [ref=f3e72] [cursor=pointer]:
+                    - /url: "#g-identity-access"
+                    - generic [ref=f3e73]: Identity & access
+                    - generic [ref=f3e74]: "03"
+                - listitem [ref=f3e75]:
+                  - link "Network & perimeter 04" [ref=f3e76] [cursor=pointer]:
+                    - /url: "#g-network-perimeter"
+                    - generic [ref=f3e77]: Network & perimeter
+                    - generic [ref=f3e78]: "04"
+                - listitem [ref=f3e79]:
+                  - link "Secure compute 04" [ref=f3e80] [cursor=pointer]:
+                    - /url: "#g-secure-compute"
+                    - generic [ref=f3e81]: Secure compute
+                    - generic [ref=f3e82]: "04"
+                - listitem [ref=f3e83]:
+                  - link "Storage & data 04" [ref=f3e84] [cursor=pointer]:
+                    - /url: "#g-storage-data"
+                    - generic [ref=f3e85]: Storage & data
+                    - generic [ref=f3e86]: "04"
+                - listitem [ref=f3e87]:
+                  - link "Build & CI/CD 06" [ref=f3e88] [cursor=pointer]:
+                    - /url: "#g-build-cicd"
+                    - generic [ref=f3e89]: Build & CI/CD
+                    - generic [ref=f3e90]: "06"
+                - listitem [ref=f3e91]:
+                  - link "Software supply chain 02" [ref=f3e92] [cursor=pointer]:
+                    - /url: "#g-supply-chain"
+                    - generic [ref=f3e93]: Software supply chain
+                    - generic [ref=f3e94]: "02"
+                - listitem [ref=f3e95]:
+                  - link "Containers & Kubernetes 06" [ref=f3e96] [cursor=pointer]:
+                    - /url: "#g-containers-kubernetes"
+                    - generic [ref=f3e97]: Containers & Kubernetes
+                    - generic [ref=f3e98]: "06"
+                - listitem [ref=f3e99]:
+                  - link "Infrastructure as code 03" [ref=f3e100] [cursor=pointer]:
+                    - /url: "#g-infrastructure-as-code"
+                    - generic [ref=f3e101]: Infrastructure as code
+                    - generic [ref=f3e102]: "03"
+        - generic [ref=f3e103]:
+          - region [ref=f3e104]:
+            - generic [ref=f3e105]:
+              - heading "IDENTITY & ACCESS 3 labs" [level=2] [ref=f3e106]:
+                - generic [ref=f3e107]: IDENTITY & ACCESS
+                - generic "3 labs" [ref=f3e109]: "03"
+              - list [ref=f3e110]:
+                - listitem [ref=f3e111]:
+                  - link "01 The Over-Privileged User" [ref=f3e112] [cursor=pointer]:
+                    - /url: /work/the-over-privileged-user
+                    - generic [ref=f3e113]: "01"
+                    - generic [ref=f3e114]: The Over-Privileged User
+                - listitem [ref=f3e118]:
+                  - link "02 The Overpowered Role (featured case study)" [ref=f3e119] [cursor=pointer]:
+                    - /url: /work/the-overpowered-role
+                    - generic [ref=f3e120]: "02"
+                    - generic [ref=f3e121]:
+                      - text: The Overpowered Role
+                      - generic [ref=f3e122]: (featured case study)
+                - listitem [ref=f3e126]:
+                  - link "03 AWS IAM Compromise Investigation (featured case study)" [ref=f3e127] [cursor=pointer]:
+                    - /url: /work/aws-iam-compromise-investigation
+                    - generic [ref=f3e128]: "03"
+                    - generic [ref=f3e129]:
+                      - text: AWS IAM Compromise Investigation
+                      - generic [ref=f3e130]: (featured case study)
+          - region [ref=f3e134]:
+            - generic [ref=f3e135]:
+              - heading "NETWORK & PERIMETER 4 labs" [level=2] [ref=f3e136]:
+                - generic [ref=f3e137]: NETWORK & PERIMETER
+                - generic "4 labs" [ref=f3e139]: "04"
+              - list [ref=f3e140]:
+                - listitem [ref=f3e141]:
+                  - link "04 The Wide-Open Security Group" [ref=f3e142] [cursor=pointer]:
+                    - /url: /work/the-wide-open-security-group
+                    - generic [ref=f3e143]: "04"
+                    - generic [ref=f3e144]: The Wide-Open Security Group
+                - listitem [ref=f3e148]:
+                  - link "05 Exposed AWS Private Network" [ref=f3e149] [cursor=pointer]:
+                    - /url: /work/exposed-aws-private-network
+                    - generic [ref=f3e150]: "05"
+                    - generic [ref=f3e151]: Exposed AWS Private Network
+                - listitem [ref=f3e155]:
+                  - link "06 The Forgotten NACL" [ref=f3e156] [cursor=pointer]:
+                    - /url: /work/the-forgotten-nacl
+                    - generic [ref=f3e157]: "06"
+                    - generic [ref=f3e158]: The Forgotten NACL
+                - listitem [ref=f3e162]:
+                  - link "07 VPC Flow Logs Visibility Assessment" [ref=f3e163] [cursor=pointer]:
+                    - /url: /work/vpc-flow-logs-visibility-assessment
+                    - generic [ref=f3e164]: "07"
+                    - generic [ref=f3e165]: VPC Flow Logs Visibility Assessment
+          - region [ref=f3e169]:
+            - generic [ref=f3e170]:
+              - heading "SECURE COMPUTE 4 labs" [level=2] [ref=f3e171]:
+                - generic [ref=f3e172]: SECURE COMPUTE
+                - generic "4 labs" [ref=f3e174]: "04"
+              - list [ref=f3e175]:
+                - listitem [ref=f3e176]:
+                  - link "08 Exposed EC2 Management Port" [ref=f3e177] [cursor=pointer]:
+                    - /url: /work/exposed-ec2-management-port
+                    - generic [ref=f3e178]: "08"
+                    - generic [ref=f3e179]: Exposed EC2 Management Port
+                - listitem [ref=f3e183]:
+                  - link "09 Unpatched EC2 Instance" [ref=f3e184] [cursor=pointer]:
+                    - /url: /work/unpatched-ec2-instance
+                    - generic [ref=f3e185]: "09"
+                    - generic [ref=f3e186]: Unpatched EC2 Instance
+                - listitem [ref=f3e190]:
+                  - link "10 IMDSv1 Exposure and IMDSv2 Remediation" [ref=f3e191] [cursor=pointer]:
+                    - /url: /work/imdsv1-exposure-and-imdsv2-remediation
+                    - generic [ref=f3e192]: "10"
+                    - generic [ref=f3e193]: IMDSv1 Exposure and IMDSv2 Remediation
+                - listitem [ref=f3e197]:
+                  - link "11 ECS Container IAM Least Privilege" [ref=f3e198] [cursor=pointer]:
+                    - /url: /work/ecs-container-iam-least-privilege
+                    - generic [ref=f3e199]: "11"
+                    - generic [ref=f3e200]: ECS Container IAM Least Privilege
+          - region [ref=f3e204]:
+            - generic [ref=f3e205]:
+              - heading "STORAGE & DATA 4 labs" [level=2] [ref=f3e206]:
+                - generic [ref=f3e207]: STORAGE & DATA
+                - generic "4 labs" [ref=f3e209]: "04"
+              - list [ref=f3e210]:
+                - listitem [ref=f3e211]:
+                  - link "12 Public S3 Bucket Remediation" [ref=f3e212] [cursor=pointer]:
+                    - /url: /work/public-s3-bucket-remediation
+                    - generic [ref=f3e213]: "12"
+                    - generic [ref=f3e214]: Public S3 Bucket Remediation
+                - listitem [ref=f3e218]:
+                  - link "13 S3 SSE-KMS Encryption and Validation" [ref=f3e219] [cursor=pointer]:
+                    - /url: /work/s3-sse-kms-encryption-and-validation
+                    - generic [ref=f3e220]: "13"
+                    - generic [ref=f3e221]: S3 SSE-KMS Encryption and Validation
+                - listitem [ref=f3e225]:
+                  - link "14 S3 Activity Monitoring Audit" [ref=f3e226] [cursor=pointer]:
+                    - /url: /work/s3-activity-monitoring-audit
+                    - generic [ref=f3e227]: "14"
+                    - generic [ref=f3e228]: S3 Activity Monitoring Audit
+                - listitem [ref=f3e232]:
+                  - link "15 Public EBS Snapshot Remediation" [ref=f3e233] [cursor=pointer]:
+                    - /url: /work/public-ebs-snapshot-remediation
+                    - generic [ref=f3e234]: "15"
+                    - generic [ref=f3e235]: Public EBS Snapshot Remediation
+          - region [ref=f3e239]:
+            - generic [ref=f3e240]:
+              - heading "BUILD & CI/CD 6 labs" [level=2] [ref=f3e241]:
+                - generic [ref=f3e242]: BUILD & CI/CD
+                - generic "6 labs" [ref=f3e244]: "06"
+              - list [ref=f3e245]:
+                - listitem [ref=f3e246]:
+                  - link "16 Securing the Build Process (featured case study)" [ref=f3e247] [cursor=pointer]:
+                    - /url: /work/securing-the-build-process
+                    - generic [ref=f3e248]: "16"
+                    - generic [ref=f3e249]:
+                      - text: Securing the Build Process
+                      - generic [ref=f3e250]: (featured case study)
+                - listitem [ref=f3e254]:
+                  - link "17 Build Process Security" [ref=f3e255] [cursor=pointer]:
+                    - /url: /work/build-process-security
+                    - generic [ref=f3e256]: "17"
+                    - generic [ref=f3e257]: Build Process Security
+                - listitem [ref=f3e261]:
+                  - link "18 Build Server Security" [ref=f3e262] [cursor=pointer]:
+                    - /url: /work/build-server-security
+                    - generic [ref=f3e263]: "18"
+                    - generic [ref=f3e264]: Build Server Security
+                - listitem [ref=f3e268]:
+                  - link "19 Pipeline Access Gate Hardening" [ref=f3e269] [cursor=pointer]:
+                    - /url: /work/pipeline-access-gate-hardening
+                    - generic [ref=f3e270]: "19"
+                    - generic [ref=f3e271]: Pipeline Access Gate Hardening
+                - listitem [ref=f3e275]:
+                  - link "20 Environment Segregation for Build Runners" [ref=f3e276] [cursor=pointer]:
+                    - /url: /work/environment-segregation-for-build-runners
+                    - generic [ref=f3e277]: "20"
+                    - generic [ref=f3e278]: Environment Segregation for Build Runners
+                - listitem [ref=f3e282]:
+                  - link "21 CI/CD Build Secret Segregation" [ref=f3e283] [cursor=pointer]:
+                    - /url: /work/ci-cd-build-secret-segregation
+                    - generic [ref=f3e284]: "21"
+                    - generic [ref=f3e285]: CI/CD Build Secret Segregation
+          - region [ref=f3e289]:
+            - generic [ref=f3e290]:
+              - heading "SOFTWARE SUPPLY CHAIN 2 labs" [level=2] [ref=f3e291]:
+                - generic [ref=f3e292]: SOFTWARE SUPPLY CHAIN
+                - generic "2 labs" [ref=f3e294]: "02"
+              - list [ref=f3e295]:
+                - listitem [ref=f3e296]:
+                  - link "22 External Dependency Supply Chain Risk" [ref=f3e297] [cursor=pointer]:
+                    - /url: /work/external-dependency-supply-chain-risk
+                    - generic [ref=f3e298]: "22"
+                    - generic [ref=f3e299]: External Dependency Supply Chain Risk
+                - listitem [ref=f3e303]:
+                  - link "23 Python Dependency Confusion Defence" [ref=f3e304] [cursor=pointer]:
+                    - /url: /work/python-dependency-confusion-defence
+                    - generic [ref=f3e305]: "23"
+                    - generic [ref=f3e306]: Python Dependency Confusion Defence
+          - region [ref=f3e310]:
+            - generic [ref=f3e311]:
+              - heading "CONTAINERS & KUBERNETES 6 labs" [level=2] [ref=f3e312]:
+                - generic [ref=f3e313]: CONTAINERS & KUBERNETES
+                - generic "6 labs" [ref=f3e315]: "06"
+              - list [ref=f3e316]:
+                - listitem [ref=f3e317]:
+                  - link "24 Kubernetes Secrets and RBAC Hardening" [ref=f3e318] [cursor=pointer]:
+                    - /url: /work/kubernetes-secrets-and-rbac-hardening
+                    - generic [ref=f3e319]: "24"
+                    - generic [ref=f3e320]: Kubernetes Secrets and RBAC Hardening
+                - listitem [ref=f3e324]:
+                  - 'link "25 Container Isolation: cgroups" [ref=f3e325] [cursor=pointer]':
+                    - /url: /work/container-isolation-cgroups
+                    - generic [ref=f3e326]: "25"
+                    - generic [ref=f3e327]: "Container Isolation: cgroups"
+                - listitem [ref=f3e331]:
+                  - link "26 Docker Socket Exposure" [ref=f3e332] [cursor=pointer]:
+                    - /url: /work/docker-socket-exposure
+                    - generic [ref=f3e333]: "26"
+                    - generic [ref=f3e334]: Docker Socket Exposure
+                - listitem [ref=f3e338]:
+                  - link "27 Docker Engine TCP Socket Exposure" [ref=f3e339] [cursor=pointer]:
+                    - /url: /work/docker-engine-tcp-socket-exposure
+                    - generic [ref=f3e340]: "27"
+                    - generic [ref=f3e341]: Docker Engine TCP Socket Exposure
+                - listitem [ref=f3e345]:
+                  - 'link "28 Container Isolation: Namespaces" [ref=f3e346] [cursor=pointer]':
+                    - /url: /work/container-isolation-namespaces
+                    - generic [ref=f3e347]: "28"
+                    - generic [ref=f3e348]: "Container Isolation: Namespaces"
+                - listitem [ref=f3e352]:
+                  - link "29 Docker Hardening and Security Controls" [ref=f3e353] [cursor=pointer]:
+                    - /url: /work/docker-hardening-and-security-controls
+                    - generic [ref=f3e354]: "29"
+                    - generic [ref=f3e355]: Docker Hardening and Security Controls
+          - region [ref=f3e359]:
+            - generic [ref=f3e360]:
+              - heading "INFRASTRUCTURE AS CODE 3 labs" [level=2] [ref=f3e361]:
+                - generic [ref=f3e362]: INFRASTRUCTURE AS CODE
+                - generic "3 labs" [ref=f3e364]: "03"
+              - list [ref=f3e365]:
+                - listitem [ref=f3e366]:
+                  - link "30 IaC Pipeline Provisioning" [ref=f3e367] [cursor=pointer]:
+                    - /url: /work/iac-pipeline-provisioning
+                    - generic [ref=f3e368]: "30"
+                    - generic [ref=f3e369]: IaC Pipeline Provisioning
+                - listitem [ref=f3e373]:
+                  - link "31 On-Prem IaC Pipeline Assessment" [ref=f3e374] [cursor=pointer]:
+                    - /url: /work/on-prem-iac-pipeline-assessment
+                    - generic [ref=f3e375]: "31"
+                    - generic [ref=f3e376]: On-Prem IaC Pipeline Assessment
+                - listitem [ref=f3e380]:
+                  - link "32 Terraform Cloud IaC Hardening (featured case study)" [ref=f3e381] [cursor=pointer]:
+                    - /url: /work/terraform-cloud-iac-hardening
+                    - generic [ref=f3e382]: "32"
+                    - generic [ref=f3e383]:
+                      - text: Terraform Cloud IaC Hardening
+                      - generic [ref=f3e384]: (featured case study)
+          - generic [ref=f3e388]:
+            - generic [ref=f3e389]: FEATURED CASE STUDY
+            - generic [ref=f3e391]: 8 DOMAINS
+      - link "Read the writeups AI SECURITY · IAM · CRYPTOGRAPHY" [ref=f3e393] [cursor=pointer]:
+        - /url: /writeups
+        - generic [ref=f3e394]:
+          - text: Read the writeups
+          - generic [ref=f3e395]: AI SECURITY · IAM · CRYPTOGRAPHY
+  - contentinfo [ref=f3e399]:
+    - generic [ref=f3e413]:
+      - generic [ref=f3e414]:
+        - generic [ref=f3e415]:
+          - generic [ref=f3e416]:
+            - generic [aria-hidden] [ref=f3e417]:
+              - text: K
+              - generic [ref=f3e418]: B
+            - generic [ref=f3e419]:
+              - strong [ref=f3e420]: Onyedikachi Bernard
+              - generic [ref=f3e421]: SECURITY · CLOUD · AI
+            - link "Back to top" [ref=f3e422] [cursor=pointer]:
+              - /url: "#top"
+          - paragraph [ref=f3e428]:
+            - generic [ref=f3e434]: Open to new opportunities
+            - generic [ref=f3e436]: REMOTE · HYBRID
+          - generic [ref=f3e437]:
+            - link "kachisichobernardokoh@gmail.com" [ref=f3e438] [cursor=pointer]:
+              - /url: mailto:kachisichobernardokoh@gmail.com
+            - button "Copy email address" [ref=f3e439] [cursor=pointer]:
+              - generic [ref=f3e445]: Copy
+          - list "Elsewhere" [ref=f3e446]:
+            - listitem [ref=f3e447]:
+              - link "GitHub" [ref=f3e448] [cursor=pointer]:
+                - /url: https://github.com/OnyedikachiO
+            - listitem [ref=f3e454]:
+              - link "LinkedIn" [ref=f3e455] [cursor=pointer]:
+                - /url: https://www.linkedin.com/in/onyedikachi-bernard-okoh-405861262
+            - listitem [ref=f3e461]:
+              - link "Medium" [ref=f3e462] [cursor=pointer]:
+                - /url: https://medium.com/@kachisichobernardokoh
+        - navigation [ref=f3e468]:
+          - paragraph [ref=f3e469]: EXPLORE
+          - list [ref=f3e470]:
+            - listitem [ref=f3e471]:
+              - link "01 Work" [ref=f3e472] [cursor=pointer]:
+                - /url: /work
+                - generic [ref=f3e473]: "01"
+                - generic [ref=f3e474]: Work
+            - listitem [ref=f3e477]:
+              - link "02 Writeups" [ref=f3e478] [cursor=pointer]:
+                - /url: /writeups
+                - generic [ref=f3e479]: "02"
+                - generic [ref=f3e480]: Writeups
+            - listitem [ref=f3e483]:
+              - link "03 About" [ref=f3e484] [cursor=pointer]:
+                - /url: /about
+                - generic [ref=f3e485]: "03"
+                - generic [ref=f3e486]: About
+            - listitem [ref=f3e489]:
+              - link "04 Contact" [ref=f3e490] [cursor=pointer]:
+                - /url: /contact
+                - generic [ref=f3e491]: "04"
+                - generic [ref=f3e492]: Contact
+            - listitem [ref=f3e495]:
+              - link "05 Certificates & Badges" [ref=f3e496] [cursor=pointer]:
+                - /url: /about#credentials
+                - generic [ref=f3e497]: "05"
+                - generic [ref=f3e498]: Certificates & Badges
+            - listitem [ref=f3e501]:
+              - link "06 Résumé" [ref=f3e502] [cursor=pointer]:
+                - /url: /Onyedikachi_Bernard_Okoh_CV.pdf
+                - generic [ref=f3e503]: "06"
+                - generic [ref=f3e504]: Résumé
+      - paragraph [aria-hidden] [ref=f3e507]: Kachi Bernard
+      - generic [ref=f3e508]:
+        - generic [ref=f3e509]: © 2026 Onyedikachi Bernard. All rights reserved.
+        - generic [ref=f3e510]: SECURE BY DESIGN

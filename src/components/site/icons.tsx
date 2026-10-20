@@ -21,3 +21,4 @@ export const GitHubIcon = make(
 );
 export const LinkedInIcon = make("M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2zM6 4a2 2 0 1 1-4 0 2 2 0 1 1 4 0z");
 export const MediumIcon = make("M2 12a5.5 5.5 0 1 0 11 0 5.5 5.5 0 1 0-11 0zM15 12c0 3 1.1 5.4 2.5 5.4S20 15 20 12s-1.1-5.4-2.5-5.4S15 9 15 12zM22.5 7v10");
+export const TryHackMeIcon = make("M4 5h16v14H4zM8 10l3 2.5L8 15M13 15h3");

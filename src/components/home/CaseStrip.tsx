@@ -42,45 +42,71 @@ function Foot({ no }: { no: number }) {
   );
 }
 
-/** Mobile: snap carousel with a fanned deck and an arc of dots (01). */
+/**
+ * Mobile: snap carousel with a fanned deck and an arc of dots (01).
+ *
+ * The fan (rotation, drop and dimming per card) follows the scroll position
+ * frame by frame through a CSS scroll timeline (see .csm in home-sections.css),
+ * so it runs off the main thread and never waits for a state update. React
+ * only tracks which slide is nearest, for the counter and the dots, and only
+ * re-renders when that number changes.
+ */
 function Carousel({ cards }: { cards: Card[] }) {
   const snap = useRef<HTMLDivElement>(null);
+  const near = useRef(0);
   const [slide, setSlide] = useState(0);
 
-  // The Three Orbits panel asks for a slide (cloud = 0, DevSecOps = 2).
   useEffect(() => {
-    const on = (e: Event) => {
-      const n = (e as CustomEvent<number>).detail;
-      setSlide(n);
-      const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      snap.current?.scrollTo({ left: n * CARD_STEP, behavior: still ? "auto" : "smooth" });
+    const el = snap.current;
+    if (!el) return;
+    // Distance between two cards, measured so it holds at any card width.
+    const step = () => {
+      const [a, b] = [el.children[0], el.children[1]] as HTMLElement[];
+      return a && b ? b.offsetLeft - a.offsetLeft : CARD_STEP;
     };
-    window.addEventListener("kb:slide", on);
-    return () => window.removeEventListener("kb:slide", on);
-  }, []);
+    let raf = 0;
+    const read = () => {
+      raf = 0;
+      const i = Math.max(0, Math.min(cards.length - 1, Math.round(el.scrollLeft / step())));
+      if (i !== near.current) {
+        near.current = i;
+        setSlide(i);
+      }
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(read);
+    };
+    // The Three Orbits dial asks for a slide (cloud = 0, DevSecOps = 2).
+    const onSlide = (e: Event) => {
+      const n = (e as CustomEvent<number>).detail;
+      const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      el.scrollTo({ left: n * step(), behavior: still ? "auto" : "smooth" });
+    };
+    el.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("kb:slide", onSlide);
+    return () => {
+      cancelAnimationFrame(raf);
+      el.removeEventListener("scroll", onScroll);
+      window.removeEventListener("kb:slide", onSlide);
+    };
+  }, [cards.length]);
 
   return (
     <div className="cs-m">
       <span className="cs-count" aria-hidden="true">
         {pad(slide + 1)} / {pad(cards.length)}
       </span>
-      <div
-        ref={snap}
-        className="snap"
-        onScroll={(e) => {
-          const i = Math.max(0, Math.min(cards.length - 1, Math.round(e.currentTarget.scrollLeft / CARD_STEP)));
-          if (i !== slide) setSlide(i);
-        }}
-      >
+      <div ref={snap} className="snap">
         {cards.map((card, i) => {
-          const off = i - slide, ao = Math.min(2, Math.abs(off));
+          const off = i - slide;
           return (
             <Link
               key={card.slug}
               href={card.href}
               className="csm"
               data-cur={off === 0}
-              style={{ transform: `rotate(${off * 7}deg) translateY(${ao * 10}px)`, opacity: off === 0 ? 1 : 0.55 }}
+              // Fallback fan for browsers without scroll timelines: CSS reads these.
+              style={{ "--o": Math.max(-2, Math.min(2, off)) } as React.CSSProperties}
             >
               <Visual card={card} i={i} height="m" />
               <span className="csm-t">{card.title}</span>

@@ -17,20 +17,20 @@ export const metadata: Metadata = {
   keywords: ["Cloud Security", "DevSecOps", "AWS Security", "AI Security", "Security Engineer", "Portfolio"],
   authors: [{ name: site.name }],
   creator: site.name,
+  alternates: { canonical: "/" },
+  // The share image is app/opengraph-image.tsx; inner pages set their own tags with pageMeta.
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: site.url,
+    url: "/",
     title,
     description,
     siteName: site.name,
-    images: [{ url: "/og-banner.png", width: 1672, height: 941, alt: `${site.name}, security engineer` }],
   },
   twitter: {
     card: "summary_large_image",
     title,
     description,
-    images: ["/og-banner.png"],
   },
   robots: {
     index: true,

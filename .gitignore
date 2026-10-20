@@ -49,3 +49,6 @@ next-env.d.ts
 .agent/
 # design handoff (never commit)
 /handoff/
+
+# private build-in-public journal (never commit)
+/journal/

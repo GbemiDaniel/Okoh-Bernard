@@ -61,7 +61,6 @@
 
   /* Low-tier devices (set by the hologram's frame budget): still-lit surfaces. */
   .lite .rim::before { animation: none; --rim: 210deg; }
-  .lite .ft-glow { animation: none; }
   .lite * { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
 
   @media (prefers-reduced-motion: reduce) {

@@ -1,0 +1,151 @@
+/*
+  First-visit loader (BootLoader). Invisible for its first 350ms so fast loads
+  never see it. Exit: the name lifts and softens, the overlay fades (420ms).
+*/
+
+@layer components {
+  .boot:not([data-on]) { display: none; }
+  html:has(.boot[data-on]:not([data-done])) { overflow: hidden; }
+
+  .boot {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    background:
+      radial-gradient(60% 45% at 50% 46%, rgb(var(--mint-rgb) / 0.07), transparent 70%),
+      radial-gradient(90% 70% at 50% 0%, var(--color-bg-wash), var(--color-bg) 70%);
+    animation: boot-in 320ms var(--ease-out) 350ms both, boot-cap 300ms ease 6.2s forwards;
+    transition: opacity 420ms var(--ease-out);
+  }
+  /* Faint scanlines, the hologram's texture */
+  .boot::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, rgb(var(--white-rgb) / 0.018) 0 1px, transparent 1px 4px);
+    mask: radial-gradient(50% 40% at 50% 48%, #000, transparent);
+    pointer-events: none;
+  }
+  .boot[data-done] { opacity: 0 !important; pointer-events: none; }
+
+  /* A thin orbit behind the name with one planet travelling it */
+  .boot-ring {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: min(440px, 88vw);
+    aspect-ratio: 1 / 0.34;
+    transform: translate(-50%, -54%) rotate(-8deg);
+    opacity: 0;
+    animation: boot-fade 900ms var(--ease-out) 450ms forwards;
+  }
+  .boot-ring::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1px solid transparent;
+    background: linear-gradient(90deg, rgb(var(--mint-rgb) / 0.3), rgb(var(--white-rgb) / 0.04) 45%, rgb(139 92 246 / 0.32)) border-box;
+    -webkit-mask: linear-gradient(#000 0 0) padding-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) padding-box exclude, linear-gradient(#000 0 0);
+  }
+  .boot-ring i {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    offset-path: ellipse(50% 50% at 50% 50%);
+    offset-rotate: 0deg;
+    background: var(--color-mint);
+    box-shadow: 0 0 10px 2px rgb(var(--mint-rgb) / 0.6);
+    animation: boot-orbit 3.2s linear infinite;
+  }
+
+  .boot-name {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0 0.9em;
+    margin: 0;
+    padding-left: 0.42em; /* balances the trailing tracking */
+    font: 400 clamp(13px, 3.6vw, 16px)/1.2 var(--font-mono);
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--color-ink);
+    transition: transform 420ms var(--ease-out), filter 420ms var(--ease-out);
+  }
+  .boot-name i {
+    display: inline-block;
+    font-style: normal;
+    opacity: 0;
+    filter: blur(6px);
+    transform: translateY(6px);
+    animation: boot-letter 700ms var(--ease-out) forwards;
+    animation-delay: calc(420ms + var(--i) * 32ms);
+  }
+  .boot-last i {
+    background: var(--grad-brand-short);
+    background-size: 9em 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .boot[data-done] .boot-name { transform: translateY(-6px); filter: blur(2px); }
+
+  .boot-role {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 14px;
+    margin: 14px 0 0;
+    font: 500 10.5px/1 var(--font-mono);
+    letter-spacing: 0.24em;
+    color: var(--color-mint-ink, var(--color-mint));
+    opacity: 0;
+    animation: boot-fade 500ms var(--ease-out) 900ms forwards;
+  }
+  .boot-role b { width: 6px; height: 12px; margin-left: 3px; background: var(--color-mint); animation: boot-blink 1s steps(1) infinite; }
+
+  /* Progress follows --p (set by the inline script) */
+  .boot-line {
+    position: relative;
+    width: 132px;
+    height: 1px;
+    margin-top: 26px;
+    background: rgb(var(--white-rgb) / 0.08);
+    opacity: 0;
+    animation: boot-fade 500ms var(--ease-out) 1s forwards;
+  }
+  .boot-line::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, var(--color-mint), #8b5cf6);
+    box-shadow: 0 0 8px rgb(var(--mint-rgb) / 0.5);
+    transform: scaleX(var(--p, 0));
+    transform-origin: left;
+    transition: transform 700ms var(--ease-out);
+  }
+
+  @keyframes boot-in { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes boot-cap { to { opacity: 0; visibility: hidden; } }
+  @keyframes boot-fade { to { opacity: 1; } }
+  @keyframes boot-letter { to { opacity: 1; filter: blur(0); transform: none; } }
+  @keyframes boot-blink { 50% { opacity: 0; } }
+  @keyframes boot-orbit { from { offset-distance: 0%; } to { offset-distance: 100%; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .boot-name i { filter: none; transform: none; animation: boot-fade 300ms ease forwards; animation-delay: 300ms; }
+    .boot-ring i { animation: none; offset-distance: 30%; }
+    .boot-role b { animation: none; }
+    .boot-name { transition: none; }
+    .boot[data-done] .boot-name { transform: none; filter: none; }
+  }
+}

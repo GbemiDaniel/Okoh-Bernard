@@ -1,5 +1,5 @@
 import { marked, type Token, type Tokens } from "marked";
-import { CaseSectionHeading } from "@/components/kit";
+import { CaseSectionHeading, Reveal } from "@/components/kit";
 import type { CaseStudy, Severity } from "@/lib/content";
 import { Blocks, CodeBlock, DataTable, Inline } from "./Md";
 
@@ -119,21 +119,27 @@ const SECTION: Record<string, (p: { md: string }) => React.ReactNode> = {
   validation: TableSection,
 };
 
+/** The sections that render, in order, with their running number and anchor id. */
+export function caseSections(cs: CaseStudy) {
+  return Object.entries(cs.sections)
+    .filter(([heading, md]) => md.trim() && !(heading.trim().toLowerCase() === "what i learned" && cs.lesson))
+    .map(([heading, md], i) => {
+      const key = heading.trim().toLowerCase();
+      return { heading, md, key, n: i + 1, id: `cs-${key.replace(/[^a-z0-9]+/g, "-")}` };
+    });
+}
+
 export function CaseBody({ cs }: { cs: CaseStudy }) {
-  let n = 0;
+  // The lesson renders as the quote from frontmatter, so its prose duplicate is skipped.
   return (
     <>
-      {Object.entries(cs.sections).map(([heading, md]) => {
-        const key = heading.trim().toLowerCase();
-        // The lesson renders as the quote from frontmatter; skip its prose duplicate.
-        if (key === "what i learned" && cs.lesson) return null;
-        if (!md.trim()) return null;
+      {caseSections(cs).map(({ heading, md, key, n, id }) => {
         const Render = SECTION[key];
-        n += 1;
-        const id = key.replace(/[^a-z0-9]+/g, "-");
         return (
-          <section key={heading} className="pg-sec" aria-labelledby={`cs-${id}`}>
-            <CaseSectionHeading index={n} title={heading} id={`cs-${id}`} />
+          <section key={heading} id={id} className="pg-sec cs-s" aria-labelledby={`${id}-h`}>
+            <Reveal desktopOnly>
+              <CaseSectionHeading index={n} title={heading} id={`${id}-h`} />
+            </Reveal>
             {Render ? <Render md={md} /> : <Blocks tokens={lex(md)} />}
           </section>
         );

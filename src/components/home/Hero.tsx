@@ -15,12 +15,8 @@ const MAIL = (
   </svg>
 );
 
-export type HeroStats = { labs: number; domains: number; credentials: number };
-
-const pad = (n: number) => String(n).padStart(2, "0");
-
 /** 3.1 Hero (01-home-mobile, 00-home-desktop). Copy is taken from the boards. */
-export function Hero({ stats }: { stats: HeroStats }) {
+export function Hero() {
   const copyRef = useRef<HTMLDivElement>(null);
   const artRef = useRef<HTMLDivElement>(null);
 
@@ -93,22 +89,7 @@ export function Hero({ stats }: { stats: HeroStats }) {
             secondary={{ label: "Get in touch", href: "#contact", fallback: "/contact", icon: MAIL }}
           />
         </Reveal>
-        <Reveal desktopOnly delay={320}>
-          <dl className="hero-meta">
-            <div>
-              <dt>documented labs</dt>
-              <dd>{stats.labs}</dd>
-            </div>
-            <div>
-              <dt>security domains</dt>
-              <dd>{pad(stats.domains)}</dd>
-            </div>
-            <div>
-              <dt>certificates &amp; badges</dt>
-              <dd>{pad(stats.credentials)}</dd>
-            </div>
-          </dl>
-        </Reveal>
+        {/* The board's stats row is left out: The Record, one scroll below, owns those numbers. */}
       </div>
 
       <a href="#record" className="hero-scroll" aria-label="Scroll down">

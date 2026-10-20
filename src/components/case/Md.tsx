@@ -44,28 +44,31 @@ function decode(s: string) {
   return s.replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
 }
 
-/** Parses a fence info string like `json file=Policy.json flag=WILDCARD`. */
+/** Parses a fence info string like `json file=Policy.json flag=WILDCARD` or `json clean`. */
 export function fenceInfo(lang?: string) {
   const parts = (lang ?? "").trim().split(/\s+/).filter(Boolean);
-  const out: { lang: string; file?: string; flag?: string } = { lang: (parts[0] ?? "").toLowerCase() };
+  const out: { lang: string; file?: string; flag?: string; clean?: boolean } = { lang: (parts[0] ?? "").toLowerCase() };
   for (const p of parts.slice(1)) {
     const [k, ...v] = p.split("=");
     if (k === "file") out.file = v.join("=");
-    if (k === "flag") out.flag = v.join("=");
+    // Underscores stand in for spaces: flag=IGW_ROUTE shows as "IGW ROUTE".
+    if (k === "flag") out.flag = v.join("=").replace(/_/g, " ");
+    // `clean`: a remediated policy, so do not mark wildcards as problems.
+    if (k === "clean") out.clean = true;
   }
   return out;
 }
 
 const WILDCARD = /^"(\*|[a-z0-9-]+:\*)"$/i;
 
-function highlightJson(code: string) {
+function highlightJson(code: string, markWildcards = true) {
   const out: React.ReactNode[] = [];
   const re = /"(?:\\.|[^"\\])*"(\s*:)?/g;
   let last = 0, m: RegExpExecArray | null, i = 0;
   while ((m = re.exec(code))) {
     if (m.index > last) out.push(code.slice(last, m.index));
     const str = m[1] ? m[0].slice(0, m[0].length - m[1].length) : m[0];
-    const cls = m[1] ? "tk" : WILDCARD.test(str) ? "tw" : "ts";
+    const cls = m[1] ? "tk" : markWildcards && WILDCARD.test(str) ? "tw" : "ts";
     out.push(
       <span key={i++} className={cls}>
         {str}
@@ -89,7 +92,7 @@ function highlightShell(code: string) {
 
 export function CodeBlock({ token }: { token: Tokens.Code }) {
   const info = fenceInfo(token.lang);
-  const body = info.lang === "json" ? highlightJson(token.text) : ["bash", "sh", "shell"].includes(info.lang) ? highlightShell(token.text) : token.text;
+  const body = info.lang === "json" ? highlightJson(token.text, !info.clean) : ["bash", "sh", "shell"].includes(info.lang) ? highlightShell(token.text) : token.text;
   const label = info.file ?? (info.lang ? info.lang.toUpperCase() : "CODE");
   return (
     <figure className="code">

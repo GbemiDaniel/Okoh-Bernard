@@ -5,8 +5,9 @@ import { useReducedMotion } from "framer-motion";
 const PATH = "M14.6 5 A6.6 2.6 0 1 1 1.4 5 A6.6 2.6 0 1 1 14.6 5";
 
 // The small tilted orbit used in pills and status lines across the boards.
-export function OrbitGlyph({ dur = "2.6s", width = 14 }: { dur?: string; width?: number }) {
-  const still = useReducedMotion();
+// `still` draws the satellite at rest, for surfaces seen on every page.
+export function OrbitGlyph({ dur = "2.6s", width = 14, still: forceStill = false }: { dur?: string; width?: number; still?: boolean }) {
+  const still = useReducedMotion() || forceStill;
   return (
     <svg className="og" width={width} height={10} viewBox="0 0 16 10" aria-hidden="true">
       <g transform="rotate(-20 8 5)">

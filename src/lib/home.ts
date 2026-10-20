@@ -81,9 +81,9 @@ export const disciplines: {
 
 /** Featured case studies (board 01 and 00, cards 01 to 04). */
 export const featured: { slug: string; tag: string; title: string; body: string; hue: Discipline; icon: IconName }[] = [
-  { slug: "iam-compromise-investigation", tag: "CLOUD · IDENTITY", title: "IAM Compromise Investigation", body: "Rogue admin access traced, removed and put under alerting.", hue: "cloud", icon: "user" },
+  { slug: "aws-iam-compromise-investigation", tag: "CLOUD · IDENTITY", title: "IAM Compromise Investigation", body: "Rogue admin access traced, removed and put under alerting.", hue: "cloud", icon: "user" },
   { slug: "the-overpowered-role", tag: "CLOUD · IDENTITY", title: "The Overpowered Role", body: "An app role scoped back to only what it needs.", hue: "cloud", icon: "aws" },
-  { slug: "terraform-iac-hardening", tag: "DEVSECOPS · IAC", title: "Terraform IaC Hardening", body: "Infrastructure code reviewed and hardened before deploy.", hue: "devsecops", icon: "tf" },
+  { slug: "terraform-cloud-iac-hardening", tag: "DEVSECOPS · IAC", title: "Terraform IaC Hardening", body: "Infrastructure code reviewed and hardened before deploy.", hue: "devsecops", icon: "tf" },
   { slug: "securing-the-build-process", tag: "DEVSECOPS · CI/CD", title: "Securing the Build Process", body: "Exposed source code and a committed secret, found and flagged.", hue: "devsecops", icon: "git" },
 ];
 

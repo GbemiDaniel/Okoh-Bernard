@@ -1,4 +1,5 @@
 import { AboutBlock } from "@/components/home/AboutBlock";
+import { BootLoader } from "@/components/home/BootLoader";
 import { CaseStrip } from "@/components/home/CaseStrip";
 import { ContactBlock } from "@/components/home/ContactBlock";
 import { Hero } from "@/components/home/Hero";
@@ -23,9 +24,11 @@ export default function HomePage() {
     .sort((a, b) => (a.homeOrder ?? 0) - (b.homeOrder ?? 0));
 
   return (
-    <div className="home">
+    <>
+      <BootLoader />
+      <div className="home">
       <div className="home-wash" aria-hidden="true" />
-      <Hero stats={stats} />
+      <Hero />
       <Record {...stats} />
       <Orbits />
       <CaseStrip available={available} labs={stats.labs} domains={stats.domains} />
@@ -34,6 +37,7 @@ export default function HomePage() {
       <AboutBlock />
       <ContactBlock />
       <SectionNav />
-    </div>
+      </div>
+    </>
   );
 }
