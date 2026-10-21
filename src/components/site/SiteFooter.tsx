@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { credit, profiles, site } from "@/lib/site";
 import { FooterOrbit } from "./FooterOrbit";
 import { ArrowUpIcon, GitHubIcon, LinkedInIcon, MediumIcon, TryHackMeIcon } from "./icons";
@@ -30,9 +29,10 @@ function BackToTop() {
 }
 
 /**
- * Footer v3 (F1/F2): sign-off only. A hairline split by the KB orbit node,
- * then the mark and name, the four profiles and back to top, then the
- * copyright and credit. Page links live in the header, the email in Contact.
+ * Footer v4: one sign-off. The KB orbit divider sits above a single bar:
+ * copyright and credit, with the four profiles and back to top. The name
+ * and mark are not repeated here (the header carries them) and the divider
+ * replaces the hairline that used to sit above the bar.
  */
 export function SiteFooter() {
   return (
@@ -43,18 +43,6 @@ export function SiteFooter() {
           <FooterOrbit />
           <i />
         </div>
-        <div className="ft-r1">
-          <Link className="ft-id" href="/" aria-label={`${site.displayName}, home`}>
-            <span className="ft-mk" aria-hidden="true">
-              K<b>B</b>
-            </span>
-            {site.displayName}
-          </Link>
-          <div className="ft-rt">
-            <Profiles />
-            <BackToTop />
-          </div>
-        </div>
         <div className="ft-bar">
           <span className="ft-cpr">
             © {new Date().getFullYear()} {site.displayName}
@@ -62,6 +50,10 @@ export function SiteFooter() {
           <a className="ft-cred" href={credit.href} target="_blank" rel="noopener">
             BUILT BY <b>{credit.label.toUpperCase()}</b> ↗<span className="sr-only"> (opens in a new tab)</span>
           </a>
+          <div className="ft-rt">
+            <Profiles />
+            <BackToTop />
+          </div>
         </div>
       </div>
     </footer>

@@ -284,7 +284,7 @@
       transition: none;
       animation: csm-fan linear both;
       animation-timeline: view(inline);
-      animation-range: entry 0% exit 100%;
+      animation-range: cover; /* = entry 0% to exit 100%; the longhand form is mis-minified in production builds */
     }
   }
   @keyframes csm-fan {
@@ -558,6 +558,135 @@
   .btn-p:hover .pdisc,
   .btn-p:focus-visible .pdisc,
   .btn-p:active .pdisc { background: linear-gradient(180deg, var(--color-mint-hi), var(--color-mint)); color: var(--color-on-mint); box-shadow: 0 0 0 3px rgb(var(--mint-rgb) / 0.14), inset 0 -2px 0 rgb(var(--on-mint-rgb) / 0.18); }
+
+  /*
+    Link capsule: one button, one idea. The arrow disc is the point of the
+    button, so the interaction starts and ends there. At rest it is quiet
+    (raised glass, edge-lit border, neutral shadow, outlined mint disc). On
+    hover or focus a soft mint light spreads from the disc across the pill, the
+    border takes a mint edge, the disc fills and the arrow leans forward 3px.
+    The shell never moves or glows outside itself. A press squeezes the whole
+    button to 0.98 and the disc to 0.94. Only opacity and transform change,
+    apart from the 1px edge ring. Used on the homepage, Work and About;
+    overrides the older .all look in kit.css.
+  */
+  .all {
+    overflow: hidden;
+    background:
+      linear-gradient(90deg, rgb(var(--mint-rgb) / 0.04), rgb(var(--mint-rgb) / 0.1)) padding-box,
+      linear-gradient(var(--color-bg-raised), var(--color-bg-raised)) padding-box,
+      var(--grad-edge-strong) border-box;
+    box-shadow: inset 0 1px 0 rgb(var(--white-rgb) / 0.14), 0 10px 22px -14px rgb(0 0 0 / 0.9);
+    transition: transform 0.3s var(--ease-out), box-shadow 0.35s var(--ease-out);
+  }
+  /* The light: centred on the disc, fades in. */
+  .all::after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(120% 220% at calc(100% - 30px) 50%, rgb(var(--mint-rgb) / 0.2), rgb(var(--mint-rgb) / 0.07) 45%, transparent 75%);
+    opacity: 0;
+    transition: opacity 0.35s var(--ease-out);
+  }
+  .all > .grain { z-index: 1; }
+  .all .n { transition: color 0.35s var(--ease-out); }
+  .all .go {
+    color: var(--color-mint);
+    background: transparent;
+    box-shadow: inset 0 0 0 1px rgb(var(--mint-rgb) / 0.4);
+    transition: background 0.35s var(--ease-out), color 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out), transform 0.3s var(--ease-out);
+  }
+  .all .go svg { transition: transform 0.35s var(--ease-out); }
+  .all:focus-visible { box-shadow: inset 0 1px 0 rgb(var(--white-rgb) / 0.14), inset 0 0 0 1px rgb(var(--mint-rgb) / 0.45), 0 10px 22px -14px rgb(0 0 0 / 0.9); }
+  .all:focus-visible::after,
+  .all:active::after { opacity: 1; }
+  .all:focus-visible .n,
+  .all:active .n { color: var(--color-ink-muted); }
+  .all:focus-visible .go,
+  .all:active .go { background: linear-gradient(180deg, var(--color-mint-hi), var(--color-mint)); color: var(--color-on-mint); box-shadow: 0 0 0 4px rgb(var(--mint-rgb) / 0.14), inset 0 -2px 0 rgb(var(--on-mint-rgb) / 0.18); }
+  .all:focus-visible .go svg,
+  .all:active .go svg { transform: translateX(3px); }
+  .all:active { transform: scale(0.98); transition-duration: 0.12s; }
+  .all:active .go { transform: scale(0.94); }
+  @media (hover: hover) and (pointer: fine) {
+    a.all:hover,
+    .dcs:hover .all { box-shadow: inset 0 1px 0 rgb(var(--white-rgb) / 0.14), inset 0 0 0 1px rgb(var(--mint-rgb) / 0.4), 0 10px 22px -14px rgb(0 0 0 / 0.9); }
+    a.all:hover::after,
+    .dcs:hover .all::after { opacity: 1; }
+    a.all:hover .n,
+    .dcs:hover .all .n { color: var(--color-ink-muted); }
+    a.all:hover .go,
+    .dcs:hover .all .go { background: linear-gradient(180deg, var(--color-mint-hi), var(--color-mint)); color: var(--color-on-mint); box-shadow: 0 0 0 4px rgb(var(--mint-rgb) / 0.14), inset 0 -2px 0 rgb(var(--on-mint-rgb) / 0.18); }
+    a.all:hover .go svg,
+    .dcs:hover .all .go svg { transform: translateX(3px); }
+  }
+  /* Reduced motion keeps the colour change, drops the movement. */
+  @media (prefers-reduced-motion: reduce) {
+    .all,
+    .all .go { transition-property: color, background, box-shadow, opacity; }
+    .all .go svg { transition: none; }
+    .all:focus-visible .go svg,
+    .all:active .go svg,
+    a.all:hover .go svg,
+    .dcs:hover .all .go svg { transform: none; }
+    .all:active,
+    .all:active .go { transform: none; }
+  }
+
+  /*
+    Primary button with a disc (About "Download résumé", the contact form's
+    send, the case study repo button, the article's Medium button): the same
+    interaction as the link capsule above. The light spreads from the disc
+    (here on the left), the border takes a mint edge, the disc fills and its
+    icon leans toward the action. No lift and no glow outside the button;
+    a press squeezes the button to 0.98 and the disc to 0.94.
+  */
+  .btn-p:has(> .pdisc) {
+    overflow: hidden;
+    transition: transform 0.3s var(--ease-out), box-shadow 0.35s var(--ease-out);
+  }
+  .btn-p:has(> .pdisc)::after {
+    inset: 0;
+    background: radial-gradient(120% 220% at 28px 50%, rgb(var(--mint-rgb) / 0.2), rgb(var(--mint-rgb) / 0.07) 45%, transparent 75%);
+    box-shadow: none;
+    transition: opacity 0.35s var(--ease-out);
+  }
+  .btn-p:has(> .pdisc) .pdisc { transition: background 0.35s var(--ease-out), color 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out), transform 0.3s var(--ease-out); }
+  .btn-p:has(> .pdisc) .pdisc svg { transition: transform 0.35s var(--ease-out); }
+  .btn-p:has(> .pdisc):not(:disabled):focus-visible {
+    box-shadow: inset 0 1px 0 rgb(var(--white-rgb) / 0.14), inset 0 0 0 1px rgb(var(--mint-rgb) / 0.45), 0 10px 22px -14px rgb(0 0 0 / 0.9);
+  }
+  .btn-p:has(> .pdisc):not(:disabled):active {
+    transform: scale(0.98);
+    box-shadow: inset 0 1px 0 rgb(var(--white-rgb) / 0.14), inset 0 0 0 1px rgb(var(--mint-rgb) / 0.4), 0 10px 22px -14px rgb(0 0 0 / 0.9);
+    transition-duration: 0.12s;
+  }
+  .btn-p:has(> .pdisc):not(:disabled):active .pdisc { transform: scale(0.94); }
+  .btn-p:has(> .pdisc):not(:disabled):focus-visible .pdisc svg,
+  .btn-p:has(> .pdisc):not(:disabled):active .pdisc svg { transform: translate(2px, -2px); }
+  .ab-cv:not(:disabled):focus-visible .pdisc svg,
+  .ab-cv:not(:disabled):active .pdisc svg { transform: translateY(2px); }
+  @media (hover: hover) and (pointer: fine) {
+    .btn-p:has(> .pdisc):not(:disabled):hover {
+      transform: none;
+      box-shadow: inset 0 1px 0 rgb(var(--white-rgb) / 0.14), inset 0 0 0 1px rgb(var(--mint-rgb) / 0.4), 0 10px 22px -14px rgb(0 0 0 / 0.9);
+    }
+    .btn-p:has(> .pdisc):not(:disabled):hover .pdisc svg { transform: translate(2px, -2px); }
+    .ab-cv:not(:disabled):hover .pdisc svg { transform: translateY(2px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .btn-p:has(> .pdisc),
+    .btn-p:has(> .pdisc) .pdisc { transition-property: color, background, box-shadow, opacity; }
+    .btn-p:has(> .pdisc) .pdisc svg { transition: none; }
+    .btn-p:has(> .pdisc):not(:disabled):hover .pdisc svg,
+    .btn-p:has(> .pdisc):not(:disabled):focus-visible .pdisc svg,
+    .btn-p:has(> .pdisc):not(:disabled):active .pdisc svg { transform: none; }
+    .btn-p:has(> .pdisc):not(:disabled):active,
+    .btn-p:has(> .pdisc):not(:disabled):active .pdisc { transform: none; }
+  }
 
   /* ---------- Section nav: mobile dial (01) ---------- */
   .dial-scrim { position: fixed; inset: 0; z-index: 40; border: 0; background: rgb(4 8 16 / 0.6); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); cursor: pointer; }

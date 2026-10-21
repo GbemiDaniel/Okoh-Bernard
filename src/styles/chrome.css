@@ -204,9 +204,9 @@
   }
   .btn-p.rim::before { opacity: 0.5; }
 
-  /* ---------- Footer v3 (F2 mobile; F1 desktop below) ----------
-     One job: sign-off. A hairline split by the KB orbit node, the mark and
-     name, four profiles, back to top, then copyright and credit. No entrance
+  /* ---------- Footer v4 (mobile; desktop below) ----------
+     One job: sign-off. The KB orbit divider, then one bar: four profiles and
+     back to top, copyright and credit. No repeated name or mark. No entrance
      motion; hover is gated to hover devices, presses scale on the strong
      ease-out and colour changes take 150ms. */
   .ft { position: relative; padding: 72px 0 0; }
@@ -220,25 +220,19 @@
   .ft-dv .core { fill: var(--color-bg); stroke: rgb(var(--mint-rgb) / 0.5); }
   .ft-dv .sat { fill: var(--color-mint); }
 
-  /* Phones: name and back to top share a row; the profiles sit on their own row below. */
-  .ft-r1 { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; padding: 28px 0 0; }
-  .ft-rt { display: contents; }
-  .ft-id { display: flex; align-items: center; gap: 10px; min-height: 44px; font: 600 14px/1 var(--font-sans); color: var(--color-ink); }
-  .ft-mk {
-    flex: 0 0 32px;
-    width: 32px;
-    height: 32px;
-    border-radius: 10px;
-    display: flex;
+  /* Phones: profiles left and back to top right on the first row; copyright and credit below. */
+  .ft-bar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "soc up" "cpr cred";
     align-items: center;
-    justify-content: center;
-    font: 800 12.5px/1 var(--font-sans);
-    letter-spacing: -0.04em;
-    background: rgb(var(--mint-rgb) / 0.06);
-    box-shadow: inset 0 0 0 1px rgb(var(--mint-rgb) / 0.24);
+    row-gap: 6px;
+    padding: 22px 0 28px;
   }
-  .ft-mk b { font-weight: 800; background: var(--grad-brand-short); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .ft-soc { grid-column: 1 / -1; grid-row: 2; display: flex; gap: 6px; margin: 12px 0 0 -12px; }
+  .ft-rt { display: contents; }
+  .ft-soc { grid-area: soc; display: flex; gap: 6px; margin-left: -12px; }
+  .ft-cpr { grid-area: cpr; }
+  .ft-cred { grid-area: cred; }
   .ft-ic,
   .ft-up {
     width: 44px;
@@ -249,11 +243,10 @@
     color: var(--color-ink-muted);
     transition: color 150ms var(--ease-out), background-color 150ms var(--ease-out), box-shadow 150ms var(--ease-out), transform 160ms var(--ease-out);
   }
-  .ft-up { grid-column: 2; grid-row: 1; box-shadow: inset 0 0 0 1px rgb(var(--white-rgb) / 0.1); }
+  .ft-up { grid-area: up; justify-self: end; box-shadow: inset 0 0 0 1px rgb(var(--white-rgb) / 0.1); }
   .ft-ic:active,
   .ft-up:active { transform: scale(0.94); }
 
-  .ft-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 18px; padding: 16px 0 28px; border-top: 1px solid rgb(var(--white-rgb) / 0.06); }
   .ft-cpr { font: 400 12.5px/1.4 var(--font-sans); color: var(--color-ink-600); }
   .ft-cred { display: inline-flex; align-items: center; gap: 5px; min-height: 44px; font: 400 9.5px/1 var(--font-mono); letter-spacing: 0.12em; color: #46606a; transition: color 150ms var(--ease-out); }
   .ft-cred b { font-weight: 500; color: var(--color-ink-600); transition: color 150ms var(--ease-out); }
@@ -401,13 +394,16 @@
     .dh-r { justify-self: end; display: flex; align-items: center; gap: 10px; }
     .dh-cta { min-height: 42px; padding: 0 20px; font-size: 14px; }
 
-    /* Footer (F1): one row, name left, profiles and back to top right; the bar below. */
+    /* Footer: one row, copyright left, credit centred, profiles and back to top right. */
     .ft { padding-top: 120px; }
     .ft-in { width: min(1200px, calc(100% - 80px)); margin: 0 auto; padding: 0; }
-    .ft-r1 { display: flex; justify-content: space-between; padding: 36px 0 30px; }
-    .ft-rt { display: flex; align-items: center; justify-content: flex-end; gap: 14px; }
+    .ft-bar {
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+      grid-template-areas: "cpr cred rt";
+      padding: 22px 0 40px;
+    }
+    .ft-rt { grid-area: rt; display: flex; align-items: center; justify-content: flex-end; gap: 14px; }
     .ft-soc { margin: 0; }
-    .ft-bar { margin-top: 0; padding: 20px 0 40px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
